@@ -11,6 +11,12 @@
   align-items: center;
   gap: var(--sp-3);
   margin-bottom: var(--sp-5);
+  flex-wrap: wrap;
+}
+
+.navBtns {
+  display: flex;
+  gap: var(--sp-2);
 }
 
 .statsBtn {

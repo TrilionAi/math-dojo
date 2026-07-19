@@ -12,6 +12,7 @@ interface MapScreenProps {
   progress: ProgressState;
   onSelectStripe: (stripeId: string) => void;
   onOpenStats: () => void;
+  onOpenAccount: () => void;
 }
 
 interface StripeGroup {
@@ -34,16 +35,21 @@ function groupByDegree(stripes: Stripe[]): StripeGroup[] {
   return groups;
 }
 
-export function MapScreen({ belts, progress, onSelectStripe, onOpenStats }: MapScreenProps) {
+export function MapScreen({ belts, progress, onSelectStripe, onOpenStats, onOpenAccount }: MapScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
 
   return (
     <div className={styles.page}>
       <div className={styles.langRow}>
-        <button type="button" className={styles.statsBtn} onClick={onOpenStats}>
-          🏆 {t.statsNav}
-        </button>
+        <div className={styles.navBtns}>
+          <button type="button" className={styles.statsBtn} onClick={onOpenStats}>
+            🏆 {t.statsNav}
+          </button>
+          <button type="button" className={styles.statsBtn} onClick={onOpenAccount}>
+            👤 {t.accountNav}
+          </button>
+        </div>
         <LanguageSwitcher />
       </div>
 

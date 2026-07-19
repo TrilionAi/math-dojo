@@ -39,6 +39,30 @@ interface UiStrings {
   statDayStreak: string;
   statSessions: string;
   statGradeHint: string;
+  accountNav: string;
+  accountTitleLogin: string;
+  accountTitleSignup: string;
+  accountTitleForgot: string;
+  accountTitleReset: string;
+  accountTitleLoggedIn: string;
+  accountSubtitle: string;
+  accountLoginTab: string;
+  accountSignupTab: string;
+  accountEmailLabel: string;
+  accountPasswordLabel: string;
+  accountConfirmPasswordLabel: string;
+  accountForgotLink: string;
+  accountBackToLogin: string;
+  accountLoginSubmit: string;
+  accountSignupSubmit: string;
+  accountForgotSubmit: string;
+  accountResetSubmit: string;
+  accountSignOut: string;
+  accountSyncNote: string;
+  accountPasswordMismatch: string;
+  accountSignupSuccess: (email: string) => string;
+  accountForgotSuccess: (email: string) => string;
+  accountResetSuccess: string;
 }
 
 const en: UiStrings = {
@@ -85,6 +109,30 @@ const en: UiStrings = {
   statDayStreak: "Day streak",
   statSessions: "Practice sessions",
   statGradeHint: "S = blazing fast · A = strong pace · B = passed",
+  accountNav: "Account",
+  accountTitleLogin: "Log in",
+  accountTitleSignup: "Create account",
+  accountTitleForgot: "Reset your password",
+  accountTitleReset: "Choose a new password",
+  accountTitleLoggedIn: "You're logged in",
+  accountSubtitle: "Sync your progress between your computer and phone.",
+  accountLoginTab: "Log in",
+  accountSignupTab: "Sign up",
+  accountEmailLabel: "Email",
+  accountPasswordLabel: "Password",
+  accountConfirmPasswordLabel: "Confirm password",
+  accountForgotLink: "Forgot your password?",
+  accountBackToLogin: "Back to log in",
+  accountLoginSubmit: "Log in",
+  accountSignupSubmit: "Create account",
+  accountForgotSubmit: "Send reset link",
+  accountResetSubmit: "Save new password",
+  accountSignOut: "Sign out",
+  accountSyncNote: "Your progress syncs automatically. Log in with the same email on another device to continue where you left off.",
+  accountPasswordMismatch: "Passwords don't match.",
+  accountSignupSuccess: (email) => `Check ${email} for a confirmation link to finish creating your account.`,
+  accountForgotSuccess: (email) => `Check ${email} for a link to reset your password.`,
+  accountResetSuccess: "Password updated — you're all set.",
 };
 
 const pt: UiStrings = {
@@ -131,6 +179,30 @@ const pt: UiStrings = {
   statDayStreak: "Sequência de dias",
   statSessions: "Sessões de prática",
   statGradeHint: "S = muito rápido · A = bom ritmo · B = aprovado",
+  accountNav: "Conta",
+  accountTitleLogin: "Entrar",
+  accountTitleSignup: "Criar conta",
+  accountTitleForgot: "Redefinir sua senha",
+  accountTitleReset: "Escolha uma nova senha",
+  accountTitleLoggedIn: "Você está conectado",
+  accountSubtitle: "Sincronize seu progresso entre o computador e o celular.",
+  accountLoginTab: "Entrar",
+  accountSignupTab: "Criar conta",
+  accountEmailLabel: "Email",
+  accountPasswordLabel: "Senha",
+  accountConfirmPasswordLabel: "Confirmar senha",
+  accountForgotLink: "Esqueceu sua senha?",
+  accountBackToLogin: "Voltar para entrar",
+  accountLoginSubmit: "Entrar",
+  accountSignupSubmit: "Criar conta",
+  accountForgotSubmit: "Enviar link de redefinição",
+  accountResetSubmit: "Salvar nova senha",
+  accountSignOut: "Sair",
+  accountSyncNote: "Seu progresso sincroniza automaticamente. Entre com o mesmo email em outro aparelho pra continuar de onde parou.",
+  accountPasswordMismatch: "As senhas não coincidem.",
+  accountSignupSuccess: (email) => `Confira ${email} — tem um link de confirmação pra terminar de criar sua conta.`,
+  accountForgotSuccess: (email) => `Confira ${email} — tem um link pra redefinir sua senha.`,
+  accountResetSuccess: "Senha atualizada — tudo certo.",
 };
 
 const es: UiStrings = {
@@ -177,6 +249,30 @@ const es: UiStrings = {
   statDayStreak: "Racha de días",
   statSessions: "Sesiones de práctica",
   statGradeHint: "S = muy rápido · A = buen ritmo · B = aprobado",
+  accountNav: "Cuenta",
+  accountTitleLogin: "Iniciar sesión",
+  accountTitleSignup: "Crear cuenta",
+  accountTitleForgot: "Restablecer tu contraseña",
+  accountTitleReset: "Elige una nueva contraseña",
+  accountTitleLoggedIn: "Sesión iniciada",
+  accountSubtitle: "Sincroniza tu progreso entre tu computadora y tu celular.",
+  accountLoginTab: "Iniciar sesión",
+  accountSignupTab: "Crear cuenta",
+  accountEmailLabel: "Email",
+  accountPasswordLabel: "Contraseña",
+  accountConfirmPasswordLabel: "Confirmar contraseña",
+  accountForgotLink: "¿Olvidaste tu contraseña?",
+  accountBackToLogin: "Volver a iniciar sesión",
+  accountLoginSubmit: "Iniciar sesión",
+  accountSignupSubmit: "Crear cuenta",
+  accountForgotSubmit: "Enviar enlace de restablecimiento",
+  accountResetSubmit: "Guardar nueva contraseña",
+  accountSignOut: "Cerrar sesión",
+  accountSyncNote: "Tu progreso se sincroniza automáticamente. Inicia sesión con el mismo email en otro dispositivo para continuar donde lo dejaste.",
+  accountPasswordMismatch: "Las contraseñas no coinciden.",
+  accountSignupSuccess: (email) => `Revisa ${email} — hay un enlace de confirmación para terminar de crear tu cuenta.`,
+  accountForgotSuccess: (email) => `Revisa ${email} — hay un enlace para restablecer tu contraseña.`,
+  accountResetSuccess: "Contraseña actualizada — todo listo.",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

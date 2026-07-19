@@ -1,0 +1,23 @@
+name: Supabase keep-alive ping
+
+# Free-tier Supabase projects pause after 7 days with no API activity. This
+# hits the REST API every 3 days with a trivial, harmless read (via the
+# public anon/publishable key, same one already shipped in the client bundle
+# — nothing extra exposed) just to keep the "last active" clock reset.
+on:
+  schedule:
+    - cron: '0 6 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        # Hits the REST root (always available, no dependency on any table existing
+        # yet) rather than the progress table, so this can't fail before the SQL
+        # schema has been run.
+        run: |
+          curl -sf "${{ secrets.VITE_SUPABASE_URL }}/rest/v1/" \
+            -H "apikey: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}" \
+            -o /dev/null
