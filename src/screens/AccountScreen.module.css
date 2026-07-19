@@ -5,6 +5,15 @@
   width: 100%;
 }
 
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+  flex-wrap: wrap;
+}
+
 .back {
   background: none;
   border: none;
@@ -12,7 +21,6 @@
   font-weight: 700;
   color: var(--color-ink-soft);
   padding: var(--sp-1);
-  margin-bottom: var(--sp-5);
 }
 
 .back:hover {

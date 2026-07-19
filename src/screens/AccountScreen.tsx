@@ -3,6 +3,7 @@ import type { Session } from "@supabase/supabase-js";
 import { signUp, signIn, signOut, requestPasswordReset, updatePassword } from "../engine/auth";
 import { useLocale } from "../i18n/LocaleContext";
 import { UI_STRINGS } from "../i18n/ui";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import styles from "./AccountScreen.module.css";
 
 interface AccountScreenProps {
@@ -100,9 +101,12 @@ export function AccountScreen({ session, forceReset, onBack, onResetHandled }: A
   if (session && mode !== "reset") {
     return (
       <div className={styles.page}>
-        <button type="button" className={styles.back} onClick={onBack}>
-          ← {t.backToMap}
-        </button>
+        <div className={styles.topRow}>
+          <button type="button" className={styles.back} onClick={onBack}>
+            ← {t.backToMap}
+          </button>
+          <LanguageSwitcher />
+        </div>
         <header className={styles.header}>
           <div className={styles.avatar}>👤</div>
           <h1 className={styles.title}>{t.accountTitleLoggedIn}</h1>
@@ -118,9 +122,12 @@ export function AccountScreen({ session, forceReset, onBack, onResetHandled }: A
 
   return (
     <div className={styles.page}>
-      <button type="button" className={styles.back} onClick={onBack}>
-        ← {t.backToMap}
-      </button>
+      <div className={styles.topRow}>
+        <button type="button" className={styles.back} onClick={onBack}>
+          ← {t.backToMap}
+        </button>
+        <LanguageSwitcher />
+      </div>
 
       <header className={styles.header}>
         <div className={styles.avatar}>🥋</div>
