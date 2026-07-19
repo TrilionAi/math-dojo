@@ -12,6 +12,22 @@ dist
 dist-ssr
 *.local
 
+# Secrets & environment — never commit real credentials, only .env.example
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.cert
+credentials.json
+service-account*.json
+*.sqlite
+
+# Supabase / Vercel local state
+.supabase/
+.vercel
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

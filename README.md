@@ -37,7 +37,9 @@ The engine (lesson → multi-page timed drill → mastery scoring → belt map) 
 
 Add `?unlock=all` to the URL to browse every stripe's lesson directly from the map without playing through the real progression — useful for reviewing content, not part of the normal player experience.
 
-Live at **https://trilionai.github.io/creations/**.
+Live at **https://trilionai.github.io/math-dojo/**.
+
+Free and open source — the goal is for anyone to be able to practice, no account or payment required.
 
 ## Stack
 
