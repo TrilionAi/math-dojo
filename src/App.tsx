@@ -24,11 +24,23 @@ function findStripe(id: string): Stripe | undefined {
   return belts.flatMap((b) => b.stripes).find((s) => s.id === id);
 }
 
+/** Supabase redirects a password-recovery email link back here with
+ * "#access_token=...&type=recovery" in the URL hash. Checking this directly
+ * (synchronously, on first render) instead of only waiting for the
+ * PASSWORD_RECOVERY auth event avoids a real race: the Supabase client starts
+ * processing that hash the moment it's constructed (at module load, before
+ * React even mounts), so a listener registered inside a useEffect can already
+ * be too late to catch the event. */
+function isPasswordRecoveryUrl(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.location.hash.includes("type=recovery");
+}
+
 export default function App() {
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress());
-  const [view, setView] = useState<View>({ name: "map" });
+  const [view, setView] = useState<View>(() => (isPasswordRecoveryUrl() ? { name: "account" } : { name: "map" }));
   const [session, setSession] = useState<Session | null>(null);
-  const [forceReset, setForceReset] = useState(false);
+  const [forceReset, setForceReset] = useState(() => isPasswordRecoveryUrl());
 
   // Keep a ref of the latest progress so the auth-change subscription (set up
   // once on mount) always merges against current progress, not a stale closure.
