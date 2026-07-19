@@ -128,7 +128,7 @@ export function MapScreen({ belts, progress, onSelectStripe, onOpenStats, onOpen
 
       <a
         className={styles.supportLink}
-        href="https://ko-fi.com/lucasmorosov"
+        href="https://ko-fi.com/D0J123HIA2"
         target="_blank"
         rel="noopener noreferrer"
       >
