@@ -63,6 +63,7 @@ interface UiStrings {
   accountSignupSuccess: (email: string) => string;
   accountForgotSuccess: (email: string) => string;
   accountResetSuccess: string;
+  supportLink: string;
 }
 
 const en: UiStrings = {
@@ -133,6 +134,7 @@ const en: UiStrings = {
   accountSignupSuccess: (email) => `Check ${email} for a confirmation link to finish creating your account.`,
   accountForgotSuccess: (email) => `Check ${email} for a link to reset your password.`,
   accountResetSuccess: "Password updated — you're all set.",
+  supportLink: "Support Math Dojo",
 };
 
 const pt: UiStrings = {
@@ -203,6 +205,7 @@ const pt: UiStrings = {
   accountSignupSuccess: (email) => `Confira ${email} — tem um link de confirmação pra terminar de criar sua conta.`,
   accountForgotSuccess: (email) => `Confira ${email} — tem um link pra redefinir sua senha.`,
   accountResetSuccess: "Senha atualizada — tudo certo.",
+  supportLink: "Apoiar o Math Dojo",
 };
 
 const es: UiStrings = {
@@ -273,6 +276,7 @@ const es: UiStrings = {
   accountSignupSuccess: (email) => `Revisa ${email} — hay un enlace de confirmación para terminar de crear tu cuenta.`,
   accountForgotSuccess: (email) => `Revisa ${email} — hay un enlace para restablecer tu contraseña.`,
   accountResetSuccess: "Contraseña actualizada — todo listo.",
+  supportLink: "Apoyar a Math Dojo",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

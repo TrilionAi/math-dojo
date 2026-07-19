@@ -125,6 +125,15 @@ export function MapScreen({ belts, progress, onSelectStripe, onOpenStats, onOpen
           </div>
         ))}
       </div>
+
+      <a
+        className={styles.supportLink}
+        href="https://ko-fi.com/playmathdojo"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        💛 {t.supportLink}
+      </a>
     </div>
   );
 }
