@@ -128,7 +128,7 @@ export function MapScreen({ belts, progress, onSelectStripe, onOpenStats, onOpen
 
       <a
         className={styles.supportLink}
-        href="https://ko-fi.com/playmathdojo"
+        href="https://ko-fi.com/lucasmorosov"
         target="_blank"
         rel="noopener noreferrer"
       >
