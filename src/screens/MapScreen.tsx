@@ -132,7 +132,7 @@ export function MapScreen({ belts, progress, onSelectStripe, onOpenStats, onOpen
         target="_blank"
         rel="noopener noreferrer"
       >
-        💛 {t.supportLink}
+        ❤️ {t.supportLink}
       </a>
     </div>
   );
