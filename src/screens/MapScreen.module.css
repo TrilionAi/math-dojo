@@ -5,29 +5,34 @@
   width: 100%;
 }
 
-.langRow {
+.topBar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   gap: var(--sp-3);
   margin-bottom: var(--sp-5);
-  flex-wrap: wrap;
 }
 
 .navBtns {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: var(--sp-2);
+}
+
+.langCenterRow {
+  display: flex;
+  justify-content: center;
 }
 
 .statsBtn {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-1);
+  gap: var(--sp-2);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  padding: var(--sp-1) var(--sp-3);
-  font-size: var(--fs-xs);
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-sm);
   font-weight: 700;
   color: var(--color-ink-soft);
   box-shadow: var(--shadow-sm);
