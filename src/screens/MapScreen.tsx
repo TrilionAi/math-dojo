@@ -10,6 +10,7 @@ import styles from "./MapScreen.module.css";
 interface MapScreenProps {
   belts: Belt[];
   progress: ProgressState;
+  loggedIn: boolean;
   onSelectStripe: (stripeId: string) => void;
   onOpenStats: () => void;
   onOpenAccount: () => void;
@@ -35,7 +36,7 @@ function groupByDegree(stripes: Stripe[]): StripeGroup[] {
   return groups;
 }
 
-export function MapScreen({ belts, progress, onSelectStripe, onOpenStats, onOpenAccount }: MapScreenProps) {
+export function MapScreen({ belts, progress, loggedIn, onSelectStripe, onOpenStats, onOpenAccount }: MapScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
 
@@ -46,8 +47,17 @@ export function MapScreen({ belts, progress, onSelectStripe, onOpenStats, onOpen
           <button type="button" className={styles.statsBtn} onClick={onOpenStats}>
             🏆 {t.statsNav}
           </button>
-          <button type="button" className={styles.statsBtn} onClick={onOpenAccount}>
-            👤 {t.accountNav}
+          <button
+            type="button"
+            className={styles.statsBtn}
+            onClick={onOpenAccount}
+            title={loggedIn ? t.accountTitleLoggedIn : undefined}
+          >
+            <span className={styles.accountIcon}>
+              👤
+              {loggedIn && <span className={styles.connectedDot} aria-hidden="true" />}
+            </span>{" "}
+            {t.accountNav}
           </button>
         </div>
         <LanguageSwitcher />

@@ -58,6 +58,9 @@ interface UiStrings {
   accountForgotSubmit: string;
   accountResetSubmit: string;
   accountSignOut: string;
+  accountContinuePlaying: string;
+  accountShowPassword: string;
+  accountHidePassword: string;
   accountSyncNote: string;
   accountPasswordMismatch: string;
   accountSignupSuccess: (email: string) => string;
@@ -129,6 +132,9 @@ const en: UiStrings = {
   accountForgotSubmit: "Send reset link",
   accountResetSubmit: "Save new password",
   accountSignOut: "Sign out",
+  accountContinuePlaying: "Continue playing",
+  accountShowPassword: "Show password",
+  accountHidePassword: "Hide password",
   accountSyncNote: "Your progress syncs automatically. Log in with the same email on another device to continue where you left off.",
   accountPasswordMismatch: "Passwords don't match.",
   accountSignupSuccess: (email) => `Check ${email} for a confirmation link to finish creating your account.`,
@@ -200,6 +206,9 @@ const pt: UiStrings = {
   accountForgotSubmit: "Enviar link de redefinição",
   accountResetSubmit: "Salvar nova senha",
   accountSignOut: "Sair",
+  accountContinuePlaying: "Continuar jogando",
+  accountShowPassword: "Mostrar senha",
+  accountHidePassword: "Ocultar senha",
   accountSyncNote: "Seu progresso sincroniza automaticamente. Entre com o mesmo email em outro aparelho pra continuar de onde parou.",
   accountPasswordMismatch: "As senhas não coincidem.",
   accountSignupSuccess: (email) => `Confira ${email} — tem um link de confirmação pra terminar de criar sua conta.`,
@@ -271,6 +280,9 @@ const es: UiStrings = {
   accountForgotSubmit: "Enviar enlace de restablecimiento",
   accountResetSubmit: "Guardar nueva contraseña",
   accountSignOut: "Cerrar sesión",
+  accountContinuePlaying: "Seguir jugando",
+  accountShowPassword: "Mostrar contraseña",
+  accountHidePassword: "Ocultar contraseña",
   accountSyncNote: "Tu progreso se sincroniza automáticamente. Inicia sesión con el mismo email en otro dispositivo para continuar donde lo dejaste.",
   accountPasswordMismatch: "Las contraseñas no coinciden.",
   accountSignupSuccess: (email) => `Revisa ${email} — hay un enlace de confirmación para terminar de crear tu cuenta.`,

@@ -39,6 +39,22 @@
   transform: translateY(-1px);
 }
 
+.accountIcon {
+  position: relative;
+  display: inline-flex;
+}
+
+.connectedDot {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  border: 1.5px solid var(--color-surface);
+}
+
 .header {
   text-align: center;
   margin-bottom: var(--sp-7);

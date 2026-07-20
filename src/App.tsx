@@ -132,6 +132,7 @@ export default function App() {
         <MapScreen
           belts={belts}
           progress={progress}
+          loggedIn={session !== null}
           onSelectStripe={selectStripe}
           onOpenStats={openStats}
           onOpenAccount={openAccount}
