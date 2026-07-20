@@ -42,7 +42,7 @@ export function MapScreen({ belts, progress, loggedIn, onSelectStripe, onOpenSta
 
   return (
     <div className={styles.page}>
-      <div className={styles.topBar}>
+      <div className={styles.langRow}>
         <div className={styles.navBtns}>
           <button type="button" className={styles.statsBtn} onClick={onOpenStats}>
             🏆 {t.statsNav}
@@ -60,9 +60,7 @@ export function MapScreen({ belts, progress, loggedIn, onSelectStripe, onOpenSta
             {t.accountNav}
           </button>
         </div>
-        <div className={styles.langCenterRow}>
-          <LanguageSwitcher />
-        </div>
+        <LanguageSwitcher />
       </div>
 
       <header className={styles.header}>
