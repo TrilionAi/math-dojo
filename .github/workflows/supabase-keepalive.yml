@@ -16,8 +16,17 @@ jobs:
       - name: Ping Supabase REST API
         # Hits the REST root (always available, no dependency on any table existing
         # yet) rather than the progress table, so this can't fail before the SQL
-        # schema has been run.
+        # schema has been run. Sends both apikey and Authorization (Supabase requires
+        # both for the REST gateway to accept the request) and prints the response
+        # status/body on failure instead of swallowing it, so a broken key or URL
+        # shows up in the run log instead of failing silently.
         run: |
-          curl -sf "${{ secrets.VITE_SUPABASE_URL }}/rest/v1/" \
+          status=$(curl -s -o response.txt -w "%{http_code}" "${{ secrets.VITE_SUPABASE_URL }}/rest/v1/" \
             -H "apikey: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}" \
-            -o /dev/null
+            -H "Authorization: Bearer ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}")
+          echo "HTTP status: $status"
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "Response body:"
+            cat response.txt
+            exit 1
+          fi
