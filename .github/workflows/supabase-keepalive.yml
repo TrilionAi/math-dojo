@@ -14,14 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Supabase REST API
-        # Hits the REST root (always available, no dependency on any table existing
-        # yet) rather than the progress table, so this can't fail before the SQL
-        # schema has been run. Sends both apikey and Authorization (Supabase requires
-        # both for the REST gateway to accept the request) and prints the response
-        # status/body on failure instead of swallowing it, so a broken key or URL
-        # shows up in the run log instead of failing silently.
+        # Hits the real `progress` table (schema.sql) instead of the /rest/v1/
+        # discovery root — Supabase's new API key system rejects the root route
+        # for publishable/anon keys ("Secret API key required"), which is why
+        # every scheduled run since this workflow was added had been failing.
+        # RLS means an anon request returns 0 rows, but that's fine — a 200
+        # response is all that's needed to register as activity and reset the
+        # inactivity clock. Prints status/body on failure instead of swallowing it.
         run: |
-          status=$(curl -s -o response.txt -w "%{http_code}" "${{ secrets.VITE_SUPABASE_URL }}/rest/v1/" \
+          status=$(curl -s -o response.txt -w "%{http_code}" \
+            "${{ secrets.VITE_SUPABASE_URL }}/rest/v1/progress?select=user_id&limit=1" \
             -H "apikey: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}")
           echo "HTTP status: $status"
