@@ -1,14 +1,15 @@
 name: Supabase keep-alive ping
 
 # Free-tier Supabase projects pause after 7 days with no API activity. This
-# hits the REST API on a day-of-week schedule (max 2-day gap, vs. the ~3-4
-# day gap of a day-of-month `*/N` cron, which also gets uneven around month
-# boundaries) with a trivial, harmless read (via the public anon/publishable
-# key, same one already shipped in the client bundle — nothing extra exposed)
-# just to keep the "last active" clock reset.
+# hits the REST API 3x/day, every day, with a trivial, harmless read (via the
+# public anon/publishable key, same one already shipped in the client bundle
+# — nothing extra exposed) just to keep the "last active" clock reset. This
+# repo is public, so GitHub-hosted runner minutes are free and unmetered —
+# a few-second job 3x/day costs nothing, hence the generous margin over the
+# 7-day pause window.
 on:
   schedule:
-    - cron: '0 6 * * 0,2,4,6' # Sun/Tue/Thu/Sat 06:00 UTC — never more than 2 days apart
+    - cron: '0 2,10,18 * * *' # 02:00 / 10:00 / 18:00 UTC, every day
   workflow_dispatch:
 
 jobs:
