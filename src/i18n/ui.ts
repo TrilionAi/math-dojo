@@ -115,6 +115,9 @@ interface UiStrings {
   ninjaMasterCta: string;
   ninjaMasterShareText: string;
   ninjaMasterAlt: string;
+  beltOpenCta: string;
+  beltContinueCta: string;
+  beltCloseCta: string;
 }
 
 const en: UiStrings = {
@@ -239,6 +242,9 @@ const en: UiStrings = {
   ninjaMasterCta: "Share my Ninja Master title",
   ninjaMasterShareText: "🥷 I am a NINJA MASTER at Math Dojo — every belt, both journeys, from counting to calculus!",
   ninjaMasterAlt: "Ninja Master badge",
+  beltOpenCta: "Open",
+  beltContinueCta: "Continue",
+  beltCloseCta: "Close",
 };
 
 const pt: UiStrings = {
@@ -363,6 +369,9 @@ const pt: UiStrings = {
   ninjaMasterCta: "Compartilhar meu título de Mestre Ninja",
   ninjaMasterShareText: "🥷 Sou MESTRE NINJA no Math Dojo — todas as faixas, as duas jornadas, de contar até o cálculo!",
   ninjaMasterAlt: "Emblema de Mestre Ninja",
+  beltOpenCta: "Abrir",
+  beltContinueCta: "Continuar",
+  beltCloseCta: "Fechar",
 };
 
 const es: UiStrings = {
@@ -487,6 +496,9 @@ const es: UiStrings = {
   ninjaMasterCta: "Compartir mi título de Maestro Ninja",
   ninjaMasterShareText: "🥷 ¡Soy MAESTRO NINJA en Math Dojo — todos los cinturones, ambos caminos, de contar hasta el cálculo!",
   ninjaMasterAlt: "Insignia de Maestro Ninja",
+  beltOpenCta: "Abrir",
+  beltContinueCta: "Continuar",
+  beltCloseCta: "Cerrar",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

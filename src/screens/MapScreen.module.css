@@ -481,3 +481,43 @@
   opacity: 0.5;
   transform: skewX(-18deg);
 }
+
+/* The accordion's real affordance: a pill that says what tapping does. */
+.headPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-sunken);
+  border: 1.5px solid var(--color-border);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  color: var(--color-ink-soft);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.cardHeadBtn:hover .headPill {
+  border-color: var(--color-primary);
+  color: var(--color-ink);
+}
+
+/* On the frontier belt the pill is THE call to action. */
+.headPillPrimary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-ink);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+.cardHeadBtn:hover .headPillPrimary {
+  color: var(--color-primary-ink);
+  filter: brightness(1.06);
+}
+
+.headPill .chevron {
+  margin-left: 0;
+  font-size: var(--fs-xs);
+  color: currentColor;
+}

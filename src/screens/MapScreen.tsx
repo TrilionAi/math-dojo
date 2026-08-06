@@ -211,8 +211,16 @@ export function MapScreen({
                 <div className={styles.cardHead}>
                   <span className={styles.beltName}>{belt.name[locale]}</span>
                   <span className={styles.operation}>{belt.operationLabel[locale]}</span>
-                  <span className={[styles.chevron, expanded ? styles.chevronOpen : ""].join(" ")} aria-hidden="true">
-                    ▾
+                  <span
+                    className={[
+                      styles.headPill,
+                      !expanded && isFrontier ? styles.headPillPrimary : "",
+                    ].join(" ")}
+                  >
+                    {expanded ? t.beltCloseCta : isFrontier ? t.beltContinueCta : t.beltOpenCta}
+                    <span className={[styles.chevron, expanded ? styles.chevronOpen : ""].join(" ")} aria-hidden="true">
+                      ▾
+                    </span>
                   </span>
                 </div>
                 <BeltStrip belt={belt} progress={progress} />
