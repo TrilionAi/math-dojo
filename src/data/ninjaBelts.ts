@@ -6,6 +6,9 @@ import { ninjaBrownBelt } from "./ninja/brown";
 import { ninjaGreenBelt } from "./ninja/green";
 import { ninjaBlackBelt } from "./ninja/black";
 import { ninjaRedBelt } from "./ninja/red";
+import { ninjaGoldBelt } from "./ninja/gold";
+import { ninjaDigitalBelt } from "./ninja/digital";
+import { ninjaCoralBelt } from "./ninja/coral";
 
 /** The Ninja journey: the same belts, refought as fixed word problems. Each
  * belt unlocks when its normal counterpart is earned (White Ninja is free
@@ -18,4 +21,7 @@ export const ninjaBelts: Belt[] = [
   ninjaGreenBelt,
   ninjaBlackBelt,
   ninjaRedBelt,
+  ninjaGoldBelt,
+  ninjaDigitalBelt,
+  ninjaCoralBelt,
 ];
