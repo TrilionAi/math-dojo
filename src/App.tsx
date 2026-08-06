@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { belts } from "./data/belts";
-import { loadProgress, recordSessionResult, saveProgress } from "./engine/progress";
+import { getPagesDone, loadProgress, recordPageResult, recordSessionResult, saveProgress } from "./engine/progress";
 import { getSession, onAuthChange } from "./engine/auth";
 import { pullCloudProgress, pushCloudProgress, mergeProgress } from "./engine/sync";
 import { MapScreen } from "./screens/MapScreen";
@@ -96,9 +96,15 @@ export default function App() {
   }
 
   function completeDrill(summary: SessionSummary) {
-    const next = recordSessionResult(progress, summary);
+    const next = recordSessionResult(progressRef.current, summary);
     setProgress(next);
     setView({ name: "results", summary });
+    if (session) pushCloudProgress(session.user.id, next);
+  }
+
+  function handlePageResult(stripe: Stripe, pagePassed: boolean) {
+    const next = recordPageResult(progressRef.current, stripe, pagePassed);
+    setProgress(next);
     if (session) pushCloudProgress(session.user.id, next);
   }
 
@@ -133,7 +139,14 @@ export default function App() {
       break;
     case "drill":
       screen = (
-        <DrillScreen stripe={view.stripe} onComplete={completeDrill} onExit={goToMap} onSendToBoard={sendToBoard} />
+        <DrillScreen
+          stripe={view.stripe}
+          initialPagesDone={getPagesDone(progressRef.current, view.stripe)}
+          onPageResult={handlePageResult}
+          onComplete={completeDrill}
+          onExit={goToMap}
+          onSendToBoard={sendToBoard}
+        />
       );
       break;
     case "results":

@@ -6,12 +6,12 @@ const STORAGE_KEY = "math-dojo:progress:v1";
 export function loadProgress(): ProgressState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { stripeResults: {}, practiceDays: [] };
+    if (!raw) return { stripeResults: {}, practiceDays: [], pageCheckpoints: {} };
     const parsed = JSON.parse(raw) as ProgressState;
-    if (!parsed.stripeResults) return { stripeResults: {}, practiceDays: [] };
-    return { ...parsed, practiceDays: parsed.practiceDays ?? [] };
+    if (!parsed.stripeResults) return { stripeResults: {}, practiceDays: [], pageCheckpoints: {} };
+    return { ...parsed, practiceDays: parsed.practiceDays ?? [], pageCheckpoints: parsed.pageCheckpoints ?? {} };
   } catch {
-    return { stripeResults: {}, practiceDays: [] };
+    return { stripeResults: {}, practiceDays: [], pageCheckpoints: {} };
   }
 }
 
@@ -82,6 +82,29 @@ export function isBeltUnlocked(belt: Belt, belts: Belt[], progress: ProgressStat
   return isStripeUnlocked(belt.stripes[0], belts, progress);
 }
 
+/** A page finished (passed or not): stamp today as a practice day, and when the
+ * page met the mastery bar, advance the stripe's checkpoint so leaving mid-way
+ * never loses completed pages. */
+export function recordPageResult(progress: ProgressState, stripe: Stripe, pagePassed: boolean): ProgressState {
+  const today = dateToIso(new Date());
+  const practiceDays = progress.practiceDays?.includes(today)
+    ? progress.practiceDays
+    : [...(progress.practiceDays ?? []), today];
+  const pageCheckpoints = { ...(progress.pageCheckpoints ?? {}) };
+  if (pagePassed) {
+    pageCheckpoints[stripe.id] = Math.min((pageCheckpoints[stripe.id] ?? 0) + 1, stripe.mastery.pagesToMaster);
+  }
+  const next: ProgressState = { ...progress, practiceDays, pageCheckpoints };
+  saveProgress(next);
+  return next;
+}
+
+export function getPagesDone(progress: ProgressState, stripe: Stripe): number {
+  const done = progress.pageCheckpoints?.[stripe.id] ?? 0;
+  // never resume past the final page — a stale checkpoint can't skip the stripe
+  return Math.max(0, Math.min(done, stripe.mastery.pagesToMaster - 1));
+}
+
 export function recordSessionResult(progress: ProgressState, summary: SessionSummary): ProgressState {
   const existing = progress.stripeResults[summary.stripe.id];
   const nextResult: StripeResult = {
@@ -98,9 +121,13 @@ export function recordSessionResult(progress: ProgressState, summary: SessionSum
   const practiceDays = progress.practiceDays?.includes(today)
     ? progress.practiceDays
     : [...(progress.practiceDays ?? []), today];
+  // stripe finished — its page checkpoint has served its purpose
+  const pageCheckpoints = { ...(progress.pageCheckpoints ?? {}) };
+  delete pageCheckpoints[summary.stripe.id];
   const next: ProgressState = {
     stripeResults: { ...progress.stripeResults, [summary.stripe.id]: nextResult },
     practiceDays,
+    pageCheckpoints,
   };
   saveProgress(next);
   return next;

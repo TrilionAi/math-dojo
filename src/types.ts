@@ -130,6 +130,10 @@ export interface ProgressState {
    * deduped, used to compute the daily practice streak on the stats screen. Optional
    * for backward compatibility with progress saved before this field existed. */
   practiceDays?: string[];
+  /** Per-stripe checkpoint: how many pages are already completed at mastery level.
+   * Lets a person leave mid-stripe and resume on the page they reached — cleared
+   * when the stripe is finished. Optional for backward compatibility. */
+  pageCheckpoints?: Record<string, number>;
 }
 
 export interface AttemptRecord {

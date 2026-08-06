@@ -99,6 +99,11 @@ interface UiStrings {
   settingsTimedLabel: string;
   settingsTimedHint: string;
   statBadgesShareHint: string;
+  errorContinue: string;
+  pageFailedHeadline: string;
+  pageFailedAccuracy: (pct: number, needed: number) => string;
+  pageFailedSpeed: (avg: string, target: number) => string;
+  pageRetry: string;
 }
 
 const en: UiStrings = {
@@ -207,6 +212,11 @@ const en: UiStrings = {
   settingsTimedHint:
     "On: passing also requires your average time per problem to beat the stripe's target. Off: only accuracy counts — solve at your own pace (the clock still runs for the S/A speed ranks).",
   statBadgesShareHint: "Tap an earned medal to share it.",
+  errorContinue: "OK, got it",
+  pageFailedHeadline: "So close!",
+  pageFailedAccuracy: (pct, needed) => `This page came out at ${pct}% accuracy — it takes ${needed}%. One more go!`,
+  pageFailedSpeed: (avg, target) => `Accuracy was there, but you averaged ${avg}s per problem (target: ${target}s). Once more, a bit quicker!`,
+  pageRetry: "Redo this page",
 };
 
 const pt: UiStrings = {
@@ -315,6 +325,11 @@ const pt: UiStrings = {
   settingsTimedHint:
     "Ligado: para passar, além do acerto, sua média de tempo por conta precisa ficar abaixo do alvo do grau. Desligado: só o acerto conta — resolva no seu ritmo (o relógio continua valendo para os ranks S/A de velocidade).",
   statBadgesShareHint: "Toque numa medalha conquistada para compartilhar.",
+  errorContinue: "OK, entendi",
+  pageFailedHeadline: "Quase!",
+  pageFailedAccuracy: (pct, needed) => `Essa página ficou em ${pct}% de acerto — precisa de ${needed}%. Mais uma vez!`,
+  pageFailedSpeed: (avg, target) => `Acertos no ponto, mas a média foi ${avg}s por conta (alvo: ${target}s). Mais uma, um pouco mais rápido!`,
+  pageRetry: "Refazer a página",
 };
 
 const es: UiStrings = {
@@ -423,6 +438,11 @@ const es: UiStrings = {
   settingsTimedHint:
     "Activado: para aprobar, además de la precisión, tu tiempo promedio por problema debe quedar bajo el objetivo del grado. Desactivado: solo cuenta la precisión — resuelve a tu ritmo (el reloj sigue valiendo para los rangos S/A de velocidad).",
   statBadgesShareHint: "Toca una medalla conseguida para compartirla.",
+  errorContinue: "OK, entendido",
+  pageFailedHeadline: "¡Casi!",
+  pageFailedAccuracy: (pct, needed) => `Esta página quedó en ${pct}% de precisión — se necesita ${needed}%. ¡Una vez más!`,
+  pageFailedSpeed: (avg, target) => `La precisión estuvo bien, pero promediaste ${avg}s por problema (objetivo: ${target}s). ¡Otra vez, un poco más rápido!`,
+  pageRetry: "Rehacer la página",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

@@ -282,3 +282,41 @@
 .boardBtn:hover {
   border-color: var(--color-primary);
 }
+
+.errorOkBtn {
+  margin-top: var(--sp-3);
+  background: var(--color-error);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--sp-3) var(--sp-6);
+  font-size: var(--fs-base);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.pageFailedCard {
+  width: 100%;
+  background: var(--color-error-soft);
+  border: 2px solid var(--color-error);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-8) var(--sp-5);
+  text-align: center;
+  animation: pop-in var(--dur-slow) var(--ease-bounce);
+}
+
+.pageFailedTitle {
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  color: var(--color-error);
+  margin-bottom: var(--sp-3);
+}
+
+.pageFailedText {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-6);
+  line-height: 1.5;
+}

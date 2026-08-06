@@ -21,6 +21,10 @@ import styles from "./DrillScreen.module.css";
 
 interface DrillScreenProps {
   stripe: Stripe;
+  /** Checkpoint: pages already completed in earlier sittings — the drill resumes here. */
+  initialPagesDone: number;
+  /** A page just finished (met the bar or not) — the app persists the checkpoint. */
+  onPageResult: (stripe: Stripe, pagePassed: boolean) => void;
   onComplete: (summary: SessionSummary) => void;
   onExit: () => void;
   onSendToBoard: (text: string) => void;
@@ -29,12 +33,24 @@ interface DrillScreenProps {
 type Feedback = "correct" | "incorrect" | null;
 type ActiveField = "primary" | "secondary";
 
-export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: DrillScreenProps) {
+/** What the between-pages card shows: a completed page, or one to redo. */
+type PageEnd =
+  | { kind: "passed"; page: number }
+  | { kind: "failed"; accuracyPct: number; avgTimeSec: number; slow: boolean };
+
+export function DrillScreen({
+  stripe,
+  initialPagesDone,
+  onPageResult,
+  onComplete,
+  onExit,
+  onSendToBoard,
+}: DrillScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
   const { problemsPerPage, pagesToMaster } = stripe.mastery;
-  const totalCount = problemsPerPage * pagesToMaster;
-  const [queue, setQueue] = useState<Problem[]>(() => stripe.generate(totalCount));
+  const [pagesDone, setPagesDone] = useState(initialPagesDone);
+  const [queue, setQueue] = useState<Problem[]>(() => stripe.generate(problemsPerPage));
   const [input, setInput] = useState("");
   const [secondaryInput, setSecondaryInput] = useState("");
   const [isNegative, setIsNegative] = useState(false);
@@ -42,19 +58,28 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
   const [activeField, setActiveField] = useState<ActiveField>("primary");
   const [feedback, setFeedback] = useState<Feedback>(null);
   const [solvedCount, setSolvedCount] = useState(0);
-  const [pageBreak, setPageBreak] = useState<number | null>(null);
+  const [pageEnd, setPageEnd] = useState<PageEnd | null>(null);
   const [streak, setStreak] = useState(0);
   const [muted, setMutedFlag] = useState(() => isMuted());
 
+  /** This page's attempt records — reset when a fresh page starts. */
   const attemptsRef = useRef<Map<string, AttemptRecord>>(new Map());
+  /** Every attempt of this sitting, across pages — feeds the final summary. */
+  const sittingAttemptsRef = useRef<AttemptRecord[]>([]);
   const firstShownAtRef = useRef<Map<string, number>>(new Map());
+  /** Accumulated ms spent on error-pauses per problem — subtracted from the
+   * clock, so reading the correct answer never costs speed score. */
+  const pausedMsRef = useRef<Map<string, number>>(new Map());
+  const errorPauseStartRef = useRef<number | null>(null);
   const lockRef = useRef(false);
 
   const current: Problem | undefined = queue[0];
 
-  // seed attempt records once for the original set
-  useEffect(() => {
-    queue.forEach((p) => {
+  function seedPage(problems: Problem[]) {
+    attemptsRef.current = new Map();
+    firstShownAtRef.current = new Map();
+    pausedMsRef.current = new Map();
+    problems.forEach((p) => {
       attemptsRef.current.set(p.id, {
         problem: p,
         firstTryCorrect: false,
@@ -62,6 +87,11 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
         mistakeCount: 0,
       });
     });
+  }
+
+  // seed attempt records for the first page
+  useEffect(() => {
+    seedPage(queue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -73,16 +103,40 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
     }
   }, [current?.id]);
 
-  // session finished once every original problem has been resolved correctly
+  // page finished once every one of its problems has been answered correctly
   useEffect(() => {
-    if (queue.length === 0 && attemptsRef.current.size === totalCount) {
-      const attempts = Array.from(attemptsRef.current.values());
-      const correctCount = attempts.filter((a) => a.firstTryCorrect).length;
-      const accuracy = correctCount / totalCount;
-      const avgTimeSec = attempts.reduce((sum, a) => sum + a.timeToFirstCorrectMs, 0) / totalCount / 1000;
-      const passed = evaluateSession(stripe, accuracy, avgTimeSec);
-      onComplete({ stripe, accuracy, avgTimeSec, passed, attempts });
+    if (queue.length > 0 || attemptsRef.current.size !== problemsPerPage) return;
+    const attempts = Array.from(attemptsRef.current.values());
+    sittingAttemptsRef.current.push(...attempts);
+    const correctCount = attempts.filter((a) => a.firstTryCorrect).length;
+    const accuracy = correctCount / problemsPerPage;
+    const avgTimeSec = attempts.reduce((sum, a) => sum + a.timeToFirstCorrectMs, 0) / problemsPerPage / 1000;
+    const pagePassed = evaluateSession(stripe, accuracy, avgTimeSec);
+    onPageResult(stripe, pagePassed);
+
+    if (pagePassed) {
+      const done = pagesDone + 1;
+      setPagesDone(done);
+      if (done >= pagesToMaster) {
+        const all = sittingAttemptsRef.current;
+        const sittingCorrect = all.filter((a) => a.firstTryCorrect).length;
+        const sittingAccuracy = all.length > 0 ? sittingCorrect / all.length : 1;
+        const sittingAvg =
+          all.length > 0 ? all.reduce((sum, a) => sum + a.timeToFirstCorrectMs, 0) / all.length / 1000 : 0;
+        onComplete({ stripe, accuracy: sittingAccuracy, avgTimeSec: sittingAvg, passed: true, attempts: all });
+        return;
+      }
+      setPageEnd({ kind: "passed", page: done });
+    } else {
+      setStreak(0);
+      setPageEnd({
+        kind: "failed",
+        accuracyPct: Math.round(accuracy * 100),
+        avgTimeSec,
+        slow: accuracy >= stripe.mastery.passAccuracy,
+      });
     }
+    lockRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queue.length]);
 
@@ -125,6 +179,15 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
     setMuted(next);
   }
 
+  function resetInputs() {
+    setInput("");
+    setSecondaryInput("");
+    setIsNegative(false);
+    setIsSecondaryNegative(false);
+    setActiveField("primary");
+    setFeedback(null);
+  }
+
   function handleSubmit() {
     if (!current || lockRef.current) return;
     if (input === "" || (hasSecondary && secondaryInput === "")) return;
@@ -142,19 +205,16 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
     if (isCorrect) {
       if (record.mistakeCount === 0) record.firstTryCorrect = true;
       const shownAt = firstShownAtRef.current.get(current.id) ?? Date.now();
-      record.timeToFirstCorrectMs = Date.now() - shownAt;
+      const pausedMs = pausedMsRef.current.get(current.id) ?? 0;
+      record.timeToFirstCorrectMs = Math.max(0, Date.now() - shownAt - pausedMs);
       setFeedback("correct");
 
       const newSolved = solvedCount + 1;
       setSolvedCount(newSolved);
-      const justFinishedPage = newSolved % problemsPerPage === 0;
-      const isLastProblem = newSolved === totalCount;
-      const pageJustCompleted = justFinishedPage && !isLastProblem ? newSolved / problemsPerPage : null;
-
       const newStreak = streak + 1;
       setStreak(newStreak);
       const isStreakMilestone = newStreak === 3 || (newStreak >= 5 && newStreak % 5 === 0);
-      if (pageJustCompleted !== null) {
+      if (newSolved === problemsPerPage) {
         playPageComplete();
       } else if (isStreakMilestone) {
         playStreakMilestone();
@@ -164,42 +224,44 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
 
       window.setTimeout(() => {
         setQueue((q) => q.slice(1));
-        setInput("");
-        setSecondaryInput("");
-        setIsNegative(false);
-        setIsSecondaryNegative(false);
-        setActiveField("primary");
-        setFeedback(null);
-        if (pageJustCompleted !== null) {
-          // hold here — lockRef stays true until the person taps continue
-          setPageBreak(pageJustCompleted);
-        } else {
-          lockRef.current = false;
-        }
+        resetInputs();
+        lockRef.current = false;
       }, 450);
     } else {
+      // No auto-advance on a mistake: the correct answer stays on screen until
+      // the person taps "OK" — reading the right answer is where the learning
+      // happens, and the paused time doesn't count against the clock.
       record.mistakeCount += 1;
       setFeedback("incorrect");
       setStreak(0);
+      errorPauseStartRef.current = Date.now();
       playIncorrect();
-      window.setTimeout(() => {
-        setQueue((q) => {
-          const [first, ...rest] = q;
-          return [...rest, first];
-        });
-        setInput("");
-        setSecondaryInput("");
-        setIsNegative(false);
-        setIsSecondaryNegative(false);
-        setActiveField("primary");
-        setFeedback(null);
-        lockRef.current = false;
-      }, 1000);
     }
   }
 
+  function handleErrorContinue() {
+    if (!current) return;
+    if (errorPauseStartRef.current !== null) {
+      const paused = Date.now() - errorPauseStartRef.current;
+      pausedMsRef.current.set(current.id, (pausedMsRef.current.get(current.id) ?? 0) + paused);
+      errorPauseStartRef.current = null;
+    }
+    setQueue((q) => {
+      const [first, ...rest] = q;
+      return [...rest, first];
+    });
+    resetInputs();
+    lockRef.current = false;
+  }
+
+  /** Leaves the between-pages card: start the next page, or regenerate the failed one. */
   function handleContinuePage() {
-    setPageBreak(null);
+    const next = stripe.generate(problemsPerPage);
+    seedPage(next);
+    setQueue(next);
+    setSolvedCount(0);
+    setPageEnd(null);
+    resetInputs();
     lockRef.current = false;
   }
 
@@ -207,8 +269,12 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
   submitRef.current = handleSubmit;
   const continueRef = useRef(handleContinuePage);
   continueRef.current = handleContinuePage;
-  const pageBreakRef = useRef(pageBreak);
-  pageBreakRef.current = pageBreak;
+  const errorContinueRef = useRef(handleErrorContinue);
+  errorContinueRef.current = handleErrorContinue;
+  const feedbackRef = useRef(feedback);
+  feedbackRef.current = feedback;
+  const pageEndRef = useRef(pageEnd);
+  pageEndRef.current = pageEnd;
   const digitRef = useRef(handleDigit);
   digitRef.current = handleDigit;
   const backspaceRef = useRef(handleBackspace);
@@ -222,8 +288,12 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
 
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
-      if (pageBreakRef.current !== null) {
+      if (pageEndRef.current !== null) {
         if (e.key === "Enter" || e.key === " ") continueRef.current();
+        return;
+      }
+      if (feedbackRef.current === "incorrect") {
+        if (e.key === "Enter" || e.key === " ") errorContinueRef.current();
         return;
       }
       if (e.key >= "0" && e.key <= "9") {
@@ -243,11 +313,9 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
-  if (!current) return null;
+  if (!current && pageEnd === null) return null;
 
-  const pageIndex0 = Math.min(Math.floor(solvedCount / problemsPerPage), pagesToMaster - 1);
-  const currentPageNumber = pageIndex0 + 1;
-  const inPageSolved = solvedCount - pageIndex0 * problemsPerPage;
+  const currentPageNumber = Math.min(pagesDone + 1, pagesToMaster);
 
   return (
     <div className={styles.page}>
@@ -256,7 +324,7 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
           ✕
         </button>
         <div className={styles.progressWrap}>
-          <ProgressBar value={inPageSolved} max={problemsPerPage} />
+          <ProgressBar value={solvedCount} max={problemsPerPage} />
         </div>
         {streak >= 2 && (
           <span key={streak} className={styles.streakBadge}>
@@ -275,15 +343,30 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
       </div>
 
       <div className={styles.problemArea}>
-        {pageBreak !== null ? (
-          <div className={styles.pageBreakCard}>
-            <div className={styles.pageBreakEmoji}>📖</div>
-            <div className={styles.pageBreakText}>{t.pageComplete(pageBreak, pagesToMaster)}</div>
-            <button type="button" className={styles.pageBreakCta} onClick={handleContinuePage}>
-              {t.continue}
-            </button>
-          </div>
-        ) : (
+        {pageEnd !== null ? (
+          pageEnd.kind === "passed" ? (
+            <div className={styles.pageBreakCard}>
+              <div className={styles.pageBreakEmoji}>📖</div>
+              <div className={styles.pageBreakText}>{t.pageComplete(pageEnd.page, pagesToMaster)}</div>
+              <button type="button" className={styles.pageBreakCta} onClick={handleContinuePage}>
+                {t.continue}
+              </button>
+            </div>
+          ) : (
+            <div className={styles.pageFailedCard}>
+              <div className={styles.pageBreakEmoji}>💪</div>
+              <div className={styles.pageFailedTitle}>{t.pageFailedHeadline}</div>
+              <div className={styles.pageFailedText}>
+                {pageEnd.slow
+                  ? t.pageFailedSpeed(pageEnd.avgTimeSec.toFixed(1), stripe.mastery.targetTimeSec)
+                  : t.pageFailedAccuracy(pageEnd.accuracyPct, Math.round(stripe.mastery.passAccuracy * 100))}
+              </div>
+              <button type="button" className={styles.pageBreakCta} onClick={handleContinuePage}>
+                {t.pageRetry}
+              </button>
+            </div>
+          )
+        ) : current ? (
           <>
             <div
               className={[
@@ -421,22 +504,27 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
                 )}
               </div>
               {feedback === "incorrect" && (
-                <div className={styles.revealCorrect}>
-                  {hasSecondary
-                    ? current.secondaryFormat === "fraction"
-                      ? t.correctAnswerRevealFraction(current.answer, current.secondaryAnswer!)
-                      : current.secondaryFormat === "decimal"
-                        ? t.correctAnswerRevealDecimal(
-                            current.answer,
-                            String(current.secondaryAnswer!).padStart(current.secondaryDigits ?? 1, "0"),
-                          )
-                        : current.secondaryFormat === "pair"
-                          ? t.correctAnswerRevealPair(current.answer, current.secondaryAnswer!)
-                          : current.secondaryFormat === "radical"
-                            ? t.correctAnswerRevealRadical(current.answer, current.secondaryAnswer!)
-                            : t.correctAnswerRevealWithRemainder(current.answer, current.secondaryAnswer!)
-                    : t.correctAnswerReveal(current.answer)}
-                </div>
+                <>
+                  <div className={styles.revealCorrect}>
+                    {hasSecondary
+                      ? current.secondaryFormat === "fraction"
+                        ? t.correctAnswerRevealFraction(current.answer, current.secondaryAnswer!)
+                        : current.secondaryFormat === "decimal"
+                          ? t.correctAnswerRevealDecimal(
+                              current.answer,
+                              String(current.secondaryAnswer!).padStart(current.secondaryDigits ?? 1, "0"),
+                            )
+                          : current.secondaryFormat === "pair"
+                            ? t.correctAnswerRevealPair(current.answer, current.secondaryAnswer!)
+                            : current.secondaryFormat === "radical"
+                              ? t.correctAnswerRevealRadical(current.answer, current.secondaryAnswer!)
+                              : t.correctAnswerRevealWithRemainder(current.answer, current.secondaryAnswer!)
+                      : t.correctAnswerReveal(current.answer)}
+                  </div>
+                  <button type="button" className={styles.errorOkBtn} onClick={handleErrorContinue}>
+                    {t.errorContinue}
+                  </button>
+                </>
               )}
             </div>
 
@@ -452,7 +540,7 @@ export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: Drill
               />
             </div>
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );
