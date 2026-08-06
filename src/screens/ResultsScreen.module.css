@@ -139,3 +139,27 @@
   margin-bottom: var(--sp-6);
   cursor: pointer;
 }
+
+.ninjaUnlockBtn {
+  display: block;
+  margin: 0 auto var(--sp-6);
+  background: #17171d;
+  color: #f1ede4;
+  border: 2px solid #30303a;
+  border-radius: var(--radius-md);
+  padding: var(--sp-4) var(--sp-6);
+  font-size: var(--fs-base);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  animation: ninja-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes ninja-pulse {
+  from {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  }
+  to {
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+  }
+}

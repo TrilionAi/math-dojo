@@ -11,17 +11,24 @@ import styles from "./ResultsScreen.module.css";
 interface ResultsScreenProps {
   summary: SessionSummary;
   belts: Belt[];
+  ninjaBelts: Belt[];
   progress: ProgressState;
   onRetry: () => void;
   onContinue: () => void;
+  onEnterNinja: () => void;
 }
 
-export function ResultsScreen({ summary, belts, progress, onRetry, onContinue }: ResultsScreenProps) {
+export function ResultsScreen({ summary, belts, ninjaBelts, progress, onRetry, onContinue, onEnterNinja }: ResultsScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
   const belt = belts.find((b) => b.id === summary.stripe.beltId);
   const isLastStripeOfBelt = belt ? belt.stripes[belt.stripes.length - 1]?.id === summary.stripe.id : false;
   const beltEarned = summary.passed && isLastStripeOfBelt;
+  // Earning a NORMAL belt unlocks its ninja twin — the doorway into the dark dojo.
+  const unlockedNinjaBelt =
+    beltEarned && belt && !belt.id.startsWith("ninja-")
+      ? (ninjaBelts.find((b) => b.id === `ninja-${belt.id}`) ?? null)
+      : null;
   const grade = computeGrade(summary.stripe, progress.stripeResults[summary.stripe.id]);
   const [shareOutcome, setShareOutcome] = useState<"copied" | null>(null);
 
@@ -77,6 +84,11 @@ export function ResultsScreen({ summary, belts, progress, onRetry, onContinue }:
           <button type="button" className={styles.shareBtn} onClick={handleShareBelt}>
             📣 {shareOutcome === "copied" ? t.shareCopied : t.shareBeltCta}
           </button>
+          {unlockedNinjaBelt && (
+            <button type="button" className={styles.ninjaUnlockBtn} onClick={onEnterNinja}>
+              {t.ninjaUnlockedCta(unlockedNinjaBelt.name[locale])}
+            </button>
+          )}
         </>
       )}
 

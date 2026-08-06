@@ -104,6 +104,11 @@ interface UiStrings {
   pageFailedAccuracy: (pct: number, needed: number) => string;
   pageFailedSpeed: (avg: string, target: number) => string;
   pageRetry: string;
+  modeNormal: string;
+  modeNinja: string;
+  ninjaLockedHint: (beltName: string) => string;
+  ninjaUnlockedCta: (beltName: string) => string;
+  ninjaComingSoon: string;
 }
 
 const en: UiStrings = {
@@ -217,6 +222,11 @@ const en: UiStrings = {
   pageFailedAccuracy: (pct, needed) => `This page came out at ${pct}% accuracy — it takes ${needed}%. One more go!`,
   pageFailedSpeed: (avg, target) => `Accuracy was there, but you averaged ${avg}s per problem (target: ${target}s). Once more, a bit quicker!`,
   pageRetry: "Redo this page",
+  modeNormal: "Normal",
+  modeNinja: "🥷 Ninja",
+  ninjaLockedHint: (beltName) => `Earn the ${beltName} in normal mode to unlock this ninja belt.`,
+  ninjaUnlockedCta: (beltName) => `🥷 Ninja mode unlocked: ${beltName}!`,
+  ninjaComingSoon: "New ninja belts are being forged…",
 };
 
 const pt: UiStrings = {
@@ -330,6 +340,11 @@ const pt: UiStrings = {
   pageFailedAccuracy: (pct, needed) => `Essa página ficou em ${pct}% de acerto — precisa de ${needed}%. Mais uma vez!`,
   pageFailedSpeed: (avg, target) => `Acertos no ponto, mas a média foi ${avg}s por conta (alvo: ${target}s). Mais uma, um pouco mais rápido!`,
   pageRetry: "Refazer a página",
+  modeNormal: "Normal",
+  modeNinja: "🥷 Ninja",
+  ninjaLockedHint: (beltName) => `Conquiste a ${beltName} no modo normal para liberar esta faixa ninja.`,
+  ninjaUnlockedCta: (beltName) => `🥷 Modo Ninja liberado: ${beltName}!`,
+  ninjaComingSoon: "Novas faixas ninja sendo forjadas…",
 };
 
 const es: UiStrings = {
@@ -443,6 +458,11 @@ const es: UiStrings = {
   pageFailedAccuracy: (pct, needed) => `Esta página quedó en ${pct}% de precisión — se necesita ${needed}%. ¡Una vez más!`,
   pageFailedSpeed: (avg, target) => `La precisión estuvo bien, pero promediaste ${avg}s por problema (objetivo: ${target}s). ¡Otra vez, un poco más rápido!`,
   pageRetry: "Rehacer la página",
+  modeNormal: "Normal",
+  modeNinja: "🥷 Ninja",
+  ninjaLockedHint: (beltName) => `Gana el ${beltName} en modo normal para desbloquear este cinturón ninja.`,
+  ninjaUnlockedCta: (beltName) => `🥷 ¡Modo Ninja desbloqueado: ${beltName}!`,
+  ninjaComingSoon: "Nuevos cinturones ninja en la forja…",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

@@ -1,5 +1,7 @@
 import type { Belt, ProgressState, Stripe, StripeDegree } from "../types";
 import { isStripeUnlocked } from "../engine/progress";
+import { ninjaSourceBeltId } from "../data/ninja";
+import type { GameMode } from "../engine/mode";
 import { computeGrade } from "../engine/grading";
 import { BeltStrip } from "../components/BeltStrip";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
@@ -8,7 +10,12 @@ import { UI_STRINGS } from "../i18n/ui";
 import styles from "./MapScreen.module.css";
 
 interface MapScreenProps {
+  /** The belts to display — the normal set, or the ninja set in ninja mode. */
   belts: Belt[];
+  /** Always the normal belts — ninja unlock gates check against these. */
+  normalBelts: Belt[];
+  mode: GameMode;
+  onSwitchMode: (mode: GameMode) => void;
   progress: ProgressState;
   loggedIn: boolean;
   onSelectStripe: (stripeId: string) => void;
@@ -39,6 +46,9 @@ function groupByDegree(stripes: Stripe[]): StripeGroup[] {
 
 export function MapScreen({
   belts,
+  normalBelts,
+  mode,
+  onSwitchMode,
   progress,
   loggedIn,
   onSelectStripe,
@@ -48,9 +58,26 @@ export function MapScreen({
 }: MapScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
-  const allComplete = belts.every((belt) =>
-    belt.stripes.every((stripe) => progress.stripeResults[stripe.id]?.passed),
-  );
+  const isNinja = mode === "ninja";
+  const allComplete =
+    !isNinja && belts.every((belt) => belt.stripes.every((stripe) => progress.stripeResults[stripe.id]?.passed));
+
+  /** Ninja belts open when the matching normal belt was earned — White Ninja is free. */
+  function isNinjaBeltOpen(belt: Belt): boolean {
+    if (belt.id === "ninja-white") return true;
+    const source = normalBelts.find((b) => b.id === ninjaSourceBeltId(belt.id));
+    const lastStripe = source?.stripes[source.stripes.length - 1];
+    return lastStripe ? (progress.stripeResults[lastStripe.id]?.passed ?? false) : false;
+  }
+
+  function isNinjaStripeOpen(belt: Belt, stripe: Stripe): boolean {
+    if (new URLSearchParams(window.location.search).get("unlock") === "all") return true;
+    if (progress.stripeResults[stripe.id]?.passed) return true;
+    if (!isNinjaBeltOpen(belt)) return false;
+    const idx = belt.stripes.indexOf(stripe);
+    if (idx <= 0) return true;
+    return progress.stripeResults[belt.stripes[idx - 1].id]?.passed ?? false;
+  }
 
   return (
     <div className={styles.page}>
@@ -78,8 +105,25 @@ export function MapScreen({
       <header className={styles.header}>
         <h1 className={styles.title}>
           Math <span>Dojo</span>
+          {isNinja && <span className={styles.ninjaMark}> 🥷</span>}
         </h1>
         <p className={styles.subtitle}>{t.tagline}</p>
+        <div className={styles.modeSwitch} role="group">
+          <button
+            type="button"
+            className={[styles.modeBtn, !isNinja ? styles.modeBtnActive : ""].join(" ")}
+            onClick={() => onSwitchMode("normal")}
+          >
+            {t.modeNormal}
+          </button>
+          <button
+            type="button"
+            className={[styles.modeBtn, isNinja ? styles.modeBtnActive : ""].join(" ")}
+            onClick={() => onSwitchMode("ninja")}
+          >
+            {t.modeNinja}
+          </button>
+        </div>
       </header>
 
       {allComplete && (
@@ -89,6 +133,7 @@ export function MapScreen({
       )}
 
       <div className={styles.beltList}>
+        {isNinja && belts.length === 0 && <p className={styles.ninjaEmpty}>{t.ninjaComingSoon}</p>}
         {belts.map((belt, i) => (
           <div key={belt.id} className={styles.card} style={{ animationDelay: `${i * 60}ms` }}>
             <div className={styles.cardHead}>
@@ -102,6 +147,13 @@ export function MapScreen({
 
             {belt.locked ? (
               <span className={styles.comingSoon}>🔒 {t.comingSoon}</span>
+            ) : isNinja && !isNinjaBeltOpen(belt) ? (
+              <span className={styles.comingSoon}>
+                🔒{" "}
+                {t.ninjaLockedHint(
+                  normalBelts.find((b) => b.id === ninjaSourceBeltId(belt.id))?.name[locale] ?? "",
+                )}
+              </span>
             ) : (
               <div className={styles.stripeGroups}>
                 {groupByDegree(belt.stripes).map((group, gi) => (
@@ -115,7 +167,9 @@ export function MapScreen({
                     )}
                     <div className={styles.stripeRow}>
                       {group.stripes.map((stripe) => {
-                        const unlocked = isStripeUnlocked(stripe, belts, progress);
+                        const unlocked = isNinja
+                          ? isNinjaStripeOpen(belt, stripe)
+                          : isStripeUnlocked(stripe, belts, progress);
                         const result = progress.stripeResults[stripe.id];
                         const passed = result?.passed ?? false;
                         const grade = computeGrade(stripe, result);

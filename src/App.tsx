@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { belts } from "./data/belts";
+import { ninjaBelts } from "./data/ninjaBelts";
+import { loadMode, saveMode, type GameMode } from "./engine/mode";
 import { getPagesDone, loadProgress, recordPageResult, recordSessionResult, saveProgress } from "./engine/progress";
 import { getSession, onAuthChange } from "./engine/auth";
 import { pullCloudProgress, pushCloudProgress, mergeProgress } from "./engine/sync";
@@ -27,8 +29,10 @@ type View =
   | { name: "account" }
   | { name: "certificate" };
 
+const allBelts = [...belts, ...ninjaBelts];
+
 function findStripe(id: string): Stripe | undefined {
-  return belts.flatMap((b) => b.stripes).find((s) => s.id === id);
+  return allBelts.flatMap((b) => b.stripes).find((s) => s.id === id);
 }
 
 /** Supabase redirects a password-recovery email link back here with
@@ -48,6 +52,7 @@ export default function App() {
   const t = UI_STRINGS[locale];
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress());
   const [boardOpen, setBoardOpen] = useState(false);
+  const [mode, setMode] = useState<GameMode>(() => loadMode());
   const [view, setView] = useState<View>(() => (isPasswordRecoveryUrl() ? { name: "account" } : { name: "map" }));
   const [session, setSession] = useState<Session | null>(null);
   const [forceReset, setForceReset] = useState(() => isPasswordRecoveryUrl());
@@ -82,7 +87,18 @@ export default function App() {
     return unsubscribe;
   }, []);
 
+  // the theme follows the mode — data-mode="ninja" flips the whole palette dark
+  useEffect(() => {
+    document.documentElement.dataset.mode = mode;
+    saveMode(mode);
+  }, [mode]);
+
   function goToMap() {
+    setView({ name: "map" });
+  }
+
+  function switchMode(next: GameMode) {
+    setMode(next);
     setView({ name: "map" });
   }
 
@@ -153,10 +169,12 @@ export default function App() {
       screen = (
         <ResultsScreen
           summary={view.summary}
-          belts={belts}
+          belts={allBelts}
+          ninjaBelts={ninjaBelts}
           progress={progress}
           onRetry={() => startDrill(view.summary.stripe)}
           onContinue={goToMap}
+          onEnterNinja={() => switchMode("ninja")}
         />
       );
       break;
@@ -182,7 +200,10 @@ export default function App() {
     default:
       screen = (
         <MapScreen
-          belts={belts}
+          belts={mode === "ninja" ? ninjaBelts : belts}
+          normalBelts={belts}
+          mode={mode}
+          onSwitchMode={switchMode}
           progress={progress}
           loggedIn={session !== null}
           onSelectStripe={selectStripe}

@@ -77,3 +77,27 @@
   --dur-med: 260ms;
   --dur-slow: 420ms;
 }
+
+/* ---------------------------------------------------------------------------
+   Ninja mode — the same dojo at night. Applied via data-mode="ninja" on <html>.
+   Brand/feedback accents stay; every surface and ink flips to a dark palette,
+   and their -soft companions become deep tints so existing pairings still read.
+--------------------------------------------------------------------------- */
+:root[data-mode="ninja"] {
+  --color-bg: #121216;
+  --color-bg-soft: #1a1a20;
+  --color-surface: #1e1e26;
+  --color-surface-sunken: #17171d;
+  --color-ink: #f1ede4;
+  --color-ink-soft: #b6aea1;
+  --color-ink-faint: #6f6960;
+  --color-border: #30303a;
+
+  --color-primary-soft: #3d2118;
+  --color-secondary-soft: #12352f;
+  --color-success-soft: #14301f;
+  --color-error-soft: #3a1518;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+}

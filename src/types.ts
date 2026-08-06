@@ -1,4 +1,24 @@
-export type BeltId = "white" | "blue" | "purple" | "brown" | "green" | "black" | "red" | "gold" | "digital" | "coral";
+export type BeltId =
+  | "white"
+  | "blue"
+  | "purple"
+  | "brown"
+  | "green"
+  | "black"
+  | "red"
+  | "gold"
+  | "digital"
+  | "coral"
+  | "ninja-white"
+  | "ninja-blue"
+  | "ninja-purple"
+  | "ninja-brown"
+  | "ninja-green"
+  | "ninja-black"
+  | "ninja-red"
+  | "ninja-gold"
+  | "ninja-digital"
+  | "ninja-coral";
 
 export type Locale = "en" | "pt" | "es";
 

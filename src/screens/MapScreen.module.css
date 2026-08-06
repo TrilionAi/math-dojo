@@ -250,3 +250,41 @@
     box-shadow: 0 6px 26px rgba(212, 160, 23, 0.7);
   }
 }
+
+.ninjaMark {
+  -webkit-text-fill-color: initial;
+}
+
+.modeSwitch {
+  display: inline-flex;
+  margin-top: var(--sp-4);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  gap: 4px;
+}
+
+.modeBtn {
+  border: none;
+  background: none;
+  border-radius: var(--radius-pill);
+  padding: var(--sp-2) var(--sp-5);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.modeBtnActive {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.ninjaEmpty {
+  text-align: center;
+  color: var(--color-ink-faint);
+  font-weight: 600;
+  padding: var(--sp-6);
+}
