@@ -180,7 +180,7 @@ export default function App() {
       break;
     case "stats":
       screen = (
-        <StatsScreen belts={belts} progress={progress} onBack={goToMap} onOpenCertificate={openCertificate} />
+        <StatsScreen belts={belts} ninjaBelts={ninjaBelts} progress={progress} onBack={goToMap} onOpenCertificate={openCertificate} />
       );
       break;
     case "account":
@@ -194,7 +194,7 @@ export default function App() {
       );
       break;
     case "certificate":
-      screen = <CertificateScreen belts={belts} onBack={goToMap} />;
+      screen = <CertificateScreen belts={belts} ninjaBelts={ninjaBelts} progress={progress} onBack={goToMap} />;
       break;
     case "map":
     default:

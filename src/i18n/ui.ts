@@ -109,6 +109,8 @@ interface UiStrings {
   ninjaLockedHint: (beltName: string) => string;
   ninjaUnlockedCta: (beltName: string) => string;
   ninjaComingSoon: string;
+  statNinjaBadgesTitle: string;
+  certNinjaMaster: string;
 }
 
 const en: UiStrings = {
@@ -227,6 +229,8 @@ const en: UiStrings = {
   ninjaLockedHint: (beltName) => `Earn the ${beltName} in normal mode to unlock this ninja belt.`,
   ninjaUnlockedCta: (beltName) => `🥷 Ninja mode unlocked: ${beltName}!`,
   ninjaComingSoon: "New ninja belts are being forged…",
+  statNinjaBadgesTitle: "🥷 Ninja medals",
+  certNinjaMaster: "NINJA MASTER — both journeys completed",
 };
 
 const pt: UiStrings = {
@@ -345,6 +349,8 @@ const pt: UiStrings = {
   ninjaLockedHint: (beltName) => `Conquiste a ${beltName} no modo normal para liberar esta faixa ninja.`,
   ninjaUnlockedCta: (beltName) => `🥷 Modo Ninja liberado: ${beltName}!`,
   ninjaComingSoon: "Novas faixas ninja sendo forjadas…",
+  statNinjaBadgesTitle: "🥷 Medalhas ninja",
+  certNinjaMaster: "MESTRE NINJA — as duas jornadas completas",
 };
 
 const es: UiStrings = {
@@ -463,6 +469,8 @@ const es: UiStrings = {
   ninjaLockedHint: (beltName) => `Gana el ${beltName} en modo normal para desbloquear este cinturón ninja.`,
   ninjaUnlockedCta: (beltName) => `🥷 ¡Modo Ninja desbloqueado: ${beltName}!`,
   ninjaComingSoon: "Nuevos cinturones ninja en la forja…",
+  statNinjaBadgesTitle: "🥷 Medallas ninja",
+  certNinjaMaster: "MAESTRO NINJA — ambos caminos completados",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

@@ -10,12 +10,13 @@ import styles from "./StatsScreen.module.css";
 
 interface StatsScreenProps {
   belts: Belt[];
+  ninjaBelts: Belt[];
   progress: ProgressState;
   onBack: () => void;
   onOpenCertificate: () => void;
 }
 
-export function StatsScreen({ belts, progress, onBack, onOpenCertificate }: StatsScreenProps) {
+export function StatsScreen({ belts, ninjaBelts, progress, onBack, onOpenCertificate }: StatsScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
   const [sharedCopied, setSharedCopied] = useState(false);
@@ -100,6 +101,27 @@ export function StatsScreen({ belts, progress, onBack, onOpenCertificate }: Stat
       <p className={styles.medalHint}>{sharedCopied ? t.shareCopied : t.statBadgesShareHint}</p>
       <div className={styles.medalGrid}>
         {playableBelts.map((belt) => {
+          const last = belt.stripes[belt.stripes.length - 1];
+          const earned = last ? (progress.stripeResults[last.id]?.passed ?? false) : false;
+          if (!earned) return <BeltBadge key={belt.id} belt={belt} small locked />;
+          return (
+            <button
+              key={belt.id}
+              type="button"
+              className={styles.medalBtn}
+              onClick={() => handleShareBelt(belt)}
+              title={t.shareBeltCta}
+              aria-label={`${t.shareBeltCta}: ${belt.name[locale]}`}
+            >
+              <BeltBadge belt={belt} small />
+            </button>
+          );
+        })}
+      </div>
+
+      <h2 className={styles.sectionTitle}>{t.statNinjaBadgesTitle}</h2>
+      <div className={styles.medalGrid}>
+        {ninjaBelts.map((belt) => {
           const last = belt.stripes[belt.stripes.length - 1];
           const earned = last ? (progress.stripeResults[last.id]?.passed ?? false) : false;
           if (!earned) return <BeltBadge key={belt.id} belt={belt} small locked />;

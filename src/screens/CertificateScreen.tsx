@@ -24,6 +24,8 @@ const BELT_STRIP: Array<string | "coral"> = [
 
 interface CertificateScreenProps {
   belts: Belt[];
+  ninjaBelts: Belt[];
+  progress: import("../types").ProgressState;
   onBack: () => void;
 }
 
@@ -35,7 +37,10 @@ function loadName(): string {
   }
 }
 
-export function CertificateScreen({ belts, onBack }: CertificateScreenProps) {
+export function CertificateScreen({ belts, ninjaBelts, progress, onBack }: CertificateScreenProps) {
+  const ninjaMaster =
+    ninjaBelts.length > 0 &&
+    ninjaBelts.every((b) => b.stripes.every((s) => progress.stripeResults[s.id]?.passed));
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -131,6 +136,12 @@ export function CertificateScreen({ belts, onBack }: CertificateScreenProps) {
       x += stripWidth + gap;
     }
 
+    if (ninjaMaster) {
+      ctx.fillStyle = "#262323";
+      ctx.font = "700 26px Georgia, serif";
+      ctx.fillText(`🥷 ${t.certNinjaMaster}`, W / 2, 640);
+    }
+
     ctx.fillStyle = "#6b6154";
     ctx.font = "24px Georgia, serif";
     ctx.fillText(`${t.certDateLabel} ${dateText}`, W / 2, 680);
@@ -138,7 +149,7 @@ export function CertificateScreen({ belts, onBack }: CertificateScreenProps) {
     ctx.fillStyle = "#a89d8a";
     ctx.font = "700 22px Georgia, serif";
     ctx.fillText("playmathdojo.com", W / 2, 770);
-  }, [name, locale, t, totalStripes, dateText]);
+  }, [name, locale, t, totalStripes, dateText, ninjaMaster]);
 
   function handleDownload() {
     const canvas = canvasRef.current;
