@@ -18,6 +18,7 @@ interface LessonScreenProps {
   stripe: Stripe;
   onBack: () => void;
   onStart: () => void;
+  onSendToBoard: (text: string) => void;
 }
 
 /**
@@ -37,7 +38,7 @@ function renderHighlighted(text: string) {
   });
 }
 
-export function LessonScreen({ stripe, onBack, onStart }: LessonScreenProps) {
+export function LessonScreen({ stripe, onBack, onStart, onSendToBoard }: LessonScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
   const { lesson } = stripe;
@@ -148,6 +149,16 @@ export function LessonScreen({ stripe, onBack, onStart }: LessonScreenProps) {
               />
             )}
           </div>
+        )}
+
+        {(lesson.example.promptL10n?.[locale] ?? lesson.example.prompt) && (
+          <button
+            type="button"
+            className={styles.boardBtn}
+            onClick={() => onSendToBoard(lesson.example.promptL10n?.[locale] ?? lesson.example.prompt)}
+          >
+            🖍️ {t.boardSolveHere}
+          </button>
         )}
 
         <ol className={styles.steps}>

@@ -11,6 +11,11 @@ import { ResultsScreen } from "./screens/ResultsScreen";
 import { StatsScreen } from "./screens/StatsScreen";
 import { AccountScreen } from "./screens/AccountScreen";
 import { CertificateScreen } from "./screens/CertificateScreen";
+import { Whiteboard } from "./components/Whiteboard";
+import { addBoardText } from "./engine/whiteboard";
+import { useLocale } from "./i18n/LocaleContext";
+import { UI_STRINGS } from "./i18n/ui";
+import boardStyles from "./components/Whiteboard.module.css";
 import type { ProgressState, SessionSummary, Stripe } from "./types";
 
 type View =
@@ -39,7 +44,10 @@ function isPasswordRecoveryUrl(): boolean {
 }
 
 export default function App() {
+  const { locale } = useLocale();
+  const t = UI_STRINGS[locale];
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress());
+  const [boardOpen, setBoardOpen] = useState(false);
   const [view, setView] = useState<View>(() => (isPasswordRecoveryUrl() ? { name: "account" } : { name: "map" }));
   const [session, setSession] = useState<Session | null>(null);
   const [forceReset, setForceReset] = useState(() => isPasswordRecoveryUrl());
@@ -106,13 +114,30 @@ export default function App() {
     setView({ name: "certificate" });
   }
 
+  function sendToBoard(text: string) {
+    addBoardText(text, window.innerWidth, window.innerHeight);
+    setBoardOpen(true);
+  }
+
+  let screen: React.ReactElement;
   switch (view.name) {
     case "lesson":
-      return <LessonScreen stripe={view.stripe} onBack={goToMap} onStart={() => startDrill(view.stripe)} />;
+      screen = (
+        <LessonScreen
+          stripe={view.stripe}
+          onBack={goToMap}
+          onStart={() => startDrill(view.stripe)}
+          onSendToBoard={sendToBoard}
+        />
+      );
+      break;
     case "drill":
-      return <DrillScreen stripe={view.stripe} onComplete={completeDrill} onExit={goToMap} />;
+      screen = (
+        <DrillScreen stripe={view.stripe} onComplete={completeDrill} onExit={goToMap} onSendToBoard={sendToBoard} />
+      );
+      break;
     case "results":
-      return (
+      screen = (
         <ResultsScreen
           summary={view.summary}
           belts={belts}
@@ -121,10 +146,14 @@ export default function App() {
           onContinue={goToMap}
         />
       );
+      break;
     case "stats":
-      return <StatsScreen belts={belts} progress={progress} onBack={goToMap} />;
+      screen = (
+        <StatsScreen belts={belts} progress={progress} onBack={goToMap} onOpenCertificate={openCertificate} />
+      );
+      break;
     case "account":
-      return (
+      screen = (
         <AccountScreen
           session={session}
           forceReset={forceReset}
@@ -132,11 +161,13 @@ export default function App() {
           onResetHandled={() => setForceReset(false)}
         />
       );
+      break;
     case "certificate":
-      return <CertificateScreen belts={belts} onBack={goToMap} />;
+      screen = <CertificateScreen belts={belts} onBack={goToMap} />;
+      break;
     case "map":
     default:
-      return (
+      screen = (
         <MapScreen
           belts={belts}
           progress={progress}
@@ -148,4 +179,26 @@ export default function App() {
         />
       );
   }
+
+  // The drill already has its own per-exercise board button, and its NumPad
+  // owns the bottom of the screen — so the floating button hides there.
+  const showFab = !boardOpen && view.name !== "drill" && view.name !== "certificate";
+
+  return (
+    <>
+      {screen}
+      {boardOpen && <Whiteboard onClose={() => setBoardOpen(false)} />}
+      {showFab && (
+        <button
+          type="button"
+          className={boardStyles.fab}
+          onClick={() => setBoardOpen(true)}
+          aria-label={t.boardOpenAria}
+          title={t.boardOpenAria}
+        >
+          🖍️
+        </button>
+      )}
+    </>
+  );
 }

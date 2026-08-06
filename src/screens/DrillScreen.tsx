@@ -23,12 +23,13 @@ interface DrillScreenProps {
   stripe: Stripe;
   onComplete: (summary: SessionSummary) => void;
   onExit: () => void;
+  onSendToBoard: (text: string) => void;
 }
 
 type Feedback = "correct" | "incorrect" | null;
 type ActiveField = "primary" | "secondary";
 
-export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
+export function DrillScreen({ stripe, onComplete, onExit, onSendToBoard }: DrillScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
   const { problemsPerPage, pagesToMaster } = stripe.mastery;
@@ -292,7 +293,18 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
               ].join(" ")}
             >
               {(current.promptL10n?.[locale] ?? current.prompt) && (
-                <div className={styles.prompt}>{current.promptL10n?.[locale] ?? current.prompt}</div>
+                <>
+                  <button
+                    type="button"
+                    className={styles.boardBtn}
+                    onClick={() => onSendToBoard(current.promptL10n?.[locale] ?? current.prompt)}
+                    aria-label={t.boardSolveHere}
+                    title={t.boardSolveHere}
+                  >
+                    🖍️
+                  </button>
+                  <div className={styles.prompt}>{current.promptL10n?.[locale] ?? current.prompt}</div>
+                </>
               )}
               {current.diagram && (
                 <div className={styles.diagramWrap}>

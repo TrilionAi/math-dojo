@@ -1,6 +1,7 @@
 import type { Belt, ProgressState } from "../types";
 import { computeDayStreak } from "../engine/progress";
 import { computeGrade, type Grade } from "../engine/grading";
+import { BeltBadge } from "../components/BeltBadge";
 import { useLocale } from "../i18n/LocaleContext";
 import { UI_STRINGS } from "../i18n/ui";
 import styles from "./StatsScreen.module.css";
@@ -9,9 +10,10 @@ interface StatsScreenProps {
   belts: Belt[];
   progress: ProgressState;
   onBack: () => void;
+  onOpenCertificate: () => void;
 }
 
-export function StatsScreen({ belts, progress, onBack }: StatsScreenProps) {
+export function StatsScreen({ belts, progress, onBack, onOpenCertificate }: StatsScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
 
@@ -27,6 +29,8 @@ export function StatsScreen({ belts, progress, onBack }: StatsScreenProps) {
 
   const dayStreak = computeDayStreak(progress.practiceDays);
   const sessions = Object.values(progress.stripeResults).reduce((sum, r) => sum + r.attempts, 0);
+
+  const allComplete = passedStripes === totalStripes && totalStripes > 0;
 
   const gradeCounts: Record<Grade, number> = { S: 0, A: 0, B: 0 };
   for (const stripe of allStripes) {
@@ -80,6 +84,51 @@ export function StatsScreen({ belts, progress, onBack }: StatsScreenProps) {
         </div>
       </div>
       <p className={styles.gradeHint}>{t.statGradeHint}</p>
+
+      <h2 className={styles.sectionTitle}>{t.statBadgesTitle}</h2>
+      <div className={styles.medalGrid}>
+        {playableBelts.map((belt) => {
+          const last = belt.stripes[belt.stripes.length - 1];
+          const earned = last ? (progress.stripeResults[last.id]?.passed ?? false) : false;
+          return <BeltBadge key={belt.id} belt={belt} small locked={!earned} />;
+        })}
+      </div>
+
+      <div className={styles.certCard}>
+        <div className={[styles.certPreview, allComplete ? "" : styles.certPreviewLocked].join(" ")}>
+          <div className={styles.certPreviewInner}>
+            <div className={styles.certPreviewEyebrow}>M A T H &nbsp; D O J O</div>
+            <div className={styles.certPreviewTitle}>{t.certTitle}</div>
+            <div className={styles.certPreviewEmoji}>🥋</div>
+            <div className={styles.certPreviewName} />
+            <div className={styles.certPreviewStrip}>
+              {playableBelts.map((belt) => (
+                <span key={belt.id} className={styles.certPreviewStripe} style={{ background: `var(${belt.colorVar})` }} />
+              ))}
+            </div>
+          </div>
+          {!allComplete && (
+            <div className={styles.certLockOverlay}>
+              <span className={styles.certLockIcon}>🔒</span>
+              <span className={styles.certLockHint}>{t.certLockedHint(totalStripes - passedStripes)}</span>
+              <div className={styles.certProgressTrack}>
+                <div
+                  className={styles.certProgressFill}
+                  style={{ width: `${Math.round((passedStripes / Math.max(1, totalStripes)) * 100)}%` }}
+                />
+              </div>
+              <span className={styles.certProgressLabel}>
+                {passedStripes}/{totalStripes}
+              </span>
+            </div>
+          )}
+        </div>
+        {allComplete && (
+          <button type="button" className={styles.certViewBtn} onClick={onOpenCertificate}>
+            {t.certViewCta}
+          </button>
+        )}
+      </div>
 
       <div className={styles.beltList}>
         {playableBelts.map((belt) => {

@@ -1,0 +1,123 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background: #fdfaf3;
+  animation: boardIn 0.22s ease-out;
+}
+
+@keyframes boardIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.title {
+  font-weight: 800;
+  color: var(--color-ink);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: var(--fs-xl);
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  padding: var(--sp-1) var(--sp-3);
+  line-height: 1;
+}
+
+.canvas {
+  flex: 1;
+  width: 100%;
+  touch-action: none;
+  cursor: crosshair;
+  display: block;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-3) calc(var(--sp-3) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  flex-wrap: wrap;
+}
+
+.colorBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.toolBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  background: var(--color-surface-sunken);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toolActive {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-soft);
+}
+
+.divider {
+  width: 1px;
+  height: 28px;
+  background: var(--color-border);
+  margin: 0 var(--sp-1);
+}
+
+/* The floating "open the board" button, visible across the app. */
+.fab {
+  position: fixed;
+  right: max(var(--sp-4), env(safe-area-inset-right, 0px));
+  bottom: max(var(--sp-5), env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-ink);
+  color: #fff;
+  font-size: 24px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.fab:hover {
+  transform: scale(1.07);
+}

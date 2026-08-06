@@ -58,3 +58,36 @@
   text-transform: uppercase;
   color: var(--color-ink-faint);
 }
+
+.wrapSmall {
+  padding: var(--sp-2);
+  gap: 4px;
+  animation: none;
+}
+
+.wrapSmall .ribbon {
+  width: 22px;
+  height: 17px;
+  margin-bottom: -6px;
+}
+
+.wrapSmall .medal {
+  width: 58px;
+  height: 58px;
+  border-width: 3px;
+}
+
+.wrapSmall .medalEmoji {
+  font-size: 26px;
+}
+
+.wrapSmall .beltName {
+  font-size: var(--fs-xs);
+  text-align: center;
+  margin-top: 0;
+}
+
+.wrapLocked {
+  opacity: 0.55;
+  filter: grayscale(0.6);
+}

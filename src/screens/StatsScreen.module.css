@@ -165,3 +165,141 @@
 .beltRowComplete {
   color: var(--color-success);
 }
+
+.sectionTitle {
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  color: var(--color-ink);
+  margin: var(--sp-6) 0 var(--sp-2);
+}
+
+.medalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: var(--sp-1);
+  justify-items: center;
+  margin-bottom: var(--sp-5);
+}
+
+.certCard {
+  margin-bottom: var(--sp-6);
+}
+
+.certPreview {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md, 0 6px 18px rgba(0, 0, 0, 0.12));
+}
+
+.certPreviewInner {
+  background: #fdf8ee;
+  border: 6px double #d4a017;
+  border-radius: var(--radius-lg);
+  padding: var(--sp-6) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.certPreviewLocked .certPreviewInner {
+  filter: grayscale(0.7) blur(1.5px);
+  opacity: 0.55;
+}
+
+.certPreviewEyebrow {
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  color: #8a5a2b;
+  letter-spacing: 0.2em;
+}
+
+.certPreviewTitle {
+  font-family: Georgia, serif;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: #2b2620;
+}
+
+.certPreviewEmoji {
+  font-size: 26px;
+}
+
+.certPreviewName {
+  width: 60%;
+  height: 2px;
+  background: #d4a017;
+  margin: var(--sp-3) 0 var(--sp-2);
+}
+
+.certPreviewStrip {
+  display: flex;
+  gap: 5px;
+}
+
+.certPreviewStripe {
+  width: 22px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.certLockOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  text-align: center;
+}
+
+.certLockIcon {
+  font-size: 30px;
+}
+
+.certLockHint {
+  font-weight: 700;
+  color: var(--color-ink);
+  font-size: var(--fs-sm);
+  max-width: 320px;
+}
+
+.certProgressTrack {
+  width: min(280px, 80%);
+  height: 10px;
+  border-radius: var(--radius-pill, 999px);
+  background: rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.certProgressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #d4a017, #f2c14e);
+  transition: width 0.4s ease;
+}
+
+.certProgressLabel {
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  color: var(--color-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.certViewBtn {
+  display: block;
+  margin: var(--sp-3) auto 0;
+  background: linear-gradient(135deg, #d4a017, #f2c14e);
+  color: #3a2c00;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--sp-3) var(--sp-6);
+  font-weight: 800;
+  font-size: var(--fs-base);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(212, 160, 23, 0.4);
+}

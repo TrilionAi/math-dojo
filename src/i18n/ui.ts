@@ -81,6 +81,19 @@ interface UiStrings {
   certShare: string;
   certShareText: string;
   certBackToMap: string;
+  certViewCta: string;
+  certLockedHint: (missing: number) => string;
+  statBadgesTitle: string;
+  boardTitle: string;
+  boardOpenAria: string;
+  boardSolveHere: string;
+  boardPen: string;
+  boardEraser: string;
+  boardHand: string;
+  boardUndo: string;
+  boardClear: string;
+  boardResetView: string;
+  boardClose: string;
 }
 
 const en: UiStrings = {
@@ -169,6 +182,19 @@ const en: UiStrings = {
   certShare: "Share",
   certShareText: "🏆 I completed EVERY belt of Math Dojo — from counting to calculus!",
   certBackToMap: "Back to map",
+  certViewCta: "View my certificate",
+  certLockedHint: (missing) => `Master every stripe to unlock it — ${missing} to go.`,
+  statBadgesTitle: "Belt medals",
+  boardTitle: "Whiteboard",
+  boardOpenAria: "Open the whiteboard",
+  boardSolveHere: "Scratch it out on the whiteboard",
+  boardPen: "Pen",
+  boardEraser: "Eraser",
+  boardHand: "Move around",
+  boardUndo: "Undo",
+  boardClear: "Clear everything",
+  boardResetView: "Back to center",
+  boardClose: "Close the whiteboard",
 };
 
 const pt: UiStrings = {
@@ -257,6 +283,19 @@ const pt: UiStrings = {
   certShare: "Compartilhar",
   certShareText: "🏆 Completei TODAS as faixas do Math Dojo — de contar até o cálculo!",
   certBackToMap: "Voltar ao mapa",
+  certViewCta: "Ver meu certificado",
+  certLockedHint: (missing) => `Domine todos os graus para desbloquear — faltam ${missing}.`,
+  statBadgesTitle: "Medalhas das faixas",
+  boardTitle: "Lousa",
+  boardOpenAria: "Abrir a lousa",
+  boardSolveHere: "Rabiscar na lousa",
+  boardPen: "Caneta",
+  boardEraser: "Borracha",
+  boardHand: "Mover o quadro",
+  boardUndo: "Desfazer",
+  boardClear: "Limpar tudo",
+  boardResetView: "Voltar ao centro",
+  boardClose: "Fechar a lousa",
 };
 
 const es: UiStrings = {
@@ -345,6 +384,19 @@ const es: UiStrings = {
   certShare: "Compartir",
   certShareText: "🏆 ¡Completé TODOS los cinturones de Math Dojo — de contar hasta el cálculo!",
   certBackToMap: "Volver al mapa",
+  certViewCta: "Ver mi certificado",
+  certLockedHint: (missing) => `Domina todos los grados para desbloquearlo — faltan ${missing}.`,
+  statBadgesTitle: "Medallas de cinturones",
+  boardTitle: "Pizarra",
+  boardOpenAria: "Abrir la pizarra",
+  boardSolveHere: "Resolver en la pizarra",
+  boardPen: "Lápiz",
+  boardEraser: "Borrador",
+  boardHand: "Mover el tablero",
+  boardUndo: "Deshacer",
+  boardClear: "Borrar todo",
+  boardResetView: "Volver al centro",
+  boardClose: "Cerrar la pizarra",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };
