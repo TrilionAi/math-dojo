@@ -12,6 +12,8 @@ export interface NinjaQuestion {
   en: string;
   pt: string;
   es: string;
+  /** Sensei feedback: the trap + the path, never the final number (see Problem.explanation). */
+  explanation?: { en: string; pt: string; es: string };
   answer: number;
   secondaryAnswer?: number;
   secondaryFormat?: SecondaryAnswerFormat;
@@ -31,6 +33,7 @@ function toProblem(q: NinjaQuestion): Problem {
     promptL10n: { en: q.en, pt: q.pt, es: q.es },
     answer: q.answer,
     operands: [q.answer],
+    ...(q.explanation !== undefined ? { explanation: q.explanation } : {}),
     ...(q.secondaryAnswer !== undefined ? { secondaryAnswer: q.secondaryAnswer } : {}),
     ...(q.secondaryFormat !== undefined ? { secondaryFormat: q.secondaryFormat } : {}),
     ...(q.secondaryDigits !== undefined ? { secondaryDigits: q.secondaryDigits } : {}),

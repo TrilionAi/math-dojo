@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { AttemptRecord, Problem, SessionSummary, Stripe } from "../types";
-import { evaluateSession } from "../engine/progress";
+import { evaluateSession, isReviewModeActive } from "../engine/progress";
 import { isMuted, playCorrect, playIncorrect, playPageComplete, playStreakMilestone, setMuted } from "../engine/sound";
 import { NumPad } from "../components/NumPad";
 import { ProgressBar } from "../components/ProgressBar";
@@ -342,7 +342,12 @@ export function DrillScreen({
         <span className={styles.count}>{t.pageLabel(currentPageNumber, pagesToMaster)}</span>
       </div>
 
-      <div className={styles.problemArea}>
+      <div
+        className={[styles.problemArea, !isReviewModeActive() ? styles.noCopy : ""].join(" ")}
+        onCopy={(e) => !isReviewModeActive() && e.preventDefault()}
+        onCut={(e) => !isReviewModeActive() && e.preventDefault()}
+        onContextMenu={(e) => !isReviewModeActive() && e.preventDefault()}
+      >
         {pageEnd !== null ? (
           pageEnd.kind === "passed" ? (
             <div className={styles.pageBreakCard}>
@@ -516,6 +521,16 @@ export function DrillScreen({
               </div>
               {feedback === "incorrect" && (
                 <>
+                  {current.explanation && (
+                    <div className={styles.senseiHint}>
+                      <div className={styles.senseiTitle}>{t.senseiHintTitle}</div>
+                      <p className={styles.senseiText}>{current.explanation[locale]}</p>
+                      {(attemptsRef.current.get(current.id)?.mistakeCount ?? 1) < 2 && (
+                        <p className={styles.senseiRetry}>{t.senseiTryAgain}</p>
+                      )}
+                    </div>
+                  )}
+                  {(!current.explanation || (attemptsRef.current.get(current.id)?.mistakeCount ?? 1) >= 2) && (
                   <div className={styles.revealCorrect}>
                     {hasSecondary
                       ? current.secondaryFormat === "fraction"
@@ -532,6 +547,7 @@ export function DrillScreen({
                               : t.correctAnswerRevealWithRemainder(current.answer, current.secondaryAnswer!)
                       : t.correctAnswerReveal(current.answer)}
                   </div>
+                  )}
                   <button type="button" className={styles.errorOkBtn} onClick={handleErrorContinue}>
                     {t.errorContinue}
                   </button>

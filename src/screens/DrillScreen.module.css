@@ -349,3 +349,45 @@
   padding: var(--sp-2) 44px var(--sp-2) 0;
   overscroll-behavior: contain;
 }
+
+/* Sensei feedback: on the first miss the trap is explained, never the number —
+   the retry stays a real retry. The number only appears from the second miss. */
+.senseiHint {
+  margin-top: var(--sp-4);
+  text-align: left;
+  background: var(--color-surface-sunken);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  animation: pop-in var(--dur-fast) var(--ease-out);
+}
+
+.senseiTitle {
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  color: var(--color-primary);
+  margin-bottom: var(--sp-2);
+}
+
+.senseiText {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.senseiRetry {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--color-ink-soft);
+}
+
+/* Exam content is for solving, not for copy-pasting into a solver. Real
+   protection is impossible on the open web (a phone photo beats anything),
+   but this stops the casual select-copy flow. Review mode (?unlock=all)
+   turns it off for content checking. */
+.noCopy {
+  -webkit-user-select: none;
+  user-select: none;
+}

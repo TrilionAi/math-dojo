@@ -196,3 +196,8 @@
   margin-top: var(--sp-3);
   font-weight: 700;
 }
+
+.noCopy {
+  -webkit-user-select: none;
+  user-select: none;
+}

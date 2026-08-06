@@ -1,5 +1,6 @@
 import type { Stripe } from "../types";
 import { isTimedMode } from "../engine/settings";
+import { isReviewModeActive } from "../engine/progress";
 import { useLocale } from "../i18n/LocaleContext";
 import { UI_STRINGS } from "../i18n/ui";
 import { GroupDiagram } from "../components/GroupDiagram";
@@ -58,7 +59,11 @@ export function LessonScreen({ stripe, onBack, onStart, onSendToBoard }: LessonS
       <div className={styles.card}>
         <p className={styles.intro}>{lesson.intro[locale]}</p>
 
-        <div className={styles.exampleProblem}>
+        <div
+          className={[styles.exampleProblem, !isReviewModeActive() ? styles.noCopy : ""].join(" ")}
+          onCopy={(e) => !isReviewModeActive() && e.preventDefault()}
+          onContextMenu={(e) => !isReviewModeActive() && e.preventDefault()}
+        >
           {(() => {
             const exampleText = lesson.example.promptL10n?.[locale] ?? lesson.example.prompt;
             if (lesson.example.promptL10n && exampleText.length > 90) {

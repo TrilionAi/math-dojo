@@ -118,6 +118,8 @@ interface UiStrings {
   beltOpenCta: string;
   beltContinueCta: string;
   beltCloseCta: string;
+  senseiHintTitle: string;
+  senseiTryAgain: string;
 }
 
 const en: UiStrings = {
@@ -245,6 +247,8 @@ const en: UiStrings = {
   beltOpenCta: "Open",
   beltContinueCta: "Continue",
   beltCloseCta: "Close",
+  senseiHintTitle: "🥷 Sensei's hint",
+  senseiTryAgain: "Use the hint and try this one again",
 };
 
 const pt: UiStrings = {
@@ -372,6 +376,8 @@ const pt: UiStrings = {
   beltOpenCta: "Abrir",
   beltContinueCta: "Continuar",
   beltCloseCta: "Fechar",
+  senseiHintTitle: "🥷 Dica do sensei",
+  senseiTryAgain: "Use a dica e tente essa de novo",
 };
 
 const es: UiStrings = {
@@ -499,6 +505,8 @@ const es: UiStrings = {
   beltOpenCta: "Abrir",
   beltContinueCta: "Continuar",
   beltCloseCta: "Cerrar",
+  senseiHintTitle: "🥷 Consejo del sensei",
+  senseiTryAgain: "Usa el consejo e inténtalo de nuevo",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

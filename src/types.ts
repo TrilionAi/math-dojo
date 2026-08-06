@@ -60,6 +60,10 @@ export interface Problem {
   /** Present when the prompt needs words, not just math notation (e.g. "MDC(24, 36)",
    * "25% of 80") — the UI shows the current locale's version and falls back to `prompt`. */
   promptL10n?: LocalizedText;
+  /** Teacher feedback for exam-tier questions: names the trap and the correct path
+   * WITHOUT stating the final number. Shown on the first miss instead of the answer
+   * (the answer itself only appears from the second miss on), so the retry stays real. */
+  explanation?: LocalizedText;
   answer: number;
   operands: number[];
   /** Present only for two-part answers — division's leftover, a fraction's denominator,
