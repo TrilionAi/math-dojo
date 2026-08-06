@@ -386,7 +386,18 @@ export function DrillScreen({
                   >
                     🖍️
                   </button>
-                  <div className={styles.prompt}>{current.promptL10n?.[locale] ?? current.prompt}</div>
+                  {(() => {
+                    const promptText = current.promptL10n?.[locale] ?? current.prompt;
+                    // Long word problems become a reading passage, not a giant centered
+                    // equation; medium math prompts just step down a font size.
+                    const className =
+                      current.promptL10n && promptText.length > 90
+                        ? styles.passage
+                        : promptText.length > 26
+                          ? [styles.prompt, styles.promptCompact].join(" ")
+                          : styles.prompt;
+                    return <div className={className}>{promptText}</div>;
+                  })()}
                 </>
               )}
               {current.diagram && (

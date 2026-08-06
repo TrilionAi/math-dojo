@@ -59,7 +59,27 @@ export function LessonScreen({ stripe, onBack, onStart, onSendToBoard }: LessonS
         <p className={styles.intro}>{lesson.intro[locale]}</p>
 
         <div className={styles.exampleProblem}>
-          {lesson.example.isEquation ? (
+          {(() => {
+            const exampleText = lesson.example.promptL10n?.[locale] ?? lesson.example.prompt;
+            if (lesson.example.promptL10n && exampleText.length > 90) {
+              return (
+                <>
+                  <div className={styles.examplePassage}>{exampleText}</div>
+                  <div className={styles.examplePassageAnswer}>
+                    {lesson.example.isEquation ? (lesson.example.equationLabel ?? "x =") : "="}{" "}
+                    <span className={styles.exampleAnswer}>{lesson.example.answer}</span>
+                    {lesson.example.secondaryAnswer !== undefined && (
+                      <>
+                        {lesson.example.secondaryFormat === "pair" ? ", " : " "}
+                        <span className={styles.exampleAnswer}>{lesson.example.secondaryAnswer}</span>
+                      </>
+                    )}
+                  </div>
+                </>
+              );
+            }
+            return null;
+          })() ?? (lesson.example.isEquation ? (
             <div className={styles.exampleEquation}>
               <div>{lesson.example.promptL10n?.[locale] ?? lesson.example.prompt}</div>
               <div>
@@ -106,7 +126,7 @@ export function LessonScreen({ stripe, onBack, onStart, onSendToBoard }: LessonS
                 </>
               )}
             </>
-          )}
+          ))}
         </div>
 
         {lesson.diagram && (

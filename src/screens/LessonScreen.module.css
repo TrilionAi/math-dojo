@@ -182,3 +182,17 @@
   border-color: var(--color-primary);
   color: var(--color-ink);
 }
+
+.examplePassage {
+  text-align: left;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--color-ink);
+  white-space: pre-line;
+}
+
+.examplePassageAnswer {
+  margin-top: var(--sp-3);
+  font-weight: 700;
+}

@@ -329,3 +329,23 @@
     0 8px 20px rgba(0, 0, 0, 0.07),
     0 20px 44px rgba(0, 0, 0, 0.06);
 }
+
+/* Medium-length math prompts step down so they never squeeze the card. */
+.promptCompact {
+  font-size: var(--fs-xl);
+  line-height: 1.3;
+}
+
+/* Reading passages: a real text block, like the printed exam booklet. */
+.passage {
+  text-align: left;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--color-ink);
+  white-space: pre-line;
+  max-height: 44vh;
+  overflow-y: auto;
+  padding: var(--sp-2) 44px var(--sp-2) 0;
+  overscroll-behavior: contain;
+}
