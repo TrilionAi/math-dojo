@@ -141,6 +141,65 @@ import {
   generateReferenceAngle,
   generateTrigMix,
   generateRedBeltMix,
+  generateNegativeExponent,
+  generateSolveExponential,
+  generateLogMeaning,
+  generateLog10,
+  generateLogProductRule,
+  generateLogQuotientRule,
+  generateSolveLog,
+  generateLogProduct,
+  generateShiftedExponential,
+  generateLogsMix,
+  generateNextTermAP,
+  generateNthTermAP,
+  generateSumAP,
+  generateNextTermGP,
+  generateNthTermGP,
+  generateSumGP,
+  generateInfiniteGP,
+  generateFindRatio,
+  generateRecursiveSequence,
+  generateSequencesMix,
+  generateMultiplicationPrinciple,
+  generateFactorial,
+  generateFactorialQuotient,
+  generateArrangements,
+  generateCombinations,
+  generateDieProbability,
+  generateIndependentEvents,
+  generateComplementProbability,
+  generateUrnProbability,
+  generateCountingMix,
+  generateMatrixElement,
+  generateDet2x2,
+  generateDetZero,
+  generateDet3x3,
+  generateTrace,
+  generateDotProduct,
+  generateGeneralSystem,
+  generateMatricesMix,
+  generatePolynomialDegree,
+  generateEvaluatePolynomial,
+  generateRemainderTheorem,
+  generateGirardQuadratic,
+  generateGirardCubic,
+  generatePowersOfI,
+  generateComplexAddition,
+  generateComplexMultiplication,
+  generateComplexModulus,
+  generatePolynomialsMix,
+  generateDistanceBetweenPoints,
+  generateMidpoint,
+  generateIntegerSlope,
+  generateLineThroughPoint,
+  generateLineXIntercept,
+  generatePerpendicularSlope,
+  generateCircleRadius,
+  generateCircleCenter,
+  generateCircleThroughPoint,
+  generateAnalyticGeometryMix,
+  generateGoldBeltMix,
   generateLimitLinearConcept,
   generateLimitQuadratic,
   generateLimitFactoring,
@@ -6773,10 +6832,2716 @@ const redBelt: Belt = {
   ],
 };
 
+const logsDegree = {
+  index: 1,
+  name: { en: "Logs & Exponentials", pt: "Logaritmos e Exponenciais", es: "Logaritmos y Exponenciales" } as LocalizedText,
+};
+
+const sequencesDegree = {
+  index: 2,
+  name: { en: "Sequences", pt: "Sequências (PA e PG)", es: "Sucesiones" } as LocalizedText,
+};
+
+const countingDegree = {
+  index: 3,
+  name: { en: "Counting & Probability", pt: "Combinatória e Probabilidade", es: "Conteo y Probabilidad" } as LocalizedText,
+};
+
+const matricesDegree = {
+  index: 4,
+  name: { en: "Matrices & Systems", pt: "Matrizes e Sistemas", es: "Matrices y Sistemas" } as LocalizedText,
+};
+
+const polynomialsDegree = {
+  index: 5,
+  name: { en: "Polynomials & Complex Numbers", pt: "Polinômios e Números Complexos", es: "Polinomios y Números Complejos" } as LocalizedText,
+};
+
+const analyticDegree = {
+  index: 6,
+  name: { en: "Analytic Geometry", pt: "Geometria Analítica", es: "Geometría Analítica" } as LocalizedText,
+};
+
+const goldExamDegree = {
+  index: 7,
+  name: { en: "Belt Exam", pt: "Prova da Faixa", es: "Examen del Cinturón" } as LocalizedText,
+};
+
+const goldBelt: Belt = {
+  id: "gold",
+  name: { en: "Gold Belt", pt: "Faixa Dourada", es: "Cinturón Dorado" },
+  order: 8,
+  operationLabel: {
+    en: "Logs · Sequences · Probability · Matrices · Complex · Analytic",
+    pt: "Logs · Sequências · Probabilidade · Matrizes · Complexos · Analítica",
+    es: "Logs · Sucesiones · Probabilidad · Matrices · Complejos · Analítica",
+  },
+  colorVar: "--belt-gold",
+  tagline: {
+    en: "The entrance-exam arsenal — everything the hardest tests love to ask.",
+    pt: "O arsenal do vestibular — tudo o que as provas mais difíceis adoram cobrar.",
+    es: "El arsenal del examen de admisión — todo lo que las pruebas más difíciles preguntan.",
+  },
+  stripes: [
+    {
+      id: "gold-1",
+      beltId: "gold",
+      index: 1,
+      degree: logsDegree,
+      title: { en: "Negative exponents", pt: "Expoentes negativos", es: "Exponentes negativos" },
+      summary: {
+        en: "A minus in the exponent flips the power into a fraction.",
+        pt: "Um menos no expoente vira a potência de cabeça para baixo.",
+        es: "Un menos en el exponente voltea la potencia en una fracción.",
+      },
+      lesson: {
+        intro: {
+          en: "b⁻ⁿ means 1/bⁿ. Compute the positive power first, then put 1 over it.",
+          pt: "b⁻ⁿ significa 1/bⁿ. Calcule a potência positiva primeiro, depois ponha 1 em cima.",
+          es: "b⁻ⁿ significa 1/bⁿ. Calcula la potencia positiva primero, luego pon 1 encima.",
+        },
+        example: {
+          id: "ex-gold-1",
+          prompt: "2⁻²",
+          answer: 1,
+          secondaryAnswer: 4,
+          secondaryFormat: "fraction",
+          operands: [2, 2],
+        },
+        steps: [
+          {
+            text: {
+              en: "The positive power: 2² = {{4}}.",
+              pt: "A potência positiva: 2² = {{4}}.",
+              es: "La potencia positiva: 2² = {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "The minus flips it: 1/{{4}}.",
+              pt: "O menos inverte: 1/{{4}}.",
+              es: "El menos la invierte: 1/{{4}}.",
+            },
+          },
+          { text: { en: "2⁻² = 1/4.", pt: "2⁻² = 1/4.", es: "2⁻² = 1/4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateNegativeExponent,
+    },
+    {
+      id: "gold-2",
+      beltId: "gold",
+      index: 2,
+      degree: logsDegree,
+      title: { en: "Exponential equations", pt: "Equações exponenciais", es: "Ecuaciones exponenciales" },
+      summary: {
+        en: "Recognize the power: 2ˣ = 32 asks which power of 2 gives 32.",
+        pt: "Reconheça a potência: 2ˣ = 32 pergunta qual potência de 2 dá 32.",
+        es: "Reconoce la potencia: 2ˣ = 32 pregunta qué potencia de 2 da 32.",
+      },
+      lesson: {
+        intro: {
+          en: "Walk up the powers of the base until you land on the target — the number of steps is x.",
+          pt: "Suba pelas potências da base até chegar no alvo — o número de passos é o x.",
+          es: "Sube por las potencias de la base hasta llegar al objetivo — el número de pasos es x.",
+        },
+        example: { id: "ex-gold-2", prompt: "2ˣ = 32", answer: 5, operands: [2, 32], isEquation: true },
+        steps: [
+          {
+            text: {
+              en: "Powers of 2: 2, 4, 8, 16, {{32}}.",
+              pt: "Potências de 2: 2, 4, 8, 16, {{32}}.",
+              es: "Potencias de 2: 2, 4, 8, 16, {{32}}.",
+            },
+          },
+          {
+            text: {
+              en: "{{32}} is the 5th power: 2⁵ = 32.",
+              pt: "{{32}} é a 5ª potência: 2⁵ = 32.",
+              es: "{{32}} es la 5ª potencia: 2⁵ = 32.",
+            },
+          },
+          { text: { en: "x = 5.", pt: "x = 5.", es: "x = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateSolveExponential,
+    },
+    {
+      id: "gold-3",
+      beltId: "gold",
+      index: 3,
+      degree: logsDegree,
+      title: { en: "What a log means", pt: "O que significa um logaritmo", es: "Qué significa un logaritmo" },
+      summary: {
+        en: "log₂ 8 asks: 2 to what power gives 8?",
+        pt: "log₂ 8 pergunta: 2 elevado a quanto dá 8?",
+        es: "log₂ 8 pregunta: ¿2 elevado a qué da 8?",
+      },
+      lesson: {
+        intro: {
+          en: "A logarithm is an exponent hunt. log_b n is the power you raise b to in order to reach n.",
+          pt: "Um logaritmo é uma caça ao expoente. log_b n é a potência que eleva b até chegar em n.",
+          es: "Un logaritmo es una búsqueda del exponente. log_b n es la potencia a la que elevas b para llegar a n.",
+        },
+        example: { id: "ex-gold-3", prompt: "log₂ 8", answer: 3, operands: [2, 8] },
+        steps: [
+          {
+            text: {
+              en: "Rewrite as a question: 2^? = 8.",
+              pt: "Reescreva como pergunta: 2^? = 8.",
+              es: "Reescríbelo como pregunta: 2^? = 8.",
+            },
+          },
+          {
+            text: {
+              en: "2 × 2 × 2 = 8, so the exponent is {{3}}.",
+              pt: "2 × 2 × 2 = 8, então o expoente é {{3}}.",
+              es: "2 × 2 × 2 = 8, así que el exponente es {{3}}.",
+            },
+          },
+          { text: { en: "log₂ 8 = 3.", pt: "log₂ 8 = 3.", es: "log₂ 8 = 3." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateLogMeaning,
+    },
+    {
+      id: "gold-4",
+      beltId: "gold",
+      index: 4,
+      degree: logsDegree,
+      title: { en: "Base-10 logs", pt: "Logaritmo na base 10", es: "Logaritmos en base 10" },
+      summary: {
+        en: "log of a power of ten just counts the zeros.",
+        pt: "O log de uma potência de 10 só conta os zeros.",
+        es: "El log de una potencia de 10 solo cuenta los ceros.",
+      },
+      lesson: {
+        intro: {
+          en: "When no base is written, it's base 10. log 1000 asks 10^? = 1000 — count the zeros.",
+          pt: "Quando não há base escrita, é base 10. log 1000 pergunta 10^? = 1000 — conte os zeros.",
+          es: "Cuando no hay base escrita, es base 10. log 1000 pregunta 10^? = 1000 — cuenta los ceros.",
+        },
+        example: { id: "ex-gold-4", prompt: "log 1000", answer: 3, operands: [1000] },
+        steps: [
+          {
+            text: {
+              en: "1000 has {{3}} zeros.",
+              pt: "1000 tem {{3}} zeros.",
+              es: "1000 tiene {{3}} ceros.",
+            },
+          },
+          {
+            text: {
+              en: "10³ = 1000, so log 1000 = {{3}}.",
+              pt: "10³ = 1000, então log 1000 = {{3}}.",
+              es: "10³ = 1000, así que log 1000 = {{3}}.",
+            },
+          },
+          { text: { en: "log 1000 = 3.", pt: "log 1000 = 3.", es: "log 1000 = 3." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 5, passAccuracy: 0.8, targetTimeSec: 7 },
+      generate: generateLog10,
+    },
+    {
+      id: "gold-5",
+      beltId: "gold",
+      index: 5,
+      degree: logsDegree,
+      title: { en: "The product rule", pt: "A regra do produto", es: "La regla del producto" },
+      summary: {
+        en: "log m + log n = log (m × n) — adding logs multiplies the insides.",
+        pt: "log m + log n = log (m × n) — somar logs multiplica o que está dentro.",
+        es: "log m + log n = log (m × n) — sumar logs multiplica lo de adentro.",
+      },
+      lesson: {
+        intro: {
+          en: "Same base? Adding the logs is the same as one log of the product. Multiply the insides, then take a single log.",
+          pt: "Mesma base? Somar os logs é o mesmo que um log só do produto. Multiplique o que está dentro e tire um log só.",
+          es: "¿Misma base? Sumar los logs es lo mismo que un solo log del producto. Multiplica lo de adentro y toma un solo log.",
+        },
+        example: { id: "ex-gold-5", prompt: "log₂ 4 + log₂ 8", answer: 5, operands: [4, 8] },
+        steps: [
+          {
+            text: {
+              en: "Multiply the insides: 4 × 8 = {{32}}.",
+              pt: "Multiplique o que está dentro: 4 × 8 = {{32}}.",
+              es: "Multiplica lo de adentro: 4 × 8 = {{32}}.",
+            },
+          },
+          {
+            text: {
+              en: "log₂ {{32}} = 5, since 2⁵ = 32.",
+              pt: "log₂ {{32}} = 5, pois 2⁵ = 32.",
+              es: "log₂ {{32}} = 5, pues 2⁵ = 32.",
+            },
+          },
+          { text: { en: "The answer is 5.", pt: "A resposta é 5.", es: "La respuesta es 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateLogProductRule,
+    },
+    {
+      id: "gold-6",
+      beltId: "gold",
+      index: 6,
+      degree: logsDegree,
+      title: { en: "The quotient rule", pt: "A regra do quociente", es: "La regla del cociente" },
+      summary: {
+        en: "log m − log n = log (m ÷ n).",
+        pt: "log m − log n = log (m ÷ n).",
+        es: "log m − log n = log (m ÷ n).",
+      },
+      lesson: {
+        intro: {
+          en: "Subtracting logs with the same base divides the insides. Divide first, then take one log.",
+          pt: "Subtrair logs de mesma base divide o que está dentro. Divida primeiro, depois tire um log só.",
+          es: "Restar logs de la misma base divide lo de adentro. Divide primero, luego toma un solo log.",
+        },
+        example: { id: "ex-gold-6", prompt: "log₂ 32 − log₂ 4", answer: 3, operands: [32, 4] },
+        steps: [
+          {
+            text: {
+              en: "Divide the insides: 32 ÷ 4 = {{8}}.",
+              pt: "Divida o que está dentro: 32 ÷ 4 = {{8}}.",
+              es: "Divide lo de adentro: 32 ÷ 4 = {{8}}.",
+            },
+          },
+          {
+            text: {
+              en: "log₂ {{8}} = 3, since 2³ = 8.",
+              pt: "log₂ {{8}} = 3, pois 2³ = 8.",
+              es: "log₂ {{8}} = 3, pues 2³ = 8.",
+            },
+          },
+          { text: { en: "The answer is 3.", pt: "A resposta é 3.", es: "La respuesta es 3." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateLogQuotientRule,
+    },
+    {
+      id: "gold-7",
+      beltId: "gold",
+      index: 7,
+      degree: logsDegree,
+      title: { en: "Solving log equations", pt: "Resolvendo equações com log", es: "Resolviendo ecuaciones con log" },
+      summary: {
+        en: "log₂ x = 5 unwraps to x = 2⁵.",
+        pt: "log₂ x = 5 se desfaz em x = 2⁵.",
+        es: "log₂ x = 5 se convierte en x = 2⁵.",
+      },
+      lesson: {
+        intro: {
+          en: "A log equation is an exponent in disguise: log_b x = k means x = bᵏ. Rewrite and compute the power.",
+          pt: "Uma equação com log é um expoente disfarçado: log_b x = k significa x = bᵏ. Reescreva e calcule a potência.",
+          es: "Una ecuación con log es un exponente disfrazado: log_b x = k significa x = bᵏ. Reescribe y calcula la potencia.",
+        },
+        example: { id: "ex-gold-7", prompt: "log₂ x = 5", answer: 32, operands: [2, 5], isEquation: true },
+        steps: [
+          {
+            text: {
+              en: "Rewrite as a power: x = 2⁵.",
+              pt: "Reescreva como potência: x = 2⁵.",
+              es: "Reescribe como potencia: x = 2⁵.",
+            },
+          },
+          {
+            text: {
+              en: "Compute: 2⁵ = {{32}}.",
+              pt: "Calcule: 2⁵ = {{32}}.",
+              es: "Calcula: 2⁵ = {{32}}.",
+            },
+          },
+          { text: { en: "x = 32.", pt: "x = 32.", es: "x = 32." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateSolveLog,
+    },
+    {
+      id: "gold-8",
+      beltId: "gold",
+      index: 8,
+      degree: logsDegree,
+      title: { en: "Multiplying logs", pt: "Multiplicando logs", es: "Multiplicando logs" },
+      summary: {
+        en: "Evaluate each log separately, then multiply the results.",
+        pt: "Calcule cada log separado, depois multiplique os resultados.",
+        es: "Evalúa cada log por separado, luego multiplica los resultados.",
+      },
+      lesson: {
+        intro: {
+          en: "When two logs multiply, there's no shortcut rule — just evaluate each one and multiply the answers.",
+          pt: "Quando dois logs se multiplicam, não há regra de atalho — calcule cada um e multiplique as respostas.",
+          es: "Cuando dos logs se multiplican, no hay regla de atajo — evalúa cada uno y multiplica las respuestas.",
+        },
+        example: { id: "ex-gold-8", prompt: "log₂ 8 × log₃ 9", answer: 6, operands: [8, 9] },
+        steps: [
+          {
+            text: {
+              en: "First log: log₂ 8 = {{3}}.",
+              pt: "Primeiro log: log₂ 8 = {{3}}.",
+              es: "Primer log: log₂ 8 = {{3}}.",
+            },
+          },
+          {
+            text: {
+              en: "Second log: log₃ 9 = {{2}}.",
+              pt: "Segundo log: log₃ 9 = {{2}}.",
+              es: "Segundo log: log₃ 9 = {{2}}.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: {{3}} × {{2}} = 6.",
+              pt: "Multiplique: {{3}} × {{2}} = 6.",
+              es: "Multiplica: {{3}} × {{2}} = 6.",
+            },
+          },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateLogProduct,
+    },
+    {
+      id: "gold-9",
+      beltId: "gold",
+      index: 9,
+      degree: logsDegree,
+      title: { en: "Shifted exponentials", pt: "Exponenciais deslocadas", es: "Exponenciales desplazadas" },
+      summary: {
+        en: "2ˣ⁺¹ = 16 — match the exponents, then peel off the shift.",
+        pt: "2ˣ⁺¹ = 16 — iguale os expoentes, depois tire o deslocamento.",
+        es: "2ˣ⁺¹ = 16 — iguala los exponentes, luego quita el desplazamiento.",
+      },
+      lesson: {
+        intro: {
+          en: "Write the right side as a power of the same base. Then the exponents must be equal — solve that little equation.",
+          pt: "Escreva o lado direito como potência da mesma base. Aí os expoentes têm que ser iguais — resolva essa equaçãozinha.",
+          es: "Escribe el lado derecho como potencia de la misma base. Entonces los exponentes deben ser iguales — resuelve esa pequeña ecuación.",
+        },
+        example: { id: "ex-gold-9", prompt: "2ˣ⁺¹ = 16", answer: 3, operands: [2, 1, 16], isEquation: true },
+        steps: [
+          {
+            text: {
+              en: "16 as a power of 2: 16 = 2⁴.",
+              pt: "16 como potência de 2: 16 = 2⁴.",
+              es: "16 como potencia de 2: 16 = 2⁴.",
+            },
+          },
+          {
+            text: {
+              en: "Match exponents: x + 1 = {{4}}.",
+              pt: "Iguale os expoentes: x + 1 = {{4}}.",
+              es: "Iguala los exponentes: x + 1 = {{4}}.",
+            },
+          },
+          { text: { en: "x = 3.", pt: "x = 3.", es: "x = 3." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateShiftedExponential,
+    },
+    {
+      id: "gold-10",
+      beltId: "gold",
+      index: 10,
+      degree: logsDegree,
+      title: { en: "Logs & exponentials, mixed", pt: "Logs e exponenciais, misturados", es: "Logs y exponenciales, mezclados" },
+      summary: {
+        en: "Every log and exponential skill — shuffled.",
+        pt: "Todas as habilidades de log e exponencial — embaralhadas.",
+        es: "Todas las habilidades de logs y exponenciales — revueltas.",
+      },
+      lesson: {
+        intro: {
+          en: "Anything from this degree can appear: rules, equations, negative exponents. Identify the shape first.",
+          pt: "Qualquer coisa deste nível pode aparecer: regras, equações, expoentes negativos. Identifique o formato primeiro.",
+          es: "Cualquier cosa de este nivel puede aparecer: reglas, ecuaciones, exponentes negativos. Identifica la forma primero.",
+        },
+        example: { id: "ex-gold-10", prompt: "log₅ 25", answer: 2, operands: [5, 25] },
+        steps: [
+          {
+            text: {
+              en: "Ask: 5^? = 25.",
+              pt: "Pergunte: 5^? = 25.",
+              es: "Pregunta: 5^? = 25.",
+            },
+          },
+          {
+            text: {
+              en: "5² = 25, so the answer is 2.",
+              pt: "5² = 25, então a resposta é 2.",
+              es: "5² = 25, así que la respuesta es 2.",
+            },
+          },
+          { text: { en: "log₅ 25 = 2.", pt: "log₅ 25 = 2.", es: "log₅ 25 = 2." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateLogsMix,
+    },
+    {
+      id: "gold-11",
+      beltId: "gold",
+      index: 1,
+      degree: sequencesDegree,
+      title: { en: "Continuing an AP", pt: "Continuando uma PA", es: "Continuando una PA" },
+      summary: {
+        en: "Spot the constant jump between terms.",
+        pt: "Perceba o salto constante entre os termos.",
+        es: "Detecta el salto constante entre términos.",
+      },
+      lesson: {
+        intro: {
+          en: "In an arithmetic progression each term grows by the same amount — the common difference. Find it, then jump once more.",
+          pt: "Numa progressão aritmética cada termo cresce a mesma quantidade — a razão. Encontre-a, depois dê mais um salto.",
+          es: "En una progresión aritmética cada término crece la misma cantidad — la diferencia común. Hállala, luego salta una vez más.",
+        },
+        example: { id: "ex-gold-11", prompt: "3, 7, 11, …", answer: 15, operands: [3, 4] },
+        steps: [
+          {
+            text: {
+              en: "The jump: 7 − 3 = {{4}} (and 11 − 7 = {{4}} too).",
+              pt: "O salto: 7 − 3 = {{4}} (e 11 − 7 = {{4}} também).",
+              es: "El salto: 7 − 3 = {{4}} (y 11 − 7 = {{4}} también).",
+            },
+          },
+          {
+            text: {
+              en: "One more jump: 11 + {{4}} = 15.",
+              pt: "Mais um salto: 11 + {{4}} = 15.",
+              es: "Un salto más: 11 + {{4}} = 15.",
+            },
+          },
+          { text: { en: "Next term: 15.", pt: "Próximo termo: 15.", es: "Siguiente término: 15." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 5, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateNextTermAP,
+    },
+    {
+      id: "gold-12",
+      beltId: "gold",
+      index: 2,
+      degree: sequencesDegree,
+      title: { en: "The nth term of an AP", pt: "O termo geral da PA", es: "El término general de la PA" },
+      summary: {
+        en: "aₙ = a₁ + (n − 1)d — jump (n − 1) times at once.",
+        pt: "aₙ = a₁ + (n − 1)r — dê (n − 1) saltos de uma vez.",
+        es: "aₙ = a₁ + (n − 1)d — salta (n − 1) veces de una vez.",
+      },
+      lesson: {
+        intro: {
+          en: "To reach the 10th term you jump 9 times from the 1st. Multiply the difference by (n − 1) and add to a₁.",
+          pt: "Para chegar ao 10º termo você dá 9 saltos a partir do 1º. Multiplique a razão por (n − 1) e some ao a₁.",
+          es: "Para llegar al 10º término saltas 9 veces desde el 1º. Multiplica la diferencia por (n − 1) y súmala a a₁.",
+        },
+        example: {
+          id: "ex-gold-12",
+          prompt: "AP: a₁ = 3, d = 4 — a₁₀?",
+          promptL10n: {
+            en: "AP: a₁ = 3, d = 4 — a₁₀?",
+            pt: "PA: a₁ = 3, r = 4 — a₁₀?",
+            es: "PA: a₁ = 3, d = 4 — ¿a₁₀?",
+          },
+          answer: 39,
+          operands: [3, 4, 10],
+        },
+        steps: [
+          {
+            text: {
+              en: "From a₁ to a₁₀ there are 9 jumps: 9 × 4 = {{36}}.",
+              pt: "De a₁ até a₁₀ são 9 saltos: 9 × 4 = {{36}}.",
+              es: "De a₁ a a₁₀ hay 9 saltos: 9 × 4 = {{36}}.",
+            },
+          },
+          {
+            text: {
+              en: "Add the start: 3 + {{36}} = 39.",
+              pt: "Some o início: 3 + {{36}} = 39.",
+              es: "Suma el inicio: 3 + {{36}} = 39.",
+            },
+          },
+          { text: { en: "a₁₀ = 39.", pt: "a₁₀ = 39.", es: "a₁₀ = 39." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateNthTermAP,
+    },
+    {
+      id: "gold-13",
+      beltId: "gold",
+      index: 3,
+      degree: sequencesDegree,
+      title: { en: "Sum of an AP", pt: "Soma da PA", es: "Suma de la PA" },
+      summary: {
+        en: "First plus last, times the count, halved — Gauss's trick.",
+        pt: "Primeiro mais último, vezes a quantidade, dividido por 2 — o truque de Gauss.",
+        es: "Primero más último, por la cantidad, a la mitad — el truco de Gauss.",
+      },
+      lesson: {
+        intro: {
+          en: "Pair the first term with the last: every pair has the same total. There are n/2 pairs: Sₙ = n(a₁ + aₙ)/2.",
+          pt: "Junte o primeiro termo com o último: todo par tem a mesma soma. São n/2 pares: Sₙ = n(a₁ + aₙ)/2.",
+          es: "Empareja el primer término con el último: cada par tiene el mismo total. Hay n/2 pares: Sₙ = n(a₁ + aₙ)/2.",
+        },
+        example: {
+          id: "ex-gold-13",
+          prompt: "AP: a₁ = 2, d = 3, n = 10 — S₁₀?",
+          promptL10n: {
+            en: "AP: a₁ = 2, d = 3, n = 10 — sum S₁₀?",
+            pt: "PA: a₁ = 2, r = 3, n = 10 — soma S₁₀?",
+            es: "PA: a₁ = 2, d = 3, n = 10 — ¿suma S₁₀?",
+          },
+          answer: 155,
+          operands: [2, 3, 10],
+        },
+        steps: [
+          {
+            text: {
+              en: "Last term: a₁₀ = 2 + 9 × 3 = {{29}}.",
+              pt: "Último termo: a₁₀ = 2 + 9 × 3 = {{29}}.",
+              es: "Último término: a₁₀ = 2 + 9 × 3 = {{29}}.",
+            },
+          },
+          {
+            text: {
+              en: "Pair sum: 2 + {{29}} = 31. Ten terms → 5 pairs: 31 × 5 = 155.",
+              pt: "Soma do par: 2 + {{29}} = 31. Dez termos → 5 pares: 31 × 5 = 155.",
+              es: "Suma del par: 2 + {{29}} = 31. Diez términos → 5 pares: 31 × 5 = 155.",
+            },
+          },
+          { text: { en: "S₁₀ = 155.", pt: "S₁₀ = 155.", es: "S₁₀ = 155." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 18 },
+      generate: generateSumAP,
+    },
+    {
+      id: "gold-14",
+      beltId: "gold",
+      index: 4,
+      degree: sequencesDegree,
+      title: { en: "Continuing a GP", pt: "Continuando uma PG", es: "Continuando una PG" },
+      summary: {
+        en: "Each term multiplies by the same ratio.",
+        pt: "Cada termo multiplica pela mesma razão.",
+        es: "Cada término se multiplica por la misma razón.",
+      },
+      lesson: {
+        intro: {
+          en: "In a geometric progression the jump is a multiplication. Divide neighbors to find the ratio, then multiply once more.",
+          pt: "Numa progressão geométrica o salto é uma multiplicação. Divida vizinhos para achar a razão, depois multiplique mais uma vez.",
+          es: "En una progresión geométrica el salto es una multiplicación. Divide vecinos para hallar la razón, luego multiplica una vez más.",
+        },
+        example: { id: "ex-gold-14", prompt: "2, 6, 18, …", answer: 54, operands: [2, 3] },
+        steps: [
+          {
+            text: {
+              en: "The ratio: 6 ÷ 2 = {{3}} (and 18 ÷ 6 = {{3}}).",
+              pt: "A razão: 6 ÷ 2 = {{3}} (e 18 ÷ 6 = {{3}}).",
+              es: "La razón: 6 ÷ 2 = {{3}} (y 18 ÷ 6 = {{3}}).",
+            },
+          },
+          {
+            text: {
+              en: "Multiply once more: 18 × {{3}} = 54.",
+              pt: "Multiplique mais uma vez: 18 × {{3}} = 54.",
+              es: "Multiplica una vez más: 18 × {{3}} = 54.",
+            },
+          },
+          { text: { en: "Next term: 54.", pt: "Próximo termo: 54.", es: "Siguiente término: 54." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 5, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateNextTermGP,
+    },
+    {
+      id: "gold-15",
+      beltId: "gold",
+      index: 5,
+      degree: sequencesDegree,
+      title: { en: "The nth term of a GP", pt: "O termo geral da PG", es: "El término general de la PG" },
+      summary: {
+        en: "aₙ = a₁ · qⁿ⁻¹ — multiply (n − 1) times at once.",
+        pt: "aₙ = a₁ · qⁿ⁻¹ — multiplique (n − 1) vezes de uma vez.",
+        es: "aₙ = a₁ · qⁿ⁻¹ — multiplica (n − 1) veces de una vez.",
+      },
+      lesson: {
+        intro: {
+          en: "Reaching the 5th term means multiplying by q four times: a₅ = a₁ · q⁴. Compute the power first.",
+          pt: "Chegar ao 5º termo significa multiplicar por q quatro vezes: a₅ = a₁ · q⁴. Calcule a potência primeiro.",
+          es: "Llegar al 5º término significa multiplicar por q cuatro veces: a₅ = a₁ · q⁴. Calcula la potencia primero.",
+        },
+        example: {
+          id: "ex-gold-15",
+          prompt: "GP: a₁ = 2, q = 3 — a₅?",
+          promptL10n: {
+            en: "GP: a₁ = 2, ratio q = 3 — a₅?",
+            pt: "PG: a₁ = 2, q = 3 — a₅?",
+            es: "PG: a₁ = 2, q = 3 — ¿a₅?",
+          },
+          answer: 162,
+          operands: [2, 3, 5],
+        },
+        steps: [
+          {
+            text: {
+              en: "Four multiplications: 3⁴ = {{81}}.",
+              pt: "Quatro multiplicações: 3⁴ = {{81}}.",
+              es: "Cuatro multiplicaciones: 3⁴ = {{81}}.",
+            },
+          },
+          {
+            text: {
+              en: "Times the start: 2 × {{81}} = 162.",
+              pt: "Vezes o início: 2 × {{81}} = 162.",
+              es: "Por el inicio: 2 × {{81}} = 162.",
+            },
+          },
+          { text: { en: "a₅ = 162.", pt: "a₅ = 162.", es: "a₅ = 162." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateNthTermGP,
+    },
+    {
+      id: "gold-16",
+      beltId: "gold",
+      index: 6,
+      degree: sequencesDegree,
+      title: { en: "Sum of a GP", pt: "Soma da PG", es: "Suma de la PG" },
+      summary: {
+        en: "With q = 2 the sum is a₁(2ⁿ − 1) — one less than the next power.",
+        pt: "Com q = 2 a soma é a₁(2ⁿ − 1) — um a menos que a próxima potência.",
+        es: "Con q = 2 la suma es a₁(2ⁿ − 1) — uno menos que la siguiente potencia.",
+      },
+      lesson: {
+        intro: {
+          en: "Doubling sums have a magic shortcut: 1+2+4+…+2ⁿ⁻¹ = 2ⁿ − 1. Scale by a₁.",
+          pt: "Somas de dobros têm um atalho mágico: 1+2+4+…+2ⁿ⁻¹ = 2ⁿ − 1. Multiplique por a₁.",
+          es: "Las sumas de dobles tienen un atajo mágico: 1+2+4+…+2ⁿ⁻¹ = 2ⁿ − 1. Escala por a₁.",
+        },
+        example: {
+          id: "ex-gold-16",
+          prompt: "GP: a₁ = 3, q = 2, n = 5 — S₅?",
+          promptL10n: {
+            en: "GP: a₁ = 3, q = 2, n = 5 — sum S₅?",
+            pt: "PG: a₁ = 3, q = 2, n = 5 — soma S₅?",
+            es: "PG: a₁ = 3, q = 2, n = 5 — ¿suma S₅?",
+          },
+          answer: 93,
+          operands: [3, 5],
+        },
+        steps: [
+          {
+            text: {
+              en: "2⁵ − 1 = 32 − 1 = {{31}}.",
+              pt: "2⁵ − 1 = 32 − 1 = {{31}}.",
+              es: "2⁵ − 1 = 32 − 1 = {{31}}.",
+            },
+          },
+          {
+            text: {
+              en: "Scale by a₁: 3 × {{31}} = 93.",
+              pt: "Multiplique por a₁: 3 × {{31}} = 93.",
+              es: "Escala por a₁: 3 × {{31}} = 93.",
+            },
+          },
+          { text: { en: "S₅ = 93.", pt: "S₅ = 93.", es: "S₅ = 93." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateSumGP,
+    },
+    {
+      id: "gold-17",
+      beltId: "gold",
+      index: 7,
+      degree: sequencesDegree,
+      title: { en: "Infinite GP sums", pt: "Soma da PG infinita", es: "Suma de la PG infinita" },
+      summary: {
+        en: "When |q| < 1 the endless sum converges: S = a₁ / (1 − q).",
+        pt: "Quando |q| < 1 a soma infinita converge: S = a₁ / (1 − q).",
+        es: "Cuando |q| < 1 la suma infinita converge: S = a₁ / (1 − q).",
+      },
+      lesson: {
+        intro: {
+          en: "Halving forever never passes a limit. The whole infinite sum is just a₁ divided by (1 − q).",
+          pt: "Dividir pela metade para sempre nunca passa de um limite. A soma infinita toda é só a₁ dividido por (1 − q).",
+          es: "Dividir a la mitad por siempre nunca pasa de un límite. Toda la suma infinita es solo a₁ dividido por (1 − q).",
+        },
+        example: {
+          id: "ex-gold-17",
+          prompt: "GP: a₁ = 8, q = 1/2 — S∞?",
+          promptL10n: {
+            en: "Infinite GP: a₁ = 8, q = 1/2 — sum?",
+            pt: "PG infinita: a₁ = 8, q = 1/2 — soma?",
+            es: "PG infinita: a₁ = 8, q = 1/2 — ¿suma?",
+          },
+          answer: 16,
+          operands: [8, 2],
+        },
+        steps: [
+          {
+            text: {
+              en: "1 − q = 1 − 1/2 = {{1/2}}.",
+              pt: "1 − q = 1 − 1/2 = {{1/2}}.",
+              es: "1 − q = 1 − 1/2 = {{1/2}}.",
+            },
+          },
+          {
+            text: {
+              en: "Divide: 8 ÷ {{1/2}} = 16.",
+              pt: "Divida: 8 ÷ {{1/2}} = 16.",
+              es: "Divide: 8 ÷ {{1/2}} = 16.",
+            },
+          },
+          { text: { en: "S∞ = 16.", pt: "S∞ = 16.", es: "S∞ = 16." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateInfiniteGP,
+    },
+    {
+      id: "gold-18",
+      beltId: "gold",
+      index: 8,
+      degree: sequencesDegree,
+      title: { en: "Finding d and q", pt: "Achando r e q", es: "Hallando d y q" },
+      summary: {
+        en: "Two known terms pin down the whole progression.",
+        pt: "Dois termos conhecidos definem a progressão inteira.",
+        es: "Dos términos conocidos fijan toda la progresión.",
+      },
+      lesson: {
+        intro: {
+          en: "Between a₁ and aₙ there are (n − 1) jumps. Divide the total change by the number of jumps (AP), or ask which ratio raised to (n − 1) does it (GP).",
+          pt: "Entre a₁ e aₙ existem (n − 1) saltos. Divida a variação total pelo número de saltos (PA), ou pergunte qual razão elevada a (n − 1) faz isso (PG).",
+          es: "Entre a₁ y aₙ hay (n − 1) saltos. Divide el cambio total por el número de saltos (PA), o pregunta qué razón elevada a (n − 1) lo hace (PG).",
+        },
+        example: {
+          id: "ex-gold-18",
+          prompt: "AP: a₁ = 5, a₇ = 23 — d?",
+          promptL10n: {
+            en: "AP: a₁ = 5, a₇ = 23 — d?",
+            pt: "PA: a₁ = 5, a₇ = 23 — r?",
+            es: "PA: a₁ = 5, a₇ = 23 — ¿d?",
+          },
+          answer: 3,
+          operands: [5, 7, 23],
+          isEquation: true,
+          equationLabel: "d =",
+        },
+        steps: [
+          {
+            text: {
+              en: "Total change: 23 − 5 = {{18}}.",
+              pt: "Variação total: 23 − 5 = {{18}}.",
+              es: "Cambio total: 23 − 5 = {{18}}.",
+            },
+          },
+          {
+            text: {
+              en: "Jumps from a₁ to a₇: 6. So d = {{18}} ÷ 6 = 3.",
+              pt: "Saltos de a₁ até a₇: 6. Então r = {{18}} ÷ 6 = 3.",
+              es: "Saltos de a₁ a a₇: 6. Así que d = {{18}} ÷ 6 = 3.",
+            },
+          },
+          { text: { en: "d = 3.", pt: "r = 3.", es: "d = 3." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateFindRatio,
+    },
+    {
+      id: "gold-19",
+      beltId: "gold",
+      index: 9,
+      degree: sequencesDegree,
+      title: { en: "Recursive sequences", pt: "Sequências recursivas", es: "Sucesiones recursivas" },
+      summary: {
+        en: "Each term is built from the previous ones — like Fibonacci.",
+        pt: "Cada termo nasce dos anteriores — como Fibonacci.",
+        es: "Cada término nace de los anteriores — como Fibonacci.",
+      },
+      lesson: {
+        intro: {
+          en: "When each term is the sum of the two before it, just keep adding neighbors to continue the chain.",
+          pt: "Quando cada termo é a soma dos dois anteriores, é só continuar somando vizinhos para estender a corrente.",
+          es: "Cuando cada término es la suma de los dos anteriores, solo sigue sumando vecinos para extender la cadena.",
+        },
+        example: { id: "ex-gold-19", prompt: "2, 3, 5, 8, 13, …", answer: 21, operands: [2, 3] },
+        steps: [
+          {
+            text: {
+              en: "Check the rule: 2 + 3 = 5, 3 + 5 = 8, 5 + 8 = 13. Each term adds the two before.",
+              pt: "Confira a regra: 2 + 3 = 5, 3 + 5 = 8, 5 + 8 = 13. Cada termo soma os dois anteriores.",
+              es: "Verifica la regla: 2 + 3 = 5, 3 + 5 = 8, 5 + 8 = 13. Cada término suma los dos anteriores.",
+            },
+          },
+          {
+            text: {
+              en: "Next: 8 + 13 = 21.",
+              pt: "Próximo: 8 + 13 = 21.",
+              es: "Siguiente: 8 + 13 = 21.",
+            },
+          },
+          { text: { en: "Next term: 21.", pt: "Próximo termo: 21.", es: "Siguiente término: 21." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateRecursiveSequence,
+    },
+    {
+      id: "gold-20",
+      beltId: "gold",
+      index: 10,
+      degree: sequencesDegree,
+      title: { en: "Sequences, mixed", pt: "Sequências, misturadas", es: "Sucesiones, mezcladas" },
+      summary: {
+        en: "APs, GPs, sums and recursions — shuffled.",
+        pt: "PAs, PGs, somas e recursões — embaralhadas.",
+        es: "PAs, PGs, sumas y recursiones — revueltas.",
+      },
+      lesson: {
+        intro: {
+          en: "First decide: is the jump an addition (AP), a multiplication (GP), or built from previous terms? Then apply the right tool.",
+          pt: "Primeiro decida: o salto é uma soma (PA), uma multiplicação (PG), ou nasce dos termos anteriores? Depois aplique a ferramenta certa.",
+          es: "Primero decide: ¿el salto es una suma (PA), una multiplicación (PG), o nace de términos anteriores? Luego aplica la herramienta correcta.",
+        },
+        example: { id: "ex-gold-20", prompt: "4, 9, 14, …", answer: 19, operands: [4, 5] },
+        steps: [
+          {
+            text: {
+              en: "The jump is constant: +{{5}} — an AP.",
+              pt: "O salto é constante: +{{5}} — uma PA.",
+              es: "El salto es constante: +{{5}} — una PA.",
+            },
+          },
+          {
+            text: {
+              en: "14 + {{5}} = 19.",
+              pt: "14 + {{5}} = 19.",
+              es: "14 + {{5}} = 19.",
+            },
+          },
+          { text: { en: "Next term: 19.", pt: "Próximo termo: 19.", es: "Siguiente término: 19." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 15 },
+      generate: generateSequencesMix,
+    },
+    {
+      id: "gold-21",
+      beltId: "gold",
+      index: 1,
+      degree: countingDegree,
+      title: { en: "The multiplication principle", pt: "O princípio multiplicativo", es: "El principio multiplicativo" },
+      summary: {
+        en: "Independent choices multiply.",
+        pt: "Escolhas independentes se multiplicam.",
+        es: "Las elecciones independientes se multiplican.",
+      },
+      lesson: {
+        intro: {
+          en: "If one choice has 4 options and another has 3, together they make 4 × 3 combinations — every option pairs with every other.",
+          pt: "Se uma escolha tem 4 opções e outra tem 3, juntas elas dão 4 × 3 combinações — cada opção combina com todas as outras.",
+          es: "Si una elección tiene 4 opciones y otra 3, juntas dan 4 × 3 combinaciones — cada opción se combina con todas las demás.",
+        },
+        example: {
+          id: "ex-gold-21",
+          prompt: "4 shirts, 3 pants — outfits?",
+          promptL10n: {
+            en: "4 shirts, 3 pants — outfits?",
+            pt: "4 camisas, 3 calças — combinações?",
+            es: "4 camisas, 3 pantalones — ¿combinaciones?",
+          },
+          answer: 12,
+          operands: [4, 3],
+        },
+        steps: [
+          {
+            text: {
+              en: "Each of the 4 shirts pairs with each of the 3 pants.",
+              pt: "Cada uma das 4 camisas combina com cada uma das 3 calças.",
+              es: "Cada una de las 4 camisas se combina con cada uno de los 3 pantalones.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: 4 × 3 = 12.",
+              pt: "Multiplique: 4 × 3 = 12.",
+              es: "Multiplica: 4 × 3 = 12.",
+            },
+          },
+          { text: { en: "12 outfits.", pt: "12 combinações.", es: "12 combinaciones." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 5, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateMultiplicationPrinciple,
+    },
+    {
+      id: "gold-22",
+      beltId: "gold",
+      index: 2,
+      degree: countingDegree,
+      title: { en: "Factorials", pt: "Fatorial", es: "Factoriales" },
+      summary: {
+        en: "n! multiplies every number from n down to 1.",
+        pt: "n! multiplica todos os números de n até 1.",
+        es: "n! multiplica todos los números de n hasta 1.",
+      },
+      lesson: {
+        intro: {
+          en: "5! counts the ways to line up 5 things: 5 choices, then 4, then 3, 2, 1 — all multiplied.",
+          pt: "5! conta as formas de enfileirar 5 coisas: 5 escolhas, depois 4, depois 3, 2, 1 — tudo multiplicado.",
+          es: "5! cuenta las formas de alinear 5 cosas: 5 opciones, luego 4, luego 3, 2, 1 — todo multiplicado.",
+        },
+        example: { id: "ex-gold-22", prompt: "5!", answer: 120, operands: [5] },
+        steps: [
+          {
+            text: {
+              en: "5 × 4 = {{20}}, then {{20}} × 3 = 60.",
+              pt: "5 × 4 = {{20}}, depois {{20}} × 3 = 60.",
+              es: "5 × 4 = {{20}}, luego {{20}} × 3 = 60.",
+            },
+          },
+          {
+            text: {
+              en: "60 × 2 = 120, and × 1 stays 120.",
+              pt: "60 × 2 = 120, e × 1 continua 120.",
+              es: "60 × 2 = 120, y × 1 sigue 120.",
+            },
+          },
+          { text: { en: "5! = 120.", pt: "5! = 120.", es: "5! = 120." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateFactorial,
+    },
+    {
+      id: "gold-23",
+      beltId: "gold",
+      index: 3,
+      degree: countingDegree,
+      title: { en: "Factorial quotients", pt: "Quociente de fatoriais", es: "Cocientes de factoriales" },
+      summary: {
+        en: "6! ÷ 4! — cancel the shared tail, multiply what's left.",
+        pt: "6! ÷ 4! — cancele a cauda comum, multiplique o que sobrar.",
+        es: "6! ÷ 4! — cancela la cola común, multiplica lo que queda.",
+      },
+      lesson: {
+        intro: {
+          en: "Never compute giant factorials. 6!/4! shares the whole 4 × 3 × 2 × 1 tail — cancel it, leaving just 6 × 5.",
+          pt: "Nunca calcule fatoriais gigantes. 6!/4! compartilha toda a cauda 4 × 3 × 2 × 1 — cancele, sobrando só 6 × 5.",
+          es: "Nunca calcules factoriales gigantes. 6!/4! comparte toda la cola 4 × 3 × 2 × 1 — cancélala, quedando solo 6 × 5.",
+        },
+        example: { id: "ex-gold-23", prompt: "6! ÷ 4!", answer: 30, operands: [6, 4] },
+        steps: [
+          {
+            text: {
+              en: "6! = 6 × 5 × 4! — the 4! cancels.",
+              pt: "6! = 6 × 5 × 4! — o 4! cancela.",
+              es: "6! = 6 × 5 × 4! — el 4! se cancela.",
+            },
+          },
+          {
+            text: {
+              en: "What's left: 6 × 5 = 30.",
+              pt: "O que sobra: 6 × 5 = 30.",
+              es: "Lo que queda: 6 × 5 = 30.",
+            },
+          },
+          { text: { en: "6! ÷ 4! = 30.", pt: "6! ÷ 4! = 30.", es: "6! ÷ 4! = 30." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateFactorialQuotient,
+    },
+    {
+      id: "gold-24",
+      beltId: "gold",
+      index: 4,
+      degree: countingDegree,
+      title: { en: "Arrangements", pt: "Arranjos", es: "Variaciones" },
+      summary: {
+        en: "Pick k of n where order matters — a falling product.",
+        pt: "Escolha k de n onde a ordem importa — um produto decrescente.",
+        es: "Elige k de n donde el orden importa — un producto descendente.",
+      },
+      lesson: {
+        intro: {
+          en: "First place: n options. Second place: n − 1. Multiply k falling factors — that's all an arrangement is.",
+          pt: "Primeiro lugar: n opções. Segundo: n − 1. Multiplique k fatores decrescentes — um arranjo é só isso.",
+          es: "Primer lugar: n opciones. Segundo: n − 1. Multiplica k factores descendentes — eso es una variación.",
+        },
+        example: {
+          id: "ex-gold-24",
+          prompt: "P(5, 2)",
+          promptL10n: { en: "P(5, 2)", pt: "A(5, 2)", es: "V(5, 2)" },
+          answer: 20,
+          operands: [5, 2],
+        },
+        steps: [
+          {
+            text: {
+              en: "First pick: 5 options. Second pick: {{4}} remain.",
+              pt: "Primeira escolha: 5 opções. Segunda: restam {{4}}.",
+              es: "Primera elección: 5 opciones. Segunda: quedan {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: 5 × {{4}} = 20.",
+              pt: "Multiplique: 5 × {{4}} = 20.",
+              es: "Multiplica: 5 × {{4}} = 20.",
+            },
+          },
+          { text: { en: "20 arrangements.", pt: "20 arranjos.", es: "20 variaciones." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateArrangements,
+    },
+    {
+      id: "gold-25",
+      beltId: "gold",
+      index: 5,
+      degree: countingDegree,
+      title: { en: "Combinations", pt: "Combinações", es: "Combinaciones" },
+      summary: {
+        en: "Order doesn't matter — divide the arrangements by k!.",
+        pt: "A ordem não importa — divida os arranjos por k!.",
+        es: "El orden no importa — divide las variaciones por k!.",
+      },
+      lesson: {
+        intro: {
+          en: "Choosing a duo isn't ranking one — AB and BA are the same pick. Count arrangements, then divide by the k! orderings.",
+          pt: "Escolher uma dupla não é ranquear — AB e BA são a mesma escolha. Conte os arranjos e divida pelas k! ordens.",
+          es: "Elegir un dúo no es clasificar — AB y BA son la misma elección. Cuenta las variaciones y divide por los k! órdenes.",
+        },
+        example: { id: "ex-gold-25", prompt: "C(5, 2)", answer: 10, operands: [5, 2] },
+        steps: [
+          {
+            text: {
+              en: "Arrangements first: 5 × 4 = {{20}}.",
+              pt: "Arranjos primeiro: 5 × 4 = {{20}}.",
+              es: "Variaciones primero: 5 × 4 = {{20}}.",
+            },
+          },
+          {
+            text: {
+              en: "Each pair was counted 2! = 2 times: {{20}} ÷ 2 = 10.",
+              pt: "Cada dupla foi contada 2! = 2 vezes: {{20}} ÷ 2 = 10.",
+              es: "Cada par se contó 2! = 2 veces: {{20}} ÷ 2 = 10.",
+            },
+          },
+          { text: { en: "C(5, 2) = 10.", pt: "C(5, 2) = 10.", es: "C(5, 2) = 10." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateCombinations,
+    },
+    {
+      id: "gold-26",
+      beltId: "gold",
+      index: 6,
+      degree: countingDegree,
+      title: { en: "Probability with dice", pt: "Probabilidade com dados", es: "Probabilidad con dados" },
+      summary: {
+        en: "Favorable outcomes over total outcomes, reduced.",
+        pt: "Casos favoráveis sobre casos totais, simplificado.",
+        es: "Casos favorables sobre casos totales, simplificado.",
+      },
+      lesson: {
+        intro: {
+          en: "A die has 6 equally likely faces. Count the faces that satisfy the event, put them over 6, and reduce the fraction.",
+          pt: "Um dado tem 6 faces igualmente prováveis. Conte as faces que satisfazem o evento, ponha sobre 6, e simplifique a fração.",
+          es: "Un dado tiene 6 caras igualmente probables. Cuenta las caras que cumplen el evento, ponlas sobre 6, y simplifica la fracción.",
+        },
+        example: {
+          id: "ex-gold-26",
+          prompt: "P(die roll > 4)",
+          promptL10n: { en: "P(die roll > 4)", pt: "P(dado > 4)", es: "P(dado > 4)" },
+          answer: 1,
+          secondaryAnswer: 3,
+          secondaryFormat: "fraction",
+          operands: [2, 6],
+        },
+        steps: [
+          {
+            text: {
+              en: "Faces above 4: the 5 and the 6 — {{2}} faces.",
+              pt: "Faces acima de 4: o 5 e o 6 — {{2}} faces.",
+              es: "Caras arriba de 4: el 5 y el 6 — {{2}} caras.",
+            },
+          },
+          {
+            text: {
+              en: "{{2}}/6 reduces to 1/3.",
+              pt: "{{2}}/6 simplifica para 1/3.",
+              es: "{{2}}/6 se simplifica a 1/3.",
+            },
+          },
+          { text: { en: "P = 1/3.", pt: "P = 1/3.", es: "P = 1/3." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateDieProbability,
+    },
+    {
+      id: "gold-27",
+      beltId: "gold",
+      index: 7,
+      degree: countingDegree,
+      title: { en: "Independent events", pt: "Eventos independentes", es: "Eventos independientes" },
+      summary: {
+        en: "\"And\" means multiply the probabilities.",
+        pt: "\"E\" significa multiplicar as probabilidades.",
+        es: "\"Y\" significa multiplicar las probabilidades.",
+      },
+      lesson: {
+        intro: {
+          en: "Heads then heads again: each flip is 1/2, and independent events multiply — (1/2) × (1/2) = 1/4.",
+          pt: "Cara e depois cara de novo: cada moeda é 1/2, e eventos independentes se multiplicam — (1/2) × (1/2) = 1/4.",
+          es: "Cara y luego cara otra vez: cada moneda es 1/2, y los eventos independientes se multiplican — (1/2) × (1/2) = 1/4.",
+        },
+        example: {
+          id: "ex-gold-27",
+          prompt: "P(2 heads in 2 flips)",
+          promptL10n: {
+            en: "P(2 heads in 2 coin flips)",
+            pt: "P(2 caras em 2 moedas)",
+            es: "P(2 caras en 2 monedas)",
+          },
+          answer: 1,
+          secondaryAnswer: 4,
+          secondaryFormat: "fraction",
+          operands: [2],
+        },
+        steps: [
+          {
+            text: {
+              en: "Each flip: P(heads) = 1/2.",
+              pt: "Cada moeda: P(cara) = 1/2.",
+              es: "Cada moneda: P(cara) = 1/2.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: 1/2 × 1/2 = 1/4.",
+              pt: "Multiplique: 1/2 × 1/2 = 1/4.",
+              es: "Multiplica: 1/2 × 1/2 = 1/4.",
+            },
+          },
+          { text: { en: "P = 1/4.", pt: "P = 1/4.", es: "P = 1/4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateIndependentEvents,
+    },
+    {
+      id: "gold-28",
+      beltId: "gold",
+      index: 8,
+      degree: countingDegree,
+      title: { en: "The complement", pt: "O complementar", es: "El complemento" },
+      summary: {
+        en: "P(not A) = 1 − P(A) — count what's left.",
+        pt: "P(não A) = 1 − P(A) — conte o que sobra.",
+        es: "P(no A) = 1 − P(A) — cuenta lo que queda.",
+      },
+      lesson: {
+        intro: {
+          en: "\"Not rolling a 6\" is easier counted backwards: 5 of the 6 faces qualify.",
+          pt: "\"Não tirar 6\" é mais fácil contando ao contrário: 5 das 6 faces servem.",
+          es: "\"No sacar 6\" es más fácil contando al revés: 5 de las 6 caras sirven.",
+        },
+        example: {
+          id: "ex-gold-28",
+          prompt: "P(die roll NOT = 6)",
+          promptL10n: { en: "P(die roll NOT = 6)", pt: "P(dado NÃO = 6)", es: "P(dado NO = 6)" },
+          answer: 5,
+          secondaryAnswer: 6,
+          secondaryFormat: "fraction",
+          operands: [5, 6],
+        },
+        steps: [
+          {
+            text: {
+              en: "One face is a 6 — the other {{5}} are not.",
+              pt: "Uma face é 6 — as outras {{5}} não são.",
+              es: "Una cara es 6 — las otras {{5}} no.",
+            },
+          },
+          {
+            text: {
+              en: "P = {{5}}/6, already reduced.",
+              pt: "P = {{5}}/6, já simplificado.",
+              es: "P = {{5}}/6, ya simplificado.",
+            },
+          },
+          { text: { en: "P = 5/6.", pt: "P = 5/6.", es: "P = 5/6." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateComplementProbability,
+    },
+    {
+      id: "gold-29",
+      beltId: "gold",
+      index: 9,
+      degree: countingDegree,
+      title: { en: "Drawing from an urn", pt: "Sorteio na urna", es: "Sacando de una urna" },
+      summary: {
+        en: "Favorable balls over total balls.",
+        pt: "Bolas favoráveis sobre bolas totais.",
+        es: "Bolas favorables sobre bolas totales.",
+      },
+      lesson: {
+        intro: {
+          en: "Add up all the balls for the denominator; the color you want is the numerator. Reduce.",
+          pt: "Some todas as bolas para o denominador; a cor que você quer é o numerador. Simplifique.",
+          es: "Suma todas las bolas para el denominador; el color que quieres es el numerador. Simplifica.",
+        },
+        example: {
+          id: "ex-gold-29",
+          prompt: "5 red, 3 blue — P(red)?",
+          promptL10n: {
+            en: "5 red balls, 3 blue — P(red)?",
+            pt: "5 bolas vermelhas, 3 azuis — P(vermelha)?",
+            es: "5 bolas rojas, 3 azules — ¿P(roja)?",
+          },
+          answer: 5,
+          secondaryAnswer: 8,
+          secondaryFormat: "fraction",
+          operands: [5, 3],
+        },
+        steps: [
+          {
+            text: {
+              en: "Total balls: 5 + 3 = {{8}}.",
+              pt: "Total de bolas: 5 + 3 = {{8}}.",
+              es: "Total de bolas: 5 + 3 = {{8}}.",
+            },
+          },
+          {
+            text: {
+              en: "Red ones: 5 out of {{8}}.",
+              pt: "Vermelhas: 5 de {{8}}.",
+              es: "Rojas: 5 de {{8}}.",
+            },
+          },
+          { text: { en: "P = 5/8.", pt: "P = 5/8.", es: "P = 5/8." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateUrnProbability,
+    },
+    {
+      id: "gold-30",
+      beltId: "gold",
+      index: 10,
+      degree: countingDegree,
+      title: { en: "Counting & probability, mixed", pt: "Combinatória e probabilidade, misturadas", es: "Conteo y probabilidad, mezclados" },
+      summary: {
+        en: "Factorials, arrangements, combinations and chance — shuffled.",
+        pt: "Fatoriais, arranjos, combinações e chance — embaralhados.",
+        es: "Factoriales, variaciones, combinaciones y azar — revueltos.",
+      },
+      lesson: {
+        intro: {
+          en: "Ask two questions first: am I counting or measuring chance? And does order matter? The answers pick the tool.",
+          pt: "Faça duas perguntas primeiro: estou contando ou medindo chance? E a ordem importa? As respostas escolhem a ferramenta.",
+          es: "Haz dos preguntas primero: ¿estoy contando o midiendo azar? ¿Y el orden importa? Las respuestas eligen la herramienta.",
+        },
+        example: { id: "ex-gold-30", prompt: "C(4, 2)", answer: 6, operands: [4, 2] },
+        steps: [
+          {
+            text: {
+              en: "Order doesn't matter — combinations.",
+              pt: "A ordem não importa — combinações.",
+              es: "El orden no importa — combinaciones.",
+            },
+          },
+          {
+            text: {
+              en: "4 × 3 = {{12}}, then {{12}} ÷ 2! = 6.",
+              pt: "4 × 3 = {{12}}, depois {{12}} ÷ 2! = 6.",
+              es: "4 × 3 = {{12}}, luego {{12}} ÷ 2! = 6.",
+            },
+          },
+          { text: { en: "C(4, 2) = 6.", pt: "C(4, 2) = 6.", es: "C(4, 2) = 6." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateCountingMix,
+    },
+    {
+      id: "gold-31",
+      beltId: "gold",
+      index: 1,
+      degree: matricesDegree,
+      title: { en: "Reading a matrix", pt: "Lendo uma matriz", es: "Leyendo una matriz" },
+      summary: {
+        en: "aᵢⱼ means row i, column j.",
+        pt: "aᵢⱼ significa linha i, coluna j.",
+        es: "aᵢⱼ significa fila i, columna j.",
+      },
+      lesson: {
+        intro: {
+          en: "We write a 2×2 matrix as [row one / row two]. The element a₁₂ lives in row 1, column 2 — row first, column second.",
+          pt: "Escrevemos uma matriz 2×2 como [linha um / linha dois]. O elemento a₁₂ fica na linha 1, coluna 2 — linha primeiro, coluna depois.",
+          es: "Escribimos una matriz 2×2 como [fila uno / fila dos]. El elemento a₁₂ está en la fila 1, columna 2 — fila primero, columna después.",
+        },
+        example: { id: "ex-gold-31", prompt: "[2 5 / 7 1] — a₁₂?", answer: 5, operands: [2, 5, 7, 1, 1, 2] },
+        steps: [
+          {
+            text: {
+              en: "Row 1 is \"2 5\".",
+              pt: "A linha 1 é \"2 5\".",
+              es: "La fila 1 es \"2 5\".",
+            },
+          },
+          {
+            text: {
+              en: "Column 2 of that row is 5.",
+              pt: "A coluna 2 dessa linha é 5.",
+              es: "La columna 2 de esa fila es 5.",
+            },
+          },
+          { text: { en: "a₁₂ = 5.", pt: "a₁₂ = 5.", es: "a₁₂ = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 5, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateMatrixElement,
+    },
+    {
+      id: "gold-32",
+      beltId: "gold",
+      index: 2,
+      degree: matricesDegree,
+      title: { en: "The 2×2 determinant", pt: "Determinante 2×2", es: "El determinante 2×2" },
+      summary: {
+        en: "Main diagonal product minus the other diagonal.",
+        pt: "Produto da diagonal principal menos o da outra diagonal.",
+        es: "Producto de la diagonal principal menos el de la otra.",
+      },
+      lesson: {
+        intro: {
+          en: "For [a b / c d], the determinant is ad − bc: multiply down-right, subtract the up-right product.",
+          pt: "Para [a b / c d], o determinante é ad − bc: multiplique a diagonal que desce, subtraia o produto da que sobe.",
+          es: "Para [a b / c d], el determinante es ad − bc: multiplica la diagonal que baja, resta el producto de la que sube.",
+        },
+        example: { id: "ex-gold-32", prompt: "det [2 5 / 7 1]", answer: -33, operands: [2, 5, 7, 1], allowNegative: true },
+        steps: [
+          {
+            text: {
+              en: "Main diagonal: 2 × 1 = {{2}}.",
+              pt: "Diagonal principal: 2 × 1 = {{2}}.",
+              es: "Diagonal principal: 2 × 1 = {{2}}.",
+            },
+          },
+          {
+            text: {
+              en: "Other diagonal: 5 × 7 = {{35}}.",
+              pt: "Outra diagonal: 5 × 7 = {{35}}.",
+              es: "Otra diagonal: 5 × 7 = {{35}}.",
+            },
+          },
+          {
+            text: {
+              en: "Subtract: {{2}} − {{35}} = −33.",
+              pt: "Subtraia: {{2}} − {{35}} = −33.",
+              es: "Resta: {{2}} − {{35}} = −33.",
+            },
+          },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateDet2x2,
+    },
+    {
+      id: "gold-33",
+      beltId: "gold",
+      index: 3,
+      degree: matricesDegree,
+      title: { en: "When the determinant is zero", pt: "Quando o determinante é zero", es: "Cuando el determinante es cero" },
+      summary: {
+        en: "Solve for the entry that makes ad − bc vanish.",
+        pt: "Ache o elemento que zera ad − bc.",
+        es: "Halla el elemento que anula ad − bc.",
+      },
+      lesson: {
+        intro: {
+          en: "Set ad − bc = 0 and solve for the unknown entry — the row becomes a multiple of the other.",
+          pt: "Iguale ad − bc = 0 e resolva para o elemento desconhecido — uma linha vira múltiplo da outra.",
+          es: "Iguala ad − bc = 0 y resuelve el elemento desconocido — una fila se vuelve múltiplo de la otra.",
+        },
+        example: { id: "ex-gold-33", prompt: "det [2 3 / 6 x] = 0", answer: 9, operands: [2, 3, 6], isEquation: true },
+        steps: [
+          {
+            text: {
+              en: "The determinant: 2x − 3 × 6 = 2x − {{18}}.",
+              pt: "O determinante: 2x − 3 × 6 = 2x − {{18}}.",
+              es: "El determinante: 2x − 3 × 6 = 2x − {{18}}.",
+            },
+          },
+          {
+            text: {
+              en: "Set to zero: 2x = {{18}}, so x = 9.",
+              pt: "Iguale a zero: 2x = {{18}}, então x = 9.",
+              es: "Iguala a cero: 2x = {{18}}, así que x = 9.",
+            },
+          },
+          { text: { en: "x = 9.", pt: "x = 9.", es: "x = 9." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateDetZero,
+    },
+    {
+      id: "gold-34",
+      beltId: "gold",
+      index: 4,
+      degree: matricesDegree,
+      title: { en: "The 3×3 determinant", pt: "Determinante 3×3", es: "El determinante 3×3" },
+      summary: {
+        en: "Expand along the first row — three small 2×2 jobs.",
+        pt: "Expanda pela primeira linha — três continhas 2×2.",
+        es: "Expande por la primera fila — tres pequeños 2×2.",
+      },
+      lesson: {
+        intro: {
+          en: "Each entry of row 1 multiplies the 2×2 determinant of what's left when you cover its row and column — with signs +, −, +.",
+          pt: "Cada elemento da linha 1 multiplica o determinante 2×2 do que sobra ao cobrir sua linha e coluna — com sinais +, −, +.",
+          es: "Cada elemento de la fila 1 multiplica el determinante 2×2 de lo que queda al cubrir su fila y columna — con signos +, −, +.",
+        },
+        example: {
+          id: "ex-gold-34",
+          prompt: "det [1 2 0 / 0 1 3 / 2 0 1]",
+          answer: 13,
+          operands: [1, 2, 0, 0, 1, 3, 2, 0, 1],
+          allowNegative: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "1 × det[1 3 / 0 1] = 1 × {{1}}.",
+              pt: "1 × det[1 3 / 0 1] = 1 × {{1}}.",
+              es: "1 × det[1 3 / 0 1] = 1 × {{1}}.",
+            },
+          },
+          {
+            text: {
+              en: "− 2 × det[0 3 / 2 1] = −2 × (0 − 6) = {{12}}.",
+              pt: "− 2 × det[0 3 / 2 1] = −2 × (0 − 6) = {{12}}.",
+              es: "− 2 × det[0 3 / 2 1] = −2 × (0 − 6) = {{12}}.",
+            },
+          },
+          {
+            text: {
+              en: "+ 0 × (…) = 0. Total: {{1}} + {{12}} + 0 = 13.",
+              pt: "+ 0 × (…) = 0. Total: {{1}} + {{12}} + 0 = 13.",
+              es: "+ 0 × (…) = 0. Total: {{1}} + {{12}} + 0 = 13.",
+            },
+          },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 30 },
+      generate: generateDet3x3,
+    },
+    {
+      id: "gold-35",
+      beltId: "gold",
+      index: 5,
+      degree: matricesDegree,
+      title: { en: "The trace", pt: "O traço", es: "La traza" },
+      summary: {
+        en: "Sum of the main diagonal — a quick fingerprint.",
+        pt: "Soma da diagonal principal — uma impressão digital rápida.",
+        es: "Suma de la diagonal principal — una huella rápida.",
+      },
+      lesson: {
+        intro: {
+          en: "The trace adds the top-left and bottom-right entries. That's it — but it shows up everywhere in advanced math.",
+          pt: "O traço soma o canto superior esquerdo com o inferior direito. Só isso — mas aparece em todo lugar na matemática avançada.",
+          es: "La traza suma la esquina superior izquierda con la inferior derecha. Eso es todo — pero aparece en todas partes en matemática avanzada.",
+        },
+        example: { id: "ex-gold-35", prompt: "tr [4 2 / 1 7]", answer: 11, operands: [4, 2, 1, 7] },
+        steps: [
+          {
+            text: {
+              en: "Main diagonal entries: 4 and 7.",
+              pt: "Elementos da diagonal principal: 4 e 7.",
+              es: "Elementos de la diagonal principal: 4 y 7.",
+            },
+          },
+          {
+            text: {
+              en: "Add: 4 + 7 = 11.",
+              pt: "Some: 4 + 7 = 11.",
+              es: "Suma: 4 + 7 = 11.",
+            },
+          },
+          { text: { en: "tr = 11.", pt: "tr = 11.", es: "tr = 11." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 5, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateTrace,
+    },
+    {
+      id: "gold-36",
+      beltId: "gold",
+      index: 6,
+      degree: matricesDegree,
+      title: { en: "Row times column", pt: "Linha vezes coluna", es: "Fila por columna" },
+      summary: {
+        en: "The dot product — the atom of matrix multiplication.",
+        pt: "O produto escalar — o átomo da multiplicação de matrizes.",
+        es: "El producto punto — el átomo de la multiplicación de matrices.",
+      },
+      lesson: {
+        intro: {
+          en: "Multiply matching positions and add: [2 3] · [4 5]ᵀ = 2×4 + 3×5. Every entry of a matrix product is one of these.",
+          pt: "Multiplique posições correspondentes e some: [2 3] · [4 5]ᵀ = 2×4 + 3×5. Cada elemento de um produto de matrizes é um desses.",
+          es: "Multiplica posiciones correspondientes y suma: [2 3] · [4 5]ᵀ = 2×4 + 3×5. Cada elemento de un producto de matrices es uno de estos.",
+        },
+        example: { id: "ex-gold-36", prompt: "[2 3] · [4 5]ᵀ", answer: 23, operands: [2, 3, 4, 5] },
+        steps: [
+          {
+            text: {
+              en: "First pair: 2 × 4 = {{8}}.",
+              pt: "Primeiro par: 2 × 4 = {{8}}.",
+              es: "Primer par: 2 × 4 = {{8}}.",
+            },
+          },
+          {
+            text: {
+              en: "Second pair: 3 × 5 = {{15}}. Add: {{8}} + {{15}} = 23.",
+              pt: "Segundo par: 3 × 5 = {{15}}. Some: {{8}} + {{15}} = 23.",
+              es: "Segundo par: 3 × 5 = {{15}}. Suma: {{8}} + {{15}} = 23.",
+            },
+          },
+          { text: { en: "Result: 23.", pt: "Resultado: 23.", es: "Resultado: 23." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateDotProduct,
+    },
+    {
+      id: "gold-37",
+      beltId: "gold",
+      index: 7,
+      degree: matricesDegree,
+      title: { en: "General 2×2 systems", pt: "Sistemas 2×2 gerais", es: "Sistemas 2×2 generales" },
+      summary: {
+        en: "Add the equations to kill y, then back-substitute.",
+        pt: "Some as equações para eliminar o y, depois substitua de volta.",
+        es: "Suma las ecuaciones para eliminar y, luego sustituye.",
+      },
+      lesson: {
+        intro: {
+          en: "These systems have +y in one equation and −y in the other — adding them eliminates y instantly.",
+          pt: "Esses sistemas têm +y numa equação e −y na outra — somar as duas elimina o y na hora.",
+          es: "Estos sistemas tienen +y en una ecuación y −y en la otra — sumarlas elimina y al instante.",
+        },
+        example: {
+          id: "ex-gold-37",
+          prompt: "x + y = 7, 2x − y = 2",
+          answer: 3,
+          operands: [1, 7, 2, 2],
+          secondaryAnswer: 4,
+          secondaryFormat: "pair",
+          isEquation: true,
+          equationLabel: "x, y =",
+        },
+        steps: [
+          {
+            text: {
+              en: "Add the equations: 3x = {{9}}, so x = 3.",
+              pt: "Some as equações: 3x = {{9}}, então x = 3.",
+              es: "Suma las ecuaciones: 3x = {{9}}, así que x = 3.",
+            },
+          },
+          {
+            text: {
+              en: "Back-substitute: 3 + y = 7, so y = 4.",
+              pt: "Substitua de volta: 3 + y = 7, então y = 4.",
+              es: "Sustituye: 3 + y = 7, así que y = 4.",
+            },
+          },
+          { text: { en: "x = 3, y = 4.", pt: "x = 3, y = 4.", es: "x = 3, y = 4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 20 },
+      generate: generateGeneralSystem,
+    },
+    {
+      id: "gold-38",
+      beltId: "gold",
+      index: 8,
+      degree: matricesDegree,
+      title: { en: "Matrices & systems, mixed", pt: "Matrizes e sistemas, misturados", es: "Matrices y sistemas, mezclados" },
+      summary: {
+        en: "Determinants, traces, dot products and systems — shuffled.",
+        pt: "Determinantes, traços, produtos escalares e sistemas — embaralhados.",
+        es: "Determinantes, trazas, productos punto y sistemas — revueltos.",
+      },
+      lesson: {
+        intro: {
+          en: "Read the notation first: det means diagonals, tr means diagonal sum, a row · column means multiply-and-add.",
+          pt: "Leia a notação primeiro: det é diagonais, tr é soma da diagonal, linha · coluna é multiplicar-e-somar.",
+          es: "Lee la notación primero: det son diagonales, tr es suma diagonal, fila · columna es multiplicar-y-sumar.",
+        },
+        example: { id: "ex-gold-38", prompt: "det [3 1 / 2 4]", answer: 10, operands: [3, 1, 2, 4], allowNegative: true },
+        steps: [
+          {
+            text: {
+              en: "Main diagonal: 3 × 4 = {{12}}.",
+              pt: "Diagonal principal: 3 × 4 = {{12}}.",
+              es: "Diagonal principal: 3 × 4 = {{12}}.",
+            },
+          },
+          {
+            text: {
+              en: "Other diagonal: 1 × 2 = 2. Subtract: {{12}} − 2 = 10.",
+              pt: "Outra diagonal: 1 × 2 = 2. Subtraia: {{12}} − 2 = 10.",
+              es: "Otra diagonal: 1 × 2 = 2. Resta: {{12}} − 2 = 10.",
+            },
+          },
+          { text: { en: "det = 10.", pt: "det = 10.", es: "det = 10." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 18 },
+      generate: generateMatricesMix,
+    },
+    {
+      id: "gold-39",
+      beltId: "gold",
+      index: 1,
+      degree: polynomialsDegree,
+      title: { en: "Degree of a polynomial", pt: "Grau de um polinômio", es: "Grado de un polinomio" },
+      summary: {
+        en: "The highest exponent rules the polynomial.",
+        pt: "O maior expoente manda no polinômio.",
+        es: "El mayor exponente manda en el polinomio.",
+      },
+      lesson: {
+        intro: {
+          en: "Scan every term and take the largest exponent of x — that single number is the degree.",
+          pt: "Percorra todos os termos e pegue o maior expoente de x — esse número sozinho é o grau.",
+          es: "Recorre todos los términos y toma el mayor exponente de x — ese solo número es el grado.",
+        },
+        example: {
+          id: "ex-gold-39",
+          prompt: "x⁵ − 3x² + 1",
+          promptL10n: {
+            en: "x⁵ − 3x² + 1 — degree?",
+            pt: "x⁵ − 3x² + 1 — grau?",
+            es: "x⁵ − 3x² + 1 — ¿grado?",
+          },
+          answer: 5,
+          operands: [5, 2, 3, 1],
+        },
+        steps: [
+          {
+            text: {
+              en: "Exponents present: 5, 2, and 0 (the constant).",
+              pt: "Expoentes presentes: 5, 2 e 0 (a constante).",
+              es: "Exponentes presentes: 5, 2 y 0 (la constante).",
+            },
+          },
+          {
+            text: {
+              en: "The largest is {{5}}.",
+              pt: "O maior é {{5}}.",
+              es: "El mayor es {{5}}.",
+            },
+          },
+          { text: { en: "Degree = 5.", pt: "Grau = 5.", es: "Grado = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 5, passAccuracy: 0.8, targetTimeSec: 7 },
+      generate: generatePolynomialDegree,
+    },
+    {
+      id: "gold-40",
+      beltId: "gold",
+      index: 2,
+      degree: polynomialsDegree,
+      title: { en: "Evaluating polynomials", pt: "Valor numérico", es: "Evaluando polinomios" },
+      summary: {
+        en: "Substitute x and follow the order of operations.",
+        pt: "Substitua o x e siga a ordem das operações.",
+        es: "Sustituye x y sigue el orden de las operaciones.",
+      },
+      lesson: {
+        intro: {
+          en: "Replace every x with the given number — powers first, then products, then sums.",
+          pt: "Troque todo x pelo número dado — potências primeiro, depois produtos, depois somas.",
+          es: "Reemplaza cada x por el número dado — potencias primero, luego productos, luego sumas.",
+        },
+        example: {
+          id: "ex-gold-40",
+          prompt: "P(x) = x³ − 2x + 1; P(3)",
+          answer: 22,
+          operands: [-2, 1, 3],
+          allowNegative: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "The power: 3³ = {{27}}.",
+              pt: "A potência: 3³ = {{27}}.",
+              es: "La potencia: 3³ = {{27}}.",
+            },
+          },
+          {
+            text: {
+              en: "The rest: −2 × 3 = −6, plus 1.",
+              pt: "O resto: −2 × 3 = −6, mais 1.",
+              es: "El resto: −2 × 3 = −6, más 1.",
+            },
+          },
+          {
+            text: {
+              en: "Total: {{27}} − 6 + 1 = 22.",
+              pt: "Total: {{27}} − 6 + 1 = 22.",
+              es: "Total: {{27}} − 6 + 1 = 22.",
+            },
+          },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateEvaluatePolynomial,
+    },
+    {
+      id: "gold-41",
+      beltId: "gold",
+      index: 3,
+      degree: polynomialsDegree,
+      title: { en: "The remainder theorem", pt: "Teorema do resto", es: "El teorema del resto" },
+      summary: {
+        en: "Dividing by (x − a)? The remainder is just P(a).",
+        pt: "Dividindo por (x − a)? O resto é simplesmente P(a).",
+        es: "¿Dividiendo por (x − a)? El resto es simplemente P(a).",
+      },
+      lesson: {
+        intro: {
+          en: "No long division needed: the remainder of P(x) ÷ (x − a) equals P evaluated at a. Just substitute.",
+          pt: "Sem divisão longa: o resto de P(x) ÷ (x − a) é igual a P avaliado em a. É só substituir.",
+          es: "Sin división larga: el resto de P(x) ÷ (x − a) es igual a P evaluado en a. Solo sustituye.",
+        },
+        example: {
+          id: "ex-gold-41",
+          prompt: "(x² + 3x + 5) ÷ (x − 2)",
+          promptL10n: {
+            en: "(x² + 3x + 5) ÷ (x − 2) — remainder?",
+            pt: "(x² + 3x + 5) ÷ (x − 2) — resto?",
+            es: "(x² + 3x + 5) ÷ (x − 2) — ¿resto?",
+          },
+          answer: 15,
+          operands: [3, 5, 2],
+        },
+        steps: [
+          {
+            text: {
+              en: "The divisor is (x − 2), so evaluate at x = {{2}}.",
+              pt: "O divisor é (x − 2), então avalie em x = {{2}}.",
+              es: "El divisor es (x − 2), así que evalúa en x = {{2}}.",
+            },
+          },
+          {
+            text: {
+              en: "P({{2}}) = 4 + 6 + 5 = 15.",
+              pt: "P({{2}}) = 4 + 6 + 5 = 15.",
+              es: "P({{2}}) = 4 + 6 + 5 = 15.",
+            },
+          },
+          { text: { en: "Remainder = 15.", pt: "Resto = 15.", es: "Resto = 15." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateRemainderTheorem,
+    },
+    {
+      id: "gold-42",
+      beltId: "gold",
+      index: 4,
+      degree: polynomialsDegree,
+      title: { en: "Girard: sum and product", pt: "Girard: soma e produto", es: "Girard: suma y producto" },
+      summary: {
+        en: "Read the roots' sum and product straight off the coefficients.",
+        pt: "Leia a soma e o produto das raízes direto dos coeficientes.",
+        es: "Lee la suma y el producto de las raíces directo de los coeficientes.",
+      },
+      lesson: {
+        intro: {
+          en: "For x² − Sx + P = 0, the roots sum to S and multiply to P — no solving required.",
+          pt: "Para x² − Sx + P = 0, as raízes somam S e multiplicam P — sem precisar resolver.",
+          es: "Para x² − Sx + P = 0, las raíces suman S y multiplican P — sin necesidad de resolver.",
+        },
+        example: {
+          id: "ex-gold-42",
+          prompt: "x² − 7x + 10 = 0",
+          promptL10n: {
+            en: "x² − 7x + 10 = 0 — sum, product of roots?",
+            pt: "x² − 7x + 10 = 0 — soma, produto das raízes?",
+            es: "x² − 7x + 10 = 0 — ¿suma, producto de raíces?",
+          },
+          answer: 7,
+          operands: [7, 10],
+          secondaryAnswer: 10,
+          secondaryFormat: "pair",
+          isEquation: true,
+          equationLabel: "S, P =",
+        },
+        steps: [
+          {
+            text: {
+              en: "Sum = minus the x-coefficient: −(−7) = {{7}}.",
+              pt: "Soma = menos o coeficiente de x: −(−7) = {{7}}.",
+              es: "Suma = menos el coeficiente de x: −(−7) = {{7}}.",
+            },
+          },
+          {
+            text: {
+              en: "Product = the constant: {{10}}.",
+              pt: "Produto = o termo constante: {{10}}.",
+              es: "Producto = la constante: {{10}}.",
+            },
+          },
+          {
+            text: {
+              en: "Check: 2 and 5 work — 2 + 5 = 7, 2 × 5 = 10.",
+              pt: "Confira: 2 e 5 funcionam — 2 + 5 = 7, 2 × 5 = 10.",
+              es: "Verifica: 2 y 5 funcionan — 2 + 5 = 7, 2 × 5 = 10.",
+            },
+          },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateGirardQuadratic,
+    },
+    {
+      id: "gold-43",
+      beltId: "gold",
+      index: 5,
+      degree: polynomialsDegree,
+      title: { en: "Girard for cubics", pt: "Girard para cúbicas", es: "Girard para cúbicas" },
+      summary: {
+        en: "The sum of all three roots is −b/a.",
+        pt: "A soma das três raízes é −b/a.",
+        es: "La suma de las tres raíces es −b/a.",
+      },
+      lesson: {
+        intro: {
+          en: "In x³ + bx² + …, the roots sum to −b. Watch the sign of the x² term and flip it.",
+          pt: "Em x³ + bx² + …, as raízes somam −b. Olhe o sinal do termo x² e inverta.",
+          es: "En x³ + bx² + …, las raíces suman −b. Mira el signo del término x² e inviértelo.",
+        },
+        example: {
+          id: "ex-gold-43",
+          prompt: "x³ − 6x² + 11x − 6 = 0",
+          promptL10n: {
+            en: "x³ − 6x² + 11x − 6 = 0 — sum of the 3 roots?",
+            pt: "x³ − 6x² + 11x − 6 = 0 — soma das 3 raízes?",
+            es: "x³ − 6x² + 11x − 6 = 0 — ¿suma de las 3 raíces?",
+          },
+          answer: 6,
+          operands: [6, 11, 6],
+          isEquation: true,
+          equationLabel: "S =",
+        },
+        steps: [
+          {
+            text: {
+              en: "The x² coefficient is −6.",
+              pt: "O coeficiente de x² é −6.",
+              es: "El coeficiente de x² es −6.",
+            },
+          },
+          {
+            text: {
+              en: "Flip the sign: sum = {{6}}.",
+              pt: "Inverta o sinal: soma = {{6}}.",
+              es: "Invierte el signo: suma = {{6}}.",
+            },
+          },
+          {
+            text: {
+              en: "Check: the roots are 1, 2, 3 — and 1 + 2 + 3 = 6.",
+              pt: "Confira: as raízes são 1, 2, 3 — e 1 + 2 + 3 = 6.",
+              es: "Verifica: las raíces son 1, 2, 3 — y 1 + 2 + 3 = 6.",
+            },
+          },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateGirardCubic,
+    },
+    {
+      id: "gold-44",
+      beltId: "gold",
+      index: 6,
+      degree: polynomialsDegree,
+      title: { en: "Powers of i", pt: "Potências de i", es: "Potencias de i" },
+      summary: {
+        en: "i² = −1 and the powers cycle every 4 steps.",
+        pt: "i² = −1 e as potências repetem a cada 4 passos.",
+        es: "i² = −1 y las potencias se repiten cada 4 pasos.",
+      },
+      lesson: {
+        intro: {
+          en: "i, i² = −1, i³ = −i, i⁴ = 1, then it repeats. Divide the exponent by 4 and look at the remainder.",
+          pt: "i, i² = −1, i³ = −i, i⁴ = 1, e aí repete. Divida o expoente por 4 e olhe o resto.",
+          es: "i, i² = −1, i³ = −i, i⁴ = 1, y luego se repite. Divide el exponente entre 4 y mira el resto.",
+        },
+        example: { id: "ex-gold-44", prompt: "i⁴⁶", answer: -1, operands: [46], allowNegative: true },
+        steps: [
+          {
+            text: {
+              en: "46 ÷ 4 = 11 remainder {{2}}.",
+              pt: "46 ÷ 4 = 11 com resto {{2}}.",
+              es: "46 ÷ 4 = 11 con resto {{2}}.",
+            },
+          },
+          {
+            text: {
+              en: "Remainder {{2}} means i⁴⁶ = i² = −1.",
+              pt: "Resto {{2}} significa i⁴⁶ = i² = −1.",
+              es: "Resto {{2}} significa i⁴⁶ = i² = −1.",
+            },
+          },
+          { text: { en: "i⁴⁶ = −1.", pt: "i⁴⁶ = −1.", es: "i⁴⁶ = −1." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generatePowersOfI,
+    },
+    {
+      id: "gold-45",
+      beltId: "gold",
+      index: 7,
+      degree: polynomialsDegree,
+      title: { en: "Adding complex numbers", pt: "Somando números complexos", es: "Sumando números complejos" },
+      summary: {
+        en: "Real with real, imaginary with imaginary.",
+        pt: "Real com real, imaginário com imaginário.",
+        es: "Real con real, imaginario con imaginario.",
+      },
+      lesson: {
+        intro: {
+          en: "A complex number has two independent parts. Add the real parts, then add the i-parts — they never mix.",
+          pt: "Um número complexo tem duas partes independentes. Some as partes reais, depois as partes com i — elas nunca se misturam.",
+          es: "Un número complejo tiene dos partes independientes. Suma las partes reales, luego las partes con i — nunca se mezclan.",
+        },
+        example: {
+          id: "ex-gold-45",
+          prompt: "(3 + 2i) + (1 + 4i) = a + bi",
+          answer: 4,
+          operands: [3, 2, 1, 4],
+          secondaryAnswer: 6,
+          secondaryFormat: "pair",
+          isEquation: true,
+          equationLabel: "a, b =",
+        },
+        steps: [
+          {
+            text: {
+              en: "Real parts: 3 + 1 = {{4}}.",
+              pt: "Partes reais: 3 + 1 = {{4}}.",
+              es: "Partes reales: 3 + 1 = {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "Imaginary parts: 2 + 4 = {{6}}.",
+              pt: "Partes imaginárias: 2 + 4 = {{6}}.",
+              es: "Partes imaginarias: 2 + 4 = {{6}}.",
+            },
+          },
+          { text: { en: "Result: 4 + 6i.", pt: "Resultado: 4 + 6i.", es: "Resultado: 4 + 6i." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateComplexAddition,
+    },
+    {
+      id: "gold-46",
+      beltId: "gold",
+      index: 8,
+      degree: polynomialsDegree,
+      title: { en: "Multiplying complex numbers", pt: "Multiplicando complexos", es: "Multiplicando complejos" },
+      summary: {
+        en: "Distribute like binomials — then i² becomes −1.",
+        pt: "Distribua como binômios — e o i² vira −1.",
+        es: "Distribuye como binomios — y el i² se vuelve −1.",
+      },
+      lesson: {
+        intro: {
+          en: "FOIL it out. The i² term flips sign and joins the real part: (a+bi)(c+di) = (ac − bd) + (ad + bc)i.",
+          pt: "Distribua tudo. O termo com i² troca de sinal e entra na parte real: (a+bi)(c+di) = (ac − bd) + (ad + bc)i.",
+          es: "Distribuye todo. El término con i² cambia de signo y entra en la parte real: (a+bi)(c+di) = (ac − bd) + (ad + bc)i.",
+        },
+        example: {
+          id: "ex-gold-46",
+          prompt: "(2 + i)(3 + 2i) = a + bi",
+          answer: 4,
+          operands: [2, 1, 3, 2],
+          secondaryAnswer: 7,
+          secondaryFormat: "pair",
+          isEquation: true,
+          equationLabel: "a, b =",
+          allowNegative: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "Distribute: 6 + 4i + 3i + 2i².",
+              pt: "Distribua: 6 + 4i + 3i + 2i².",
+              es: "Distribuye: 6 + 4i + 3i + 2i².",
+            },
+          },
+          {
+            text: {
+              en: "2i² = −2, so the real part is 6 − 2 = {{4}}.",
+              pt: "2i² = −2, então a parte real é 6 − 2 = {{4}}.",
+              es: "2i² = −2, así que la parte real es 6 − 2 = {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "The i-part: 4i + 3i = {{7}}i. Result: 4 + 7i.",
+              pt: "A parte com i: 4i + 3i = {{7}}i. Resultado: 4 + 7i.",
+              es: "La parte con i: 4i + 3i = {{7}}i. Resultado: 4 + 7i.",
+            },
+          },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 20 },
+      generate: generateComplexMultiplication,
+    },
+    {
+      id: "gold-47",
+      beltId: "gold",
+      index: 9,
+      degree: polynomialsDegree,
+      title: { en: "Modulus of a complex number", pt: "Módulo de um complexo", es: "Módulo de un complejo" },
+      summary: {
+        en: "|a + bi| is the hypotenuse of the (a, b) triangle.",
+        pt: "|a + bi| é a hipotenusa do triângulo (a, b).",
+        es: "|a + bi| es la hipotenusa del triángulo (a, b).",
+      },
+      lesson: {
+        intro: {
+          en: "Plot a + bi as the point (a, b). Its distance from the origin is √(a² + b²) — Pythagoras again.",
+          pt: "Marque a + bi como o ponto (a, b). A distância até a origem é √(a² + b²) — Pitágoras de novo.",
+          es: "Ubica a + bi como el punto (a, b). Su distancia al origen es √(a² + b²) — Pitágoras otra vez.",
+        },
+        example: { id: "ex-gold-47", prompt: "|3 + 4i|", answer: 5, operands: [3, 4] },
+        steps: [
+          {
+            text: {
+              en: "Square the parts: 3² + 4² = 9 + 16 = {{25}}.",
+              pt: "Eleve as partes: 3² + 4² = 9 + 16 = {{25}}.",
+              es: "Eleva las partes: 3² + 4² = 9 + 16 = {{25}}.",
+            },
+          },
+          {
+            text: {
+              en: "Square root: √{{25}} = 5.",
+              pt: "Raiz quadrada: √{{25}} = 5.",
+              es: "Raíz cuadrada: √{{25}} = 5.",
+            },
+          },
+          { text: { en: "|3 + 4i| = 5.", pt: "|3 + 4i| = 5.", es: "|3 + 4i| = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateComplexModulus,
+    },
+    {
+      id: "gold-48",
+      beltId: "gold",
+      index: 10,
+      degree: polynomialsDegree,
+      title: { en: "Polynomials & complex, mixed", pt: "Polinômios e complexos, misturados", es: "Polinomios y complejos, mezclados" },
+      summary: {
+        en: "Girard, remainders, i-powers and moduli — shuffled.",
+        pt: "Girard, restos, potências de i e módulos — embaralhados.",
+        es: "Girard, restos, potencias de i y módulos — revueltos.",
+      },
+      lesson: {
+        intro: {
+          en: "Look for the fingerprint: an i means complex arithmetic, a division by (x − a) means substitute, a quadratic asks for Girard.",
+          pt: "Procure a impressão digital: um i pede aritmética complexa, dividir por (x − a) pede substituição, uma quadrática pede Girard.",
+          es: "Busca la huella: una i pide aritmética compleja, dividir por (x − a) pide sustituir, una cuadrática pide Girard.",
+        },
+        example: { id: "ex-gold-48", prompt: "|6 + 8i|", answer: 10, operands: [6, 8] },
+        steps: [
+          {
+            text: {
+              en: "6² + 8² = 36 + 64 = {{100}}.",
+              pt: "6² + 8² = 36 + 64 = {{100}}.",
+              es: "6² + 8² = 36 + 64 = {{100}}.",
+            },
+          },
+          {
+            text: {
+              en: "√{{100}} = 10.",
+              pt: "√{{100}} = 10.",
+              es: "√{{100}} = 10.",
+            },
+          },
+          { text: { en: "|6 + 8i| = 10.", pt: "|6 + 8i| = 10.", es: "|6 + 8i| = 10." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generatePolynomialsMix,
+    },
+    {
+      id: "gold-49",
+      beltId: "gold",
+      index: 1,
+      degree: analyticDegree,
+      title: { en: "Distance between points", pt: "Distância entre pontos", es: "Distancia entre puntos" },
+      summary: {
+        en: "Horizontal leg, vertical leg, Pythagoras.",
+        pt: "Cateto horizontal, cateto vertical, Pitágoras.",
+        es: "Cateto horizontal, cateto vertical, Pitágoras.",
+      },
+      lesson: {
+        intro: {
+          en: "The segment between two points is the hypotenuse of a right triangle: legs Δx and Δy. d = √(Δx² + Δy²).",
+          pt: "O segmento entre dois pontos é a hipotenusa de um triângulo retângulo: catetos Δx e Δy. d = √(Δx² + Δy²).",
+          es: "El segmento entre dos puntos es la hipotenusa de un triángulo rectángulo: catetos Δx y Δy. d = √(Δx² + Δy²).",
+        },
+        example: { id: "ex-gold-49", prompt: "d((1, 2), (4, 6))", answer: 5, operands: [1, 2, 4, 6] },
+        steps: [
+          {
+            text: {
+              en: "Δx = 4 − 1 = {{3}}, Δy = 6 − 2 = {{4}}.",
+              pt: "Δx = 4 − 1 = {{3}}, Δy = 6 − 2 = {{4}}.",
+              es: "Δx = 4 − 1 = {{3}}, Δy = 6 − 2 = {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "√({{3}}² + {{4}}²) = √25 = 5.",
+              pt: "√({{3}}² + {{4}}²) = √25 = 5.",
+              es: "√({{3}}² + {{4}}²) = √25 = 5.",
+            },
+          },
+          { text: { en: "d = 5.", pt: "d = 5.", es: "d = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateDistanceBetweenPoints,
+    },
+    {
+      id: "gold-50",
+      beltId: "gold",
+      index: 2,
+      degree: analyticDegree,
+      title: { en: "The midpoint", pt: "O ponto médio", es: "El punto medio" },
+      summary: {
+        en: "Average the x's, average the y's.",
+        pt: "Média dos x, média dos y.",
+        es: "Promedia las x, promedia las y.",
+      },
+      lesson: {
+        intro: {
+          en: "The midpoint sits halfway in each direction: M = ((x₁ + x₂)/2, (y₁ + y₂)/2).",
+          pt: "O ponto médio fica na metade de cada direção: M = ((x₁ + x₂)/2, (y₁ + y₂)/2).",
+          es: "El punto medio está a mitad de camino en cada dirección: M = ((x₁ + x₂)/2, (y₁ + y₂)/2).",
+        },
+        example: {
+          id: "ex-gold-50",
+          prompt: "M((2, 4), (6, 10)) = (x, y)",
+          answer: 4,
+          operands: [2, 4, 6, 10],
+          secondaryAnswer: 7,
+          secondaryFormat: "pair",
+          isEquation: true,
+          equationLabel: "x, y =",
+        },
+        steps: [
+          {
+            text: {
+              en: "x: (2 + 6) ÷ 2 = {{4}}.",
+              pt: "x: (2 + 6) ÷ 2 = {{4}}.",
+              es: "x: (2 + 6) ÷ 2 = {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "y: (4 + 10) ÷ 2 = {{7}}.",
+              pt: "y: (4 + 10) ÷ 2 = {{7}}.",
+              es: "y: (4 + 10) ÷ 2 = {{7}}.",
+            },
+          },
+          { text: { en: "M = (4, 7).", pt: "M = (4, 7).", es: "M = (4, 7)." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateMidpoint,
+    },
+    {
+      id: "gold-51",
+      beltId: "gold",
+      index: 3,
+      degree: analyticDegree,
+      title: { en: "Slope, with sign", pt: "Inclinação, com sinal", es: "Pendiente, con signo" },
+      summary: {
+        en: "Rise over run — and downhill lines are negative.",
+        pt: "Variação de y sobre variação de x — retas que descem são negativas.",
+        es: "Cambio de y sobre cambio de x — las rectas que bajan son negativas.",
+      },
+      lesson: {
+        intro: {
+          en: "m = Δy / Δx. If y drops while x grows, the slope comes out negative.",
+          pt: "m = Δy / Δx. Se o y cai enquanto o x cresce, a inclinação sai negativa.",
+          es: "m = Δy / Δx. Si y baja mientras x crece, la pendiente sale negativa.",
+        },
+        example: {
+          id: "ex-gold-51",
+          prompt: "m: (1, 2) → (3, 8)",
+          answer: 3,
+          operands: [1, 2, 3, 8],
+          allowNegative: true,
+          isEquation: true,
+          equationLabel: "m =",
+        },
+        steps: [
+          {
+            text: {
+              en: "Δy = 8 − 2 = {{6}}, Δx = 3 − 1 = {{2}}.",
+              pt: "Δy = 8 − 2 = {{6}}, Δx = 3 − 1 = {{2}}.",
+              es: "Δy = 8 − 2 = {{6}}, Δx = 3 − 1 = {{2}}.",
+            },
+          },
+          {
+            text: {
+              en: "m = {{6}} ÷ {{2}} = 3.",
+              pt: "m = {{6}} ÷ {{2}} = 3.",
+              es: "m = {{6}} ÷ {{2}} = 3.",
+            },
+          },
+          { text: { en: "m = 3.", pt: "m = 3.", es: "m = 3." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateIntegerSlope,
+    },
+    {
+      id: "gold-52",
+      beltId: "gold",
+      index: 4,
+      degree: analyticDegree,
+      title: { en: "A line through a point", pt: "Reta passando por um ponto", es: "Una recta por un punto" },
+      summary: {
+        en: "Plug the point into y = mx + b and solve for b.",
+        pt: "Substitua o ponto em y = mx + b e resolva para b.",
+        es: "Sustituye el punto en y = mx + b y despeja b.",
+      },
+      lesson: {
+        intro: {
+          en: "If the line passes through (x, y), those coordinates satisfy the equation. Substitute them and b is the only unknown left.",
+          pt: "Se a reta passa por (x, y), essas coordenadas satisfazem a equação. Substitua e o b fica sendo a única incógnita.",
+          es: "Si la recta pasa por (x, y), esas coordenadas satisfacen la ecuación. Sustitúyelas y b queda como única incógnita.",
+        },
+        example: {
+          id: "ex-gold-52",
+          prompt: "y = 2x + b, (3, 10)",
+          promptL10n: {
+            en: "y = 2x + b passes through (3, 10) — b?",
+            pt: "y = 2x + b passa por (3, 10) — b?",
+            es: "y = 2x + b pasa por (3, 10) — ¿b?",
+          },
+          answer: 4,
+          operands: [2, 3, 10],
+          allowNegative: true,
+          isEquation: true,
+          equationLabel: "b =",
+        },
+        steps: [
+          {
+            text: {
+              en: "Substitute: 10 = 2 × 3 + b.",
+              pt: "Substitua: 10 = 2 × 3 + b.",
+              es: "Sustituye: 10 = 2 × 3 + b.",
+            },
+          },
+          {
+            text: {
+              en: "10 = {{6}} + b, so b = 4.",
+              pt: "10 = {{6}} + b, então b = 4.",
+              es: "10 = {{6}} + b, así que b = 4.",
+            },
+          },
+          { text: { en: "b = 4.", pt: "b = 4.", es: "b = 4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateLineThroughPoint,
+    },
+    {
+      id: "gold-53",
+      beltId: "gold",
+      index: 5,
+      degree: analyticDegree,
+      title: { en: "Where the line crosses x", pt: "Onde a reta corta o eixo x", es: "Dónde la recta corta el eje x" },
+      summary: {
+        en: "Set y = 0 and solve.",
+        pt: "Iguale y = 0 e resolva.",
+        es: "Iguala y = 0 y resuelve.",
+      },
+      lesson: {
+        intro: {
+          en: "On the x-axis the height is zero. Replace y with 0 and solve the little equation for x.",
+          pt: "No eixo x a altura é zero. Troque y por 0 e resolva a equaçãozinha para x.",
+          es: "En el eje x la altura es cero. Reemplaza y por 0 y resuelve la pequeña ecuación para x.",
+        },
+        example: {
+          id: "ex-gold-53",
+          prompt: "y = 2x − 8: y = 0",
+          promptL10n: {
+            en: "y = 2x − 8 — x-intercept?",
+            pt: "y = 2x − 8 — corta o eixo x em?",
+            es: "y = 2x − 8 — ¿corte con el eje x?",
+          },
+          answer: 4,
+          operands: [2, -8],
+          allowNegative: true,
+          isEquation: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "Set y = 0: 0 = 2x − 8.",
+              pt: "Iguale y = 0: 0 = 2x − 8.",
+              es: "Iguala y = 0: 0 = 2x − 8.",
+            },
+          },
+          {
+            text: {
+              en: "2x = {{8}}, so x = 4.",
+              pt: "2x = {{8}}, então x = 4.",
+              es: "2x = {{8}}, así que x = 4.",
+            },
+          },
+          { text: { en: "x = 4.", pt: "x = 4.", es: "x = 4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateLineXIntercept,
+    },
+    {
+      id: "gold-54",
+      beltId: "gold",
+      index: 6,
+      degree: analyticDegree,
+      title: { en: "Perpendicular slopes", pt: "Retas perpendiculares", es: "Pendientes perpendiculares" },
+      summary: {
+        en: "Flip the fraction and switch the sign.",
+        pt: "Inverta a fração e troque o sinal.",
+        es: "Invierte la fracción y cambia el signo.",
+      },
+      lesson: {
+        intro: {
+          en: "Perpendicular lines have slopes that multiply to −1: m' = −1/m. A slope of 1/4 turns into −4.",
+          pt: "Retas perpendiculares têm inclinações que multiplicam −1: m' = −1/m. Uma inclinação 1/4 vira −4.",
+          es: "Las rectas perpendiculares tienen pendientes que multiplican −1: m' = −1/m. Una pendiente 1/4 se vuelve −4.",
+        },
+        example: {
+          id: "ex-gold-54",
+          prompt: "m = 1/4 ⊥ m' = ?",
+          promptL10n: {
+            en: "Line with slope 1/4 — perpendicular slope?",
+            pt: "Reta com inclinação 1/4 — inclinação da perpendicular?",
+            es: "Recta con pendiente 1/4 — ¿pendiente de la perpendicular?",
+          },
+          answer: -4,
+          operands: [4],
+          allowNegative: true,
+          isEquation: true,
+          equationLabel: "m' =",
+        },
+        steps: [
+          {
+            text: {
+              en: "Flip 1/4 into {{4}}.",
+              pt: "Inverta 1/4 para {{4}}.",
+              es: "Invierte 1/4 a {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "Switch the sign: −{{4}}.",
+              pt: "Troque o sinal: −{{4}}.",
+              es: "Cambia el signo: −{{4}}.",
+            },
+          },
+          { text: { en: "m' = −4.", pt: "m' = −4.", es: "m' = −4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generatePerpendicularSlope,
+    },
+    {
+      id: "gold-55",
+      beltId: "gold",
+      index: 7,
+      degree: analyticDegree,
+      title: { en: "The circle equation", pt: "A equação da circunferência", es: "La ecuación de la circunferencia" },
+      summary: {
+        en: "x² + y² = r² — the right side hides the radius, squared.",
+        pt: "x² + y² = r² — o lado direito esconde o raio ao quadrado.",
+        es: "x² + y² = r² — el lado derecho esconde el radio al cuadrado.",
+      },
+      lesson: {
+        intro: {
+          en: "Every point at distance r from the origin satisfies x² + y² = r². Take the square root of the right side.",
+          pt: "Todo ponto a distância r da origem satisfaz x² + y² = r². Tire a raiz quadrada do lado direito.",
+          es: "Todo punto a distancia r del origen satisface x² + y² = r². Saca la raíz cuadrada del lado derecho.",
+        },
+        example: {
+          id: "ex-gold-55",
+          prompt: "x² + y² = 49",
+          promptL10n: {
+            en: "x² + y² = 49 — radius?",
+            pt: "x² + y² = 49 — raio?",
+            es: "x² + y² = 49 — ¿radio?",
+          },
+          answer: 7,
+          operands: [49],
+          isEquation: true,
+          equationLabel: "r =",
+        },
+        steps: [
+          {
+            text: {
+              en: "The right side is r² = {{49}}.",
+              pt: "O lado direito é r² = {{49}}.",
+              es: "El lado derecho es r² = {{49}}.",
+            },
+          },
+          {
+            text: {
+              en: "r = √{{49}} = 7.",
+              pt: "r = √{{49}} = 7.",
+              es: "r = √{{49}} = 7.",
+            },
+          },
+          { text: { en: "r = 7.", pt: "r = 7.", es: "r = 7." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 5, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateCircleRadius,
+    },
+    {
+      id: "gold-56",
+      beltId: "gold",
+      index: 8,
+      degree: analyticDegree,
+      title: { en: "Center of a circle", pt: "Centro da circunferência", es: "Centro de la circunferencia" },
+      summary: {
+        en: "(x − a)² + (y − b)² = r² — the center is (a, b), signs flipped.",
+        pt: "(x − a)² + (y − b)² = r² — o centro é (a, b), com sinais invertidos.",
+        es: "(x − a)² + (y − b)² = r² — el centro es (a, b), con signos invertidos.",
+      },
+      lesson: {
+        intro: {
+          en: "Whatever is subtracted inside the parentheses is the center coordinate. (y + 2)² means b = −2 — flip the sign you see.",
+          pt: "O que está sendo subtraído dentro dos parênteses é a coordenada do centro. (y + 2)² significa b = −2 — inverta o sinal que você vê.",
+          es: "Lo que se resta dentro del paréntesis es la coordenada del centro. (y + 2)² significa b = −2 — invierte el signo que ves.",
+        },
+        example: {
+          id: "ex-gold-56",
+          prompt: "(x − 3)² + (y + 2)² = 25",
+          promptL10n: {
+            en: "(x − 3)² + (y + 2)² = 25 — center?",
+            pt: "(x − 3)² + (y + 2)² = 25 — centro?",
+            es: "(x − 3)² + (y + 2)² = 25 — ¿centro?",
+          },
+          answer: 3,
+          operands: [3, -2, 25],
+          secondaryAnswer: -2,
+          secondaryFormat: "pair",
+          isEquation: true,
+          equationLabel: "x, y =",
+          allowNegative: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "(x − 3)²: the center's x is {{3}}.",
+              pt: "(x − 3)²: o x do centro é {{3}}.",
+              es: "(x − 3)²: la x del centro es {{3}}.",
+            },
+          },
+          {
+            text: {
+              en: "(y + 2)² is (y − (−2))²: the center's y is −2.",
+              pt: "(y + 2)² é (y − (−2))²: o y do centro é −2.",
+              es: "(y + 2)² es (y − (−2))²: la y del centro es −2.",
+            },
+          },
+          { text: { en: "Center = (3, −2).", pt: "Centro = (3, −2).", es: "Centro = (3, −2)." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateCircleCenter,
+    },
+    {
+      id: "gold-57",
+      beltId: "gold",
+      index: 9,
+      degree: analyticDegree,
+      title: { en: "Radius through a point", pt: "Raio por um ponto", es: "Radio por un punto" },
+      summary: {
+        en: "The radius is the distance from center to any point on the circle.",
+        pt: "O raio é a distância do centro a qualquer ponto da circunferência.",
+        es: "El radio es la distancia del centro a cualquier punto de la circunferencia.",
+      },
+      lesson: {
+        intro: {
+          en: "Center at the origin, point on the circle given — the radius is just the distance formula again.",
+          pt: "Centro na origem, ponto na circunferência dado — o raio é só a fórmula da distância de novo.",
+          es: "Centro en el origen, punto en la circunferencia dado — el radio es solo la fórmula de distancia otra vez.",
+        },
+        example: {
+          id: "ex-gold-57",
+          prompt: "C(0, 0), P(6, 8)",
+          promptL10n: {
+            en: "Circle centered (0, 0) through (6, 8) — radius?",
+            pt: "Circunferência de centro (0, 0) passando por (6, 8) — raio?",
+            es: "Circunferencia con centro (0, 0) que pasa por (6, 8) — ¿radio?",
+          },
+          answer: 10,
+          operands: [6, 8],
+          isEquation: true,
+          equationLabel: "r =",
+        },
+        steps: [
+          {
+            text: {
+              en: "r² = 6² + 8² = 36 + 64 = {{100}}.",
+              pt: "r² = 6² + 8² = 36 + 64 = {{100}}.",
+              es: "r² = 6² + 8² = 36 + 64 = {{100}}.",
+            },
+          },
+          {
+            text: {
+              en: "r = √{{100}} = 10.",
+              pt: "r = √{{100}} = 10.",
+              es: "r = √{{100}} = 10.",
+            },
+          },
+          { text: { en: "r = 10.", pt: "r = 10.", es: "r = 10." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateCircleThroughPoint,
+    },
+    {
+      id: "gold-58",
+      beltId: "gold",
+      index: 10,
+      degree: analyticDegree,
+      title: { en: "Analytic geometry, mixed", pt: "Geometria analítica, misturada", es: "Geometría analítica, mezclada" },
+      summary: {
+        en: "Distances, midpoints, lines and circles — shuffled.",
+        pt: "Distâncias, pontos médios, retas e circunferências — embaralhados.",
+        es: "Distancias, puntos medios, rectas y circunferencias — revueltos.",
+      },
+      lesson: {
+        intro: {
+          en: "Everything on the plane mixes here. Parse the notation — d(…) is distance, M(…) is midpoint, an equation with x² + y² is a circle.",
+          pt: "Tudo do plano se mistura aqui. Leia a notação — d(…) é distância, M(…) é ponto médio, equação com x² + y² é circunferência.",
+          es: "Todo el plano se mezcla aquí. Lee la notación — d(…) es distancia, M(…) es punto medio, ecuación con x² + y² es circunferencia.",
+        },
+        example: { id: "ex-gold-58", prompt: "d((0, 0), (3, 4))", answer: 5, operands: [0, 0, 3, 4] },
+        steps: [
+          {
+            text: {
+              en: "Legs: 3 and 4.",
+              pt: "Catetos: 3 e 4.",
+              es: "Catetos: 3 y 4.",
+            },
+          },
+          {
+            text: {
+              en: "√(9 + 16) = √{{25}} = 5.",
+              pt: "√(9 + 16) = √{{25}} = 5.",
+              es: "√(9 + 16) = √{{25}} = 5.",
+            },
+          },
+          { text: { en: "d = 5.", pt: "d = 5.", es: "d = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateAnalyticGeometryMix,
+    },
+    {
+      id: "gold-59",
+      beltId: "gold",
+      index: 1,
+      degree: goldExamDegree,
+      title: {
+        en: "Gold Belt exam: everything mixed",
+        pt: "Prova da Faixa Dourada: tudo misturado",
+        es: "Examen del Cinturón Dorado: todo mezclado",
+      },
+      summary: {
+        en: "All six degrees in one final gauntlet — the entrance-exam simulator.",
+        pt: "Os seis níveis numa prova final — o simulado de vestibular.",
+        es: "Los seis niveles en una prueba final — el simulador de examen.",
+      },
+      lesson: {
+        intro: {
+          en: "Logs, sequences, probability, matrices, complex numbers and the plane — anything can come. Name the topic before touching the numbers.",
+          pt: "Logs, sequências, probabilidade, matrizes, complexos e o plano — pode vir qualquer coisa. Nomeie o assunto antes de mexer nos números.",
+          es: "Logs, sucesiones, probabilidad, matrices, complejos y el plano — puede venir cualquier cosa. Nombra el tema antes de tocar los números.",
+        },
+        example: { id: "ex-gold-59", prompt: "log₂ 16", answer: 4, operands: [2, 16] },
+        steps: [
+          {
+            text: {
+              en: "Spot the topic: a logarithm — an exponent hunt.",
+              pt: "Identifique o assunto: um logaritmo — caça ao expoente.",
+              es: "Identifica el tema: un logaritmo — búsqueda del exponente.",
+            },
+          },
+          {
+            text: {
+              en: "2⁴ = 16, so the answer is {{4}}.",
+              pt: "2⁴ = 16, então a resposta é {{4}}.",
+              es: "2⁴ = 16, así que la respuesta es {{4}}.",
+            },
+          },
+          { text: { en: "log₂ 16 = 4.", pt: "log₂ 16 = 4.", es: "log₂ 16 = 4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 10, passAccuracy: 0.8, targetTimeSec: 18 },
+      generate: generateGoldBeltMix,
+    },
+  ],
+};
+
 const coralBelt: Belt = {
   id: "coral",
   name: { en: "Coral Belt", pt: "Faixa Coral", es: "Cinturón Coral" },
-  order: 8,
+  order: 9,
   operationLabel: { en: "Calculus I", pt: "Cálculo I", es: "Cálculo I" },
   colorVar: "--belt-coral",
   tagline: {
@@ -7269,4 +10034,4 @@ const coralBelt: Belt = {
   ],
 };
 
-export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, greenBelt, blackBelt, redBelt, coralBelt];
+export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, greenBelt, blackBelt, redBelt, goldBelt, coralBelt];

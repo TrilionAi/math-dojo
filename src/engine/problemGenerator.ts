@@ -2566,3 +2566,1166 @@ export function generateRedBeltMix(count: number): Problem[] {
   ];
   return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
 }
+
+// ---------------------------------------------------------------------------
+// Gold Belt — logs & exponentials, sequences, counting & probability,
+// matrices & systems, polynomials & complex numbers, analytic geometry.
+// ---------------------------------------------------------------------------
+
+const SUBSCRIPT_DIGITS: Record<string, string> = {
+  "0": "₀",
+  "1": "₁",
+  "2": "₂",
+  "3": "₃",
+  "4": "₄",
+  "5": "₅",
+  "6": "₆",
+  "7": "₇",
+  "8": "₈",
+  "9": "₉",
+};
+
+/** Renders a positive integer as unicode subscript digits, for log bases and sequence terms. */
+function subscript(n: number): string {
+  return String(n)
+    .split("")
+    .map((d) => SUBSCRIPT_DIGITS[d])
+    .join("");
+}
+
+/** A negative exponent flips the power into a unit fraction: 2⁻² = 1/4. */
+export function generateNegativeExponent(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const base = randomInt(2, 10);
+    const exp = base <= 4 ? randomInt(1, 3) : randomInt(1, 2);
+    return {
+      id: nextId(),
+      prompt: `${base}⁻${superscript(exp)}`,
+      answer: 1,
+      operands: [base, exp],
+      secondaryAnswer: base ** exp,
+      secondaryFormat: "fraction",
+    };
+  });
+}
+
+const EXP_BASES = [2, 3, 5, 10];
+
+/** Solve bˣ = n by recognizing the power. */
+export function generateSolveExponential(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const base = EXP_BASES[randomInt(0, EXP_BASES.length - 1)];
+    const maxExp = base === 2 ? 8 : base === 3 ? 5 : base === 5 ? 4 : 5;
+    const x = randomInt(2, maxExp);
+    return {
+      id: nextId(),
+      prompt: `${base}ˣ = ${base ** x}`,
+      answer: x,
+      operands: [base, base ** x],
+      isEquation: true,
+    };
+  });
+}
+
+/** What a log means: log_b n asks "b to what power gives n?" */
+export function generateLogMeaning(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const base = EXP_BASES[randomInt(0, EXP_BASES.length - 1)];
+    const maxExp = base === 2 ? 8 : base === 3 ? 5 : base === 5  ? 4 : 5;
+    const x = randomInt(1, maxExp);
+    return {
+      id: nextId(),
+      prompt: `log${subscript(base)} ${base ** x}`,
+      answer: x,
+      operands: [base, base ** x],
+    };
+  });
+}
+
+/** Base-10 logs of powers of ten — count the zeros. */
+export function generateLog10(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const x = randomInt(1, 6);
+    return {
+      id: nextId(),
+      prompt: `log ${10 ** x}`,
+      answer: x,
+      operands: [10 ** x],
+    };
+  });
+}
+
+/** The product rule: log_b m + log_b n = log_b (m·n). */
+export function generateLogProductRule(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const base = [2, 3][randomInt(0, 1)];
+    const maxTotal = base === 2 ? 8 : 5;
+    const e1 = randomInt(1, maxTotal - 1);
+    const e2 = randomInt(1, maxTotal - e1);
+    return {
+      id: nextId(),
+      prompt: `log${subscript(base)} ${base ** e1} + log${subscript(base)} ${base ** e2}`,
+      answer: e1 + e2,
+      operands: [base ** e1, base ** e2],
+    };
+  });
+}
+
+/** The quotient rule: log_b m − log_b n = log_b (m/n). */
+export function generateLogQuotientRule(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const base = [2, 3][randomInt(0, 1)];
+    const maxExp = base === 2 ? 8 : 5;
+    const e2 = randomInt(1, maxExp - 1);
+    const e1 = randomInt(e2 + 1, maxExp);
+    return {
+      id: nextId(),
+      prompt: `log${subscript(base)} ${base ** e1} − log${subscript(base)} ${base ** e2}`,
+      answer: e1 - e2,
+      operands: [base ** e1, base ** e2],
+    };
+  });
+}
+
+/** Solve log_b x = k for x — rewrite as a power. */
+export function generateSolveLog(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const base = EXP_BASES[randomInt(0, EXP_BASES.length - 1)];
+    const maxExp = base === 2 ? 7 : base === 3 ? 4 : base === 5 ? 3 : 4;
+    const k = randomInt(1, maxExp);
+    return {
+      id: nextId(),
+      prompt: `log${subscript(base)} x = ${k}`,
+      answer: base ** k,
+      operands: [base, k],
+      isEquation: true,
+    };
+  });
+}
+
+/** Multiply two independent logs: log₂ 8 × log₃ 9. */
+export function generateLogProduct(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const e1 = randomInt(1, 6);
+    const e2 = randomInt(1, 4);
+    return {
+      id: nextId(),
+      prompt: `log${subscript(2)} ${2 ** e1} × log${subscript(3)} ${3 ** e2}`,
+      answer: e1 * e2,
+      operands: [2 ** e1, 3 ** e2],
+    };
+  });
+}
+
+/** Exponential equation with a shift: 2^(x+1) = 16. */
+export function generateShiftedExponential(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const base = [2, 3][randomInt(0, 1)];
+    const maxExp = base === 2 ? 8 : 5;
+    const shift = randomInt(1, 3);
+    const total = randomInt(shift + 1, maxExp);
+    return {
+      id: nextId(),
+      prompt: `${base}ˣ⁺${superscript(shift)} = ${base ** total}`,
+      answer: total - shift,
+      operands: [base, shift, base ** total],
+      isEquation: true,
+    };
+  });
+}
+
+/** Logs & exponentials capstone: every skill of the degree, shuffled. */
+export function generateLogsMix(count: number): Problem[] {
+  const makers = [
+    () => generateNegativeExponent(1)[0],
+    () => generateSolveExponential(1)[0],
+    () => generateLogMeaning(1)[0],
+    () => generateLog10(1)[0],
+    () => generateLogProductRule(1)[0],
+    () => generateLogQuotientRule(1)[0],
+    () => generateSolveLog(1)[0],
+    () => generateLogProduct(1)[0],
+    () => generateShiftedExponential(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+/** Continue an arithmetic sequence — spot the common difference. */
+export function generateNextTermAP(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a1 = randomInt(1, 20);
+    const d = randomInt(2, 12);
+    const terms = [a1, a1 + d, a1 + 2 * d];
+    return {
+      id: nextId(),
+      prompt: `${terms.join(", ")}, …`,
+      answer: a1 + 3 * d,
+      operands: [a1, d],
+    };
+  });
+}
+
+/** nth term of an AP: aₙ = a₁ + (n−1)d. */
+export function generateNthTermAP(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a1 = randomInt(1, 12);
+    const d = randomInt(2, 9);
+    const n = randomInt(5, 20);
+    return {
+      id: nextId(),
+      prompt: `AP: a${subscript(1)} = ${a1}, d = ${d} — a${subscript(n)}?`,
+      promptL10n: localized(
+        `AP: a${subscript(1)} = ${a1}, d = ${d} — a${subscript(n)}?`,
+        `PA: a${subscript(1)} = ${a1}, r = ${d} — a${subscript(n)}?`,
+        `PA: a${subscript(1)} = ${a1}, d = ${d} — ¿a${subscript(n)}?`,
+      ),
+      answer: a1 + (n - 1) * d,
+      operands: [a1, d, n],
+    };
+  });
+}
+
+/** Sum of an AP: Sₙ = n(a₁ + aₙ)/2. */
+export function generateSumAP(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a1 = randomInt(1, 9);
+    const d = randomInt(2, 6);
+    const n = 2 * randomInt(3, 8);
+    const an = a1 + (n - 1) * d;
+    return {
+      id: nextId(),
+      prompt: `AP: a${subscript(1)} = ${a1}, d = ${d}, n = ${n} — S${subscript(n)}?`,
+      promptL10n: localized(
+        `AP: a${subscript(1)} = ${a1}, d = ${d}, n = ${n} — sum S${subscript(n)}?`,
+        `PA: a${subscript(1)} = ${a1}, r = ${d}, n = ${n} — soma S${subscript(n)}?`,
+        `PA: a${subscript(1)} = ${a1}, d = ${d}, n = ${n} — ¿suma S${subscript(n)}?`,
+      ),
+      answer: (n * (a1 + an)) / 2,
+      operands: [a1, d, n],
+    };
+  });
+}
+
+/** Continue a geometric sequence — spot the common ratio. */
+export function generateNextTermGP(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a1 = randomInt(1, 6);
+    const q = randomInt(2, 4);
+    const terms = [a1, a1 * q, a1 * q * q];
+    return {
+      id: nextId(),
+      prompt: `${terms.join(", ")}, …`,
+      answer: a1 * q ** 3,
+      operands: [a1, q],
+    };
+  });
+}
+
+/** nth term of a GP: aₙ = a₁ · qⁿ⁻¹. */
+export function generateNthTermGP(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const q = randomInt(2, 3);
+    const maxN = q === 2 ? 9 : 6;
+    const a1 = randomInt(1, 5);
+    const n = randomInt(4, maxN);
+    return {
+      id: nextId(),
+      prompt: `GP: a${subscript(1)} = ${a1}, q = ${q} — a${subscript(n)}?`,
+      promptL10n: localized(
+        `GP: a${subscript(1)} = ${a1}, ratio q = ${q} — a${subscript(n)}?`,
+        `PG: a${subscript(1)} = ${a1}, q = ${q} — a${subscript(n)}?`,
+        `PG: a${subscript(1)} = ${a1}, q = ${q} — ¿a${subscript(n)}?`,
+      ),
+      answer: a1 * q ** (n - 1),
+      operands: [a1, q, n],
+    };
+  });
+}
+
+/** Sum of a finite GP with q = 2: Sₙ = a₁(2ⁿ − 1). */
+export function generateSumGP(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a1 = randomInt(1, 5);
+    const n = randomInt(3, 8);
+    return {
+      id: nextId(),
+      prompt: `GP: a${subscript(1)} = ${a1}, q = 2, n = ${n} — S${subscript(n)}?`,
+      promptL10n: localized(
+        `GP: a${subscript(1)} = ${a1}, q = 2, n = ${n} — sum S${subscript(n)}?`,
+        `PG: a${subscript(1)} = ${a1}, q = 2, n = ${n} — soma S${subscript(n)}?`,
+        `PG: a${subscript(1)} = ${a1}, q = 2, n = ${n} — ¿suma S${subscript(n)}?`,
+      ),
+      answer: a1 * (2 ** n - 1),
+      operands: [a1, n],
+    };
+  });
+}
+
+/** Sum of an infinite GP: S = a₁ / (1 − q), built so it lands on an integer. */
+export function generateInfiniteGP(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const denom = randomInt(2, 5);
+    const sum = randomInt(2, 12) * denom;
+    const a1 = (sum * (denom - 1)) / denom;
+    return {
+      id: nextId(),
+      prompt: `GP: a${subscript(1)} = ${a1}, q = 1/${denom} — S∞?`,
+      promptL10n: localized(
+        `Infinite GP: a${subscript(1)} = ${a1}, q = 1/${denom} — sum?`,
+        `PG infinita: a${subscript(1)} = ${a1}, q = 1/${denom} — soma?`,
+        `PG infinita: a${subscript(1)} = ${a1}, q = 1/${denom} — ¿suma?`,
+      ),
+      answer: sum,
+      operands: [a1, denom],
+    };
+  });
+}
+
+/** Recover the common difference or ratio from two spaced-out terms. */
+export function generateFindRatio(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    if (Math.random() < 0.5) {
+      const a1 = randomInt(1, 9);
+      const d = randomInt(2, 9);
+      const n = randomInt(4, 9);
+      return {
+        id: nextId(),
+        prompt: `AP: a${subscript(1)} = ${a1}, a${subscript(n)} = ${a1 + (n - 1) * d} — d?`,
+        promptL10n: localized(
+          `AP: a${subscript(1)} = ${a1}, a${subscript(n)} = ${a1 + (n - 1) * d} — d?`,
+          `PA: a${subscript(1)} = ${a1}, a${subscript(n)} = ${a1 + (n - 1) * d} — r?`,
+          `PA: a${subscript(1)} = ${a1}, a${subscript(n)} = ${a1 + (n - 1) * d} — ¿d?`,
+        ),
+        answer: d,
+        operands: [a1, n, a1 + (n - 1) * d],
+        isEquation: true,
+        equationLabel: "d =",
+      };
+    }
+    const a1 = randomInt(1, 4);
+    const q = randomInt(2, 4);
+    const n = randomInt(3, 4);
+    return {
+      id: nextId(),
+      prompt: `GP: a${subscript(1)} = ${a1}, a${subscript(n)} = ${a1 * q ** (n - 1)} — q?`,
+      promptL10n: localized(
+        `GP: a${subscript(1)} = ${a1}, a${subscript(n)} = ${a1 * q ** (n - 1)} — q?`,
+        `PG: a${subscript(1)} = ${a1}, a${subscript(n)} = ${a1 * q ** (n - 1)} — q?`,
+        `PG: a${subscript(1)} = ${a1}, a${subscript(n)} = ${a1 * q ** (n - 1)} — ¿q?`,
+      ),
+      answer: q,
+      operands: [a1, n, a1 * q ** (n - 1)],
+      isEquation: true,
+      equationLabel: "q =",
+    };
+  });
+}
+
+/** Recursive sequences: continue a Fibonacci-style "add the last two" chain. */
+export function generateRecursiveSequence(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(1, 5);
+    const b = randomInt(1, 6);
+    const terms = [a, b, a + b, a + 2 * b, 2 * a + 3 * b];
+    return {
+      id: nextId(),
+      prompt: `${terms.join(", ")}, …`,
+      answer: 3 * a + 5 * b,
+      operands: [a, b],
+    };
+  });
+}
+
+/** Sequences capstone: every skill of the degree, shuffled. */
+export function generateSequencesMix(count: number): Problem[] {
+  const makers = [
+    () => generateNextTermAP(1)[0],
+    () => generateNthTermAP(1)[0],
+    () => generateSumAP(1)[0],
+    () => generateNextTermGP(1)[0],
+    () => generateNthTermGP(1)[0],
+    () => generateSumGP(1)[0],
+    () => generateInfiniteGP(1)[0],
+    () => generateFindRatio(1)[0],
+    () => generateRecursiveSequence(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+/** The multiplication principle: independent choices multiply. */
+export function generateMultiplicationPrinciple(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 9);
+    const b = randomInt(2, 9);
+    const c = Math.random() < 0.4 ? randomInt(2, 5) : 1;
+    const items =
+      c === 1
+        ? { en: `${a} shirts, ${b} pants`, pt: `${a} camisas, ${b} calças`, es: `${a} camisas, ${b} pantalones` }
+        : {
+            en: `${a} shirts, ${b} pants, ${c} shoes`,
+            pt: `${a} camisas, ${b} calças, ${c} sapatos`,
+            es: `${a} camisas, ${b} pantalones, ${c} zapatos`,
+          };
+    return {
+      id: nextId(),
+      prompt: `${items.en} — outfits?`,
+      promptL10n: localized(`${items.en} — outfits?`, `${items.pt} — combinações?`, `${items.es} — ¿combinaciones?`),
+      answer: a * b * c,
+      operands: c === 1 ? [a, b] : [a, b, c],
+    };
+  });
+}
+
+/** Factorials 3! through 8!. */
+export function generateFactorial(count: number): Problem[] {
+  const fact = (n: number): number => (n <= 1 ? 1 : n * fact(n - 1));
+  return withoutImmediateRepeats(count, () => {
+    const n = randomInt(3, 8);
+    return { id: nextId(), prompt: `${n}!`, answer: fact(n), operands: [n] };
+  });
+}
+
+/** Factorial quotients — cancel before you multiply: 6! ÷ 4! = 6 × 5. */
+export function generateFactorialQuotient(count: number): Problem[] {
+  const fact = (n: number): number => (n <= 1 ? 1 : n * fact(n - 1));
+  return withoutImmediateRepeats(count, () => {
+    const small = randomInt(2, 7);
+    const big = randomInt(small + 1, Math.min(small + 3, 9));
+    return {
+      id: nextId(),
+      prompt: `${big}! ÷ ${small}!`,
+      answer: fact(big) / fact(small),
+      operands: [big, small],
+    };
+  });
+}
+
+/** Arrangements (permutations of n taken k): P(n,k) = n!/(n−k)!. */
+export function generateArrangements(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const n = randomInt(4, 9);
+    const k = randomInt(2, 3);
+    let result = 1;
+    for (let i = 0; i < k; i += 1) result *= n - i;
+    return {
+      id: nextId(),
+      prompt: `P(${n}, ${k})`,
+      promptL10n: localized(`P(${n}, ${k})`, `A(${n}, ${k})`, `V(${n}, ${k})`),
+      answer: result,
+      operands: [n, k],
+    };
+  });
+}
+
+function binomial(n: number, k: number): number {
+  let result = 1;
+  for (let i = 0; i < k; i += 1) result = (result * (n - i)) / (i + 1);
+  return Math.round(result);
+}
+
+/** Combinations: C(n,k) — order doesn't matter, divide the arrangements by k!. */
+export function generateCombinations(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const n = randomInt(4, 10);
+    const k = randomInt(2, Math.min(4, n - 1));
+    return {
+      id: nextId(),
+      prompt: `C(${n}, ${k})`,
+      answer: binomial(n, k),
+      operands: [n, k],
+    };
+  });
+}
+
+const DIE_EVENTS: Array<{ en: string; pt: string; es: string; favorable: number }> = [
+  { en: "even", pt: "par", es: "par", favorable: 3 },
+  { en: "odd", pt: "ímpar", es: "impar", favorable: 3 },
+  { en: "> 4", pt: "> 4", es: "> 4", favorable: 2 },
+  { en: "> 2", pt: "> 2", es: "> 2", favorable: 4 },
+  { en: "< 3", pt: "< 3", es: "< 3", favorable: 2 },
+  { en: "< 5", pt: "< 5", es: "< 5", favorable: 4 },
+  { en: "= 6", pt: "= 6", es: "= 6", favorable: 1 },
+  { en: "≥ 5", pt: "≥ 5", es: "≥ 5", favorable: 2 },
+];
+
+/** Probability on one die roll, as a reduced fraction. */
+export function generateDieProbability(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const event = DIE_EVENTS[randomInt(0, DIE_EVENTS.length - 1)];
+    const g = gcd(event.favorable, 6);
+    return {
+      id: nextId(),
+      prompt: `P(die roll ${event.en})`,
+      promptL10n: localized(`P(die roll ${event.en})`, `P(dado ${event.pt})`, `P(dado ${event.es})`),
+      answer: event.favorable / g,
+      operands: [event.favorable, 6],
+      secondaryAnswer: 6 / g,
+      secondaryFormat: "fraction",
+    };
+  });
+}
+
+/** Independent events multiply: all heads in n flips, or double six. */
+export function generateIndependentEvents(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const kind = randomInt(0, 2);
+    if (kind === 0) {
+      const n = randomInt(2, 4);
+      return {
+        id: nextId(),
+        prompt: `P(${n} heads in ${n} flips)`,
+        promptL10n: localized(
+          `P(${n} heads in ${n} coin flips)`,
+          `P(${n} caras em ${n} moedas)`,
+          `P(${n} caras en ${n} monedas)`,
+        ),
+        answer: 1,
+        operands: [n],
+        secondaryAnswer: 2 ** n,
+        secondaryFormat: "fraction",
+      };
+    }
+    if (kind === 1) {
+      return {
+        id: nextId(),
+        prompt: `P(two sixes, two dice)`,
+        promptL10n: localized(
+          `P(two sixes on two dice)`,
+          `P(dois seis em dois dados)`,
+          `P(dos seises en dos dados)`,
+        ),
+        answer: 1,
+        operands: [2],
+        secondaryAnswer: 36,
+        secondaryFormat: "fraction",
+      };
+    }
+    const n = randomInt(2, 3);
+    return {
+      id: nextId(),
+      prompt: `P(${n} tails in ${n} flips)`,
+      promptL10n: localized(
+        `P(${n} tails in ${n} coin flips)`,
+        `P(${n} coroas em ${n} moedas)`,
+        `P(${n} cruces en ${n} monedas)`,
+      ),
+      answer: 1,
+      operands: [n],
+      secondaryAnswer: 2 ** n,
+      secondaryFormat: "fraction",
+    };
+  });
+}
+
+/** The complement: P(not A) = 1 − P(A), as a reduced fraction. */
+export function generateComplementProbability(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const event = DIE_EVENTS[randomInt(0, DIE_EVENTS.length - 1)];
+    const notFavorable = 6 - event.favorable;
+    const g = gcd(notFavorable, 6);
+    return {
+      id: nextId(),
+      prompt: `P(die roll NOT ${event.en})`,
+      promptL10n: localized(
+        `P(die roll NOT ${event.en})`,
+        `P(dado NÃO ${event.pt})`,
+        `P(dado NO ${event.es})`,
+      ),
+      answer: notFavorable / g,
+      operands: [notFavorable, 6],
+      secondaryAnswer: 6 / g,
+      secondaryFormat: "fraction",
+    };
+  });
+}
+
+/** Drawing from an urn: favorable over total, reduced. */
+export function generateUrnProbability(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const red = randomInt(2, 9);
+    const blue = randomInt(2, 9);
+    const total = red + blue;
+    const g = gcd(red, total);
+    return {
+      id: nextId(),
+      prompt: `${red} red, ${blue} blue — P(red)?`,
+      promptL10n: localized(
+        `${red} red balls, ${blue} blue — P(red)?`,
+        `${red} bolas vermelhas, ${blue} azuis — P(vermelha)?`,
+        `${red} bolas rojas, ${blue} azules — ¿P(roja)?`,
+      ),
+      answer: red / g,
+      operands: [red, blue],
+      secondaryAnswer: total / g,
+      secondaryFormat: "fraction",
+    };
+  });
+}
+
+/** Counting & probability capstone: every skill of the degree, shuffled. */
+export function generateCountingMix(count: number): Problem[] {
+  const makers = [
+    () => generateMultiplicationPrinciple(1)[0],
+    () => generateFactorial(1)[0],
+    () => generateFactorialQuotient(1)[0],
+    () => generateArrangements(1)[0],
+    () => generateCombinations(1)[0],
+    () => generateDieProbability(1)[0],
+    () => generateIndependentEvents(1)[0],
+    () => generateComplementProbability(1)[0],
+    () => generateUrnProbability(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+function matrix2String(m: number[][]): string {
+  return `[${m[0][0]} ${m[0][1]} / ${m[1][0]} ${m[1][1]}]`;
+}
+
+/** Read one element out of a written 2×2 matrix. */
+export function generateMatrixElement(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const m = [
+      [randomInt(1, 9), randomInt(1, 9)],
+      [randomInt(1, 9), randomInt(1, 9)],
+    ];
+    const row = randomInt(1, 2);
+    const col = randomInt(1, 2);
+    return {
+      id: nextId(),
+      prompt: `${matrix2String(m)} — a${subscript(row)}${subscript(col)}?`,
+      answer: m[row - 1][col - 1],
+      operands: [...m[0], ...m[1], row, col],
+    };
+  });
+}
+
+/** Determinant of a 2×2 matrix: ad − bc. */
+export function generateDet2x2(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const m = [
+      [randomInt(1, 9), randomInt(1, 9)],
+      [randomInt(1, 9), randomInt(1, 9)],
+    ];
+    return {
+      id: nextId(),
+      prompt: `det ${matrix2String(m)}`,
+      answer: m[0][0] * m[1][1] - m[0][1] * m[1][0],
+      operands: [...m[0], ...m[1]],
+      allowNegative: true,
+    };
+  });
+}
+
+/** Find the entry that makes a 2×2 determinant vanish. */
+export function generateDetZero(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(1, 6);
+    const b = randomInt(1, 6);
+    const k = randomInt(2, 5);
+    return {
+      id: nextId(),
+      prompt: `det [${a} ${b} / ${a * k} x] = 0`,
+      answer: b * k,
+      operands: [a, b, a * k],
+      isEquation: true,
+    };
+  });
+}
+
+/** Determinant of a 3×3 matrix by the rule of Sarrus, with small entries. */
+export function generateDet3x3(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const m = Array.from({ length: 3 }, () => Array.from({ length: 3 }, () => randomInt(-2, 3)));
+    const det =
+      m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) -
+      m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
+      m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+    return {
+      id: nextId(),
+      prompt: `det [${m[0].join(" ")} / ${m[1].join(" ")} / ${m[2].join(" ")}]`,
+      answer: det,
+      operands: m.flat(),
+      allowNegative: true,
+    };
+  });
+}
+
+/** The trace: sum of the main diagonal. */
+export function generateTrace(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const m = [
+      [randomInt(1, 12), randomInt(1, 9)],
+      [randomInt(1, 9), randomInt(1, 12)],
+    ];
+    return {
+      id: nextId(),
+      prompt: `tr ${matrix2String(m)}`,
+      answer: m[0][0] + m[1][1],
+      operands: [...m[0], ...m[1]],
+    };
+  });
+}
+
+/** Dot product of a row and a column vector — the atom of matrix multiplication. */
+export function generateDotProduct(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(1, 9);
+    const b = randomInt(1, 9);
+    const c = randomInt(1, 9);
+    const d = randomInt(1, 9);
+    return {
+      id: nextId(),
+      prompt: `[${a} ${b}] · [${c} ${d}]ᵀ`,
+      answer: a * c + b * d,
+      operands: [a, b, c, d],
+    };
+  });
+}
+
+/** Solve a general 2×2 linear system — answer is the (x, y) pair. */
+export function generateGeneralSystem(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const x = randomInt(1, 9);
+    const y = randomInt(1, 9);
+    const a = randomInt(1, 3);
+    const c1 = a * x + y;
+    const b = randomInt(1, 3);
+    const c2 = b * x - y;
+    const eq1 = `${a === 1 ? "" : a}x + y = ${c1}`;
+    const eq2 = `${b === 1 ? "" : b}x − y = ${c2 >= 0 ? c2 : `−${Math.abs(c2)}`}`;
+    return {
+      id: nextId(),
+      prompt: `${eq1}, ${eq2}`,
+      answer: x,
+      operands: [a, c1, b, c2],
+      secondaryAnswer: y,
+      secondaryFormat: "pair",
+      isEquation: true,
+      equationLabel: "x, y =",
+    };
+  });
+}
+
+/** Matrices & systems capstone: every skill of the degree, shuffled. */
+export function generateMatricesMix(count: number): Problem[] {
+  const makers = [
+    () => generateMatrixElement(1)[0],
+    () => generateDet2x2(1)[0],
+    () => generateDetZero(1)[0],
+    () => generateDet3x3(1)[0],
+    () => generateTrace(1)[0],
+    () => generateDotProduct(1)[0],
+    () => generateGeneralSystem(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+/** Read the degree of a polynomial off its highest exponent. */
+export function generatePolynomialDegree(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const deg = randomInt(3, 9);
+    const mid = randomInt(1, deg - 1);
+    const coef = randomInt(2, 9);
+    const c = randomInt(1, 9);
+    const poly = `x${superscript(deg)} − ${coef}${xPower(mid)} + ${c}`;
+    return {
+      id: nextId(),
+      prompt: poly,
+      promptL10n: localized(`${poly} — degree?`, `${poly} — grau?`, `${poly} — ¿grado?`),
+      answer: deg,
+      operands: [deg, mid, coef, c],
+    };
+  });
+}
+
+/** Evaluate a cubic at a small integer. */
+export function generateEvaluatePolynomial(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const b = (Math.random() < 0.5 ? 1 : -1) * randomInt(1, 5);
+    const c = randomInt(-9, 9);
+    const xVal = randomInt(-3, 3);
+    return {
+      id: nextId(),
+      prompt: `P(x) = x³ ${b >= 0 ? "+" : "−"} ${Math.abs(b)}x ${c >= 0 ? "+" : "−"} ${Math.abs(c)}; P(${xVal})`,
+      answer: xVal ** 3 + b * xVal + c,
+      operands: [b, c, xVal],
+      allowNegative: true,
+    };
+  });
+}
+
+/** The remainder theorem: dividing P(x) by (x − a) leaves P(a). */
+export function generateRemainderTheorem(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const b = randomInt(1, 9);
+    const c = randomInt(1, 9);
+    const a = randomInt(1, 4);
+    return {
+      id: nextId(),
+      prompt: `(x² + ${b}x + ${c}) ÷ (x − ${a})`,
+      promptL10n: localized(
+        `(x² + ${b}x + ${c}) ÷ (x − ${a}) — remainder?`,
+        `(x² + ${b}x + ${c}) ÷ (x − ${a}) — resto?`,
+        `(x² + ${b}x + ${c}) ÷ (x − ${a}) — ¿resto?`,
+      ),
+      answer: a * a + b * a + c,
+      operands: [b, c, a],
+    };
+  });
+}
+
+/** Girard for quadratics: sum and product of the roots, straight from the coefficients. */
+export function generateGirardQuadratic(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const p = randomInt(1, 9);
+    let q = randomInt(1, 9);
+    while (q === p) q = randomInt(1, 9);
+    return {
+      id: nextId(),
+      prompt: `x² − ${p + q}x + ${p * q} = 0`,
+      promptL10n: localized(
+        `x² − ${p + q}x + ${p * q} = 0 — sum, product of roots?`,
+        `x² − ${p + q}x + ${p * q} = 0 — soma, produto das raízes?`,
+        `x² − ${p + q}x + ${p * q} = 0 — ¿suma, producto de raíces?`,
+      ),
+      answer: p + q,
+      operands: [p + q, p * q],
+      secondaryAnswer: p * q,
+      secondaryFormat: "pair",
+      isEquation: true,
+      equationLabel: "S, P =",
+    };
+  });
+}
+
+/** Girard for cubics: the sum of the three roots is −b/a. */
+export function generateGirardCubic(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const r1 = randomInt(1, 5);
+    const r2 = randomInt(1, 5);
+    const r3 = randomInt(1, 5);
+    const b = r1 + r2 + r3;
+    const c = r1 * r2 + r1 * r3 + r2 * r3;
+    const d = r1 * r2 * r3;
+    return {
+      id: nextId(),
+      prompt: `x³ − ${b}x² + ${c}x − ${d} = 0`,
+      promptL10n: localized(
+        `x³ − ${b}x² + ${c}x − ${d} = 0 — sum of the 3 roots?`,
+        `x³ − ${b}x² + ${c}x − ${d} = 0 — soma das 3 raízes?`,
+        `x³ − ${b}x² + ${c}x − ${d} = 0 — ¿suma de las 3 raíces?`,
+      ),
+      answer: b,
+      operands: [b, c, d],
+      isEquation: true,
+      equationLabel: "S =",
+    };
+  });
+}
+
+/** Powers of i cycle every 4 — even powers land on ±1. */
+export function generatePowersOfI(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const exp = 2 * randomInt(5, 60);
+    return {
+      id: nextId(),
+      prompt: `i${superscript(exp)}`,
+      answer: exp % 4 === 0 ? 1 : -1,
+      operands: [exp],
+      allowNegative: true,
+    };
+  });
+}
+
+/** Add two complex numbers — combine real and imaginary parts. */
+export function generateComplexAddition(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(1, 9);
+    const b = randomInt(1, 9);
+    const c = randomInt(1, 9);
+    const d = randomInt(1, 9);
+    return {
+      id: nextId(),
+      prompt: `(${a} + ${b}i) + (${c} + ${d}i) = a + bi`,
+      answer: a + c,
+      operands: [a, b, c, d],
+      secondaryAnswer: b + d,
+      secondaryFormat: "pair",
+      isEquation: true,
+      equationLabel: "a, b =",
+    };
+  });
+}
+
+/** Multiply two complex numbers — remember i² = −1. */
+export function generateComplexMultiplication(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(1, 5);
+    const b = randomInt(1, 5);
+    const c = randomInt(1, 5);
+    const d = randomInt(1, 5);
+    return {
+      id: nextId(),
+      prompt: `(${a} + ${b}i)(${c} + ${d}i) = a + bi`,
+      answer: a * c - b * d,
+      operands: [a, b, c, d],
+      secondaryAnswer: a * d + b * c,
+      secondaryFormat: "pair",
+      isEquation: true,
+      equationLabel: "a, b =",
+      allowNegative: true,
+    };
+  });
+}
+
+/** Modulus of a complex number — Pythagoras in disguise. */
+export function generateComplexModulus(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [a, b, c] = PYTHAGOREAN_TRIPLES[randomInt(0, PYTHAGOREAN_TRIPLES.length - 1)];
+    const flip = Math.random() < 0.5;
+    return {
+      id: nextId(),
+      prompt: `|${flip ? b : a} + ${flip ? a : b}i|`,
+      answer: c,
+      operands: [a, b],
+    };
+  });
+}
+
+/** Polynomials & complex capstone: every skill of the degree, shuffled. */
+export function generatePolynomialsMix(count: number): Problem[] {
+  const makers = [
+    () => generatePolynomialDegree(1)[0],
+    () => generateEvaluatePolynomial(1)[0],
+    () => generateRemainderTheorem(1)[0],
+    () => generateGirardQuadratic(1)[0],
+    () => generateGirardCubic(1)[0],
+    () => generatePowersOfI(1)[0],
+    () => generateComplexAddition(1)[0],
+    () => generateComplexMultiplication(1)[0],
+    () => generateComplexModulus(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+/** Distance between two points — a hidden Pythagorean triple. */
+export function generateDistanceBetweenPoints(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [a, b, c] = PYTHAGOREAN_TRIPLES[randomInt(0, 5)];
+    const x1 = randomInt(-5, 5);
+    const y1 = randomInt(-5, 5);
+    const flip = Math.random() < 0.5;
+    const x2 = x1 + (flip ? b : a);
+    const y2 = y1 + (flip ? a : b);
+    return {
+      id: nextId(),
+      prompt: `d((${x1}, ${y1}), (${x2}, ${y2}))`,
+      answer: c,
+      operands: [x1, y1, x2, y2],
+    };
+  });
+}
+
+/** Midpoint of a segment — average each coordinate. */
+export function generateMidpoint(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const mx = randomInt(-6, 6);
+    const my = randomInt(-6, 6);
+    const dx = randomInt(1, 5);
+    const dy = randomInt(1, 5);
+    return {
+      id: nextId(),
+      prompt: `M((${mx - dx}, ${my - dy}), (${mx + dx}, ${my + dy})) = (x, y)`,
+      answer: mx,
+      operands: [mx - dx, my - dy, mx + dx, my + dy],
+      secondaryAnswer: my,
+      secondaryFormat: "pair",
+      isEquation: true,
+      equationLabel: "x, y =",
+      allowNegative: true,
+    };
+  });
+}
+
+/** Integer slope through two points — rise over run, run kept at 1..3 dividing evenly. */
+export function generateIntegerSlope(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const m = (Math.random() < 0.5 ? 1 : -1) * randomInt(1, 9);
+    const x1 = randomInt(-5, 5);
+    const y1 = randomInt(-5, 5);
+    const run = randomInt(1, 3);
+    return {
+      id: nextId(),
+      prompt: `m: (${x1}, ${y1}) → (${x1 + run}, ${y1 + m * run})`,
+      answer: m,
+      operands: [x1, y1, x1 + run, y1 + m * run],
+      allowNegative: true,
+      isEquation: true,
+      equationLabel: "m =",
+    };
+  });
+}
+
+/** Find the intercept b so the line passes through a given point. */
+export function generateLineThroughPoint(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const m = randomInt(2, 9);
+    const x = randomInt(1, 6);
+    const b = randomInt(-9, 9);
+    const y = m * x + b;
+    return {
+      id: nextId(),
+      prompt: `y = ${m}x + b, (${x}, ${y})`,
+      promptL10n: localized(
+        `y = ${m}x + b passes through (${x}, ${y}) — b?`,
+        `y = ${m}x + b passa por (${x}, ${y}) — b?`,
+        `y = ${m}x + b pasa por (${x}, ${y}) — ¿b?`,
+      ),
+      answer: b,
+      operands: [m, x, y],
+      allowNegative: true,
+      isEquation: true,
+      equationLabel: "b =",
+    };
+  });
+}
+
+/** Where a line crosses the x-axis: set y = 0. */
+export function generateLineXIntercept(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const m = randomInt(2, 9);
+    const xInt = (Math.random() < 0.5 ? 1 : -1) * randomInt(1, 9);
+    const b = -m * xInt;
+    return {
+      id: nextId(),
+      prompt: `y = ${m}x ${b >= 0 ? "+" : "−"} ${Math.abs(b)}: y = 0`,
+      promptL10n: localized(
+        `y = ${m}x ${b >= 0 ? "+" : "−"} ${Math.abs(b)} — x-intercept?`,
+        `y = ${m}x ${b >= 0 ? "+" : "−"} ${Math.abs(b)} — corta o eixo x em?`,
+        `y = ${m}x ${b >= 0 ? "+" : "−"} ${Math.abs(b)} — ¿corte con el eje x?`,
+      ),
+      answer: xInt,
+      operands: [m, b],
+      allowNegative: true,
+      isEquation: true,
+    };
+  });
+}
+
+/** Perpendicular slope: flip and negate — built so the answer is an integer. */
+export function generatePerpendicularSlope(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const k = randomInt(2, 9);
+    return {
+      id: nextId(),
+      prompt: `m = 1/${k} ⊥ m' = ?`,
+      promptL10n: localized(
+        `Line with slope 1/${k} — perpendicular slope?`,
+        `Reta com inclinação 1/${k} — inclinação da perpendicular?`,
+        `Recta con pendiente 1/${k} — ¿pendiente de la perpendicular?`,
+      ),
+      answer: -k,
+      operands: [k],
+      allowNegative: true,
+      isEquation: true,
+      equationLabel: "m' =",
+    };
+  });
+}
+
+/** Radius of a circle written as x² + y² = r². */
+export function generateCircleRadius(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const r = randomInt(2, 15);
+    return {
+      id: nextId(),
+      prompt: `x² + y² = ${r * r}`,
+      promptL10n: localized(
+        `x² + y² = ${r * r} — radius?`,
+        `x² + y² = ${r * r} — raio?`,
+        `x² + y² = ${r * r} — ¿radio?`,
+      ),
+      answer: r,
+      operands: [r * r],
+      isEquation: true,
+      equationLabel: "r =",
+    };
+  });
+}
+
+/** Center of a circle from its completed-square equation. */
+export function generateCircleCenter(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = (Math.random() < 0.5 ? 1 : -1) * randomInt(1, 8);
+    const b = (Math.random() < 0.5 ? 1 : -1) * randomInt(1, 8);
+    const r = randomInt(2, 9);
+    const term = (v: number, axis: string) => `(${axis} ${v >= 0 ? "−" : "+"} ${Math.abs(v)})²`;
+    return {
+      id: nextId(),
+      prompt: `${term(a, "x")} + ${term(b, "y")} = ${r * r}`,
+      promptL10n: localized(
+        `${term(a, "x")} + ${term(b, "y")} = ${r * r} — center?`,
+        `${term(a, "x")} + ${term(b, "y")} = ${r * r} — centro?`,
+        `${term(a, "x")} + ${term(b, "y")} = ${r * r} — ¿centro?`,
+      ),
+      answer: a,
+      operands: [a, b, r * r],
+      secondaryAnswer: b,
+      secondaryFormat: "pair",
+      isEquation: true,
+      equationLabel: "x, y =",
+      allowNegative: true,
+    };
+  });
+}
+
+/** Radius from the center and one point on the circle — distance in disguise. */
+export function generateCircleThroughPoint(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [a, b, c] = PYTHAGOREAN_TRIPLES[randomInt(0, 5)];
+    const flip = Math.random() < 0.5;
+    return {
+      id: nextId(),
+      prompt: `C(0, 0), P(${flip ? b : a}, ${flip ? a : b})`,
+      promptL10n: localized(
+        `Circle centered (0, 0) through (${flip ? b : a}, ${flip ? a : b}) — radius?`,
+        `Circunferência de centro (0, 0) passando por (${flip ? b : a}, ${flip ? a : b}) — raio?`,
+        `Circunferencia con centro (0, 0) que pasa por (${flip ? b : a}, ${flip ? a : b}) — ¿radio?`,
+      ),
+      answer: c,
+      operands: [a, b],
+      isEquation: true,
+      equationLabel: "r =",
+    };
+  });
+}
+
+/** Analytic geometry capstone: every skill of the degree, shuffled. */
+export function generateAnalyticGeometryMix(count: number): Problem[] {
+  const makers = [
+    () => generateDistanceBetweenPoints(1)[0],
+    () => generateMidpoint(1)[0],
+    () => generateIntegerSlope(1)[0],
+    () => generateLineThroughPoint(1)[0],
+    () => generateLineXIntercept(1)[0],
+    () => generatePerpendicularSlope(1)[0],
+    () => generateCircleRadius(1)[0],
+    () => generateCircleCenter(1)[0],
+    () => generateCircleThroughPoint(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+/** Gold Belt exam: all six degrees mixed. */
+export function generateGoldBeltMix(count: number): Problem[] {
+  const makers = [
+    () => generateLogsMix(1)[0],
+    () => generateSequencesMix(1)[0],
+    () => generateCountingMix(1)[0],
+    () => generateMatricesMix(1)[0],
+    () => generatePolynomialsMix(1)[0],
+    () => generateAnalyticGeometryMix(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}

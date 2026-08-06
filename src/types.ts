@@ -1,4 +1,4 @@
-export type BeltId = "white" | "blue" | "purple" | "brown" | "green" | "black" | "red" | "coral";
+export type BeltId = "white" | "blue" | "purple" | "brown" | "green" | "black" | "red" | "gold" | "coral";
 
 export type Locale = "en" | "pt" | "es";
 
