@@ -363,3 +363,121 @@
   margin-left: auto;
   text-align: right;
 }
+
+/* ---------------------------------------------------------------------------
+   Premium map — belt-colored spines, a glowing frontier, silky accordion.
+--------------------------------------------------------------------------- */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.2s ease;
+}
+
+/* Each belt wears its color as a spine down the card's left edge. */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: var(--belt-accent, var(--color-border));
+  opacity: 0.9;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* The frontier belt — where the journey currently lives — glows softly. */
+.cardFrontier {
+  border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 25%, transparent),
+    var(--shadow-sm);
+}
+
+/* Silky accordion: the grid-rows trick animates height without measuring. */
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.collapseOpen {
+  grid-template-rows: 1fr;
+}
+
+.collapseInner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Sliding-thumb mode switch. */
+.modeSwitch {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 220px;
+}
+
+.modeThumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  transition: transform 260ms cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.modeSwitch[data-active="ninja"] .modeThumb {
+  transform: translateX(100%);
+}
+
+.modeBtn {
+  position: relative;
+  z-index: 1;
+  background: none !important;
+}
+
+.modeBtnActive {
+  color: var(--color-bg);
+}
+
+/* Header flair: gradient wordmark with a brush-stroke underline. */
+.title span:first-of-type {
+  background: linear-gradient(120deg, var(--color-primary), #ffb35c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:global([data-mode="ninja"]) .title span:first-of-type {
+  background: linear-gradient(120deg, #d9a622, #f5d982);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.title {
+  position: relative;
+  display: inline-block;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 12%;
+  bottom: -7px;
+  height: 7px;
+  border-radius: 6px 12px 8px 14px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  opacity: 0.5;
+  transform: skewX(-18deg);
+}

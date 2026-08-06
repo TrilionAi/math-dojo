@@ -103,6 +103,26 @@ export function playFanfare(): void {
   ]);
 }
 
+/** The mode-switch moment: entering the night dojo — a deep gong with a dark
+ * rising shimmer; returning to day — a soft bright sweep upward. */
+export function playModeTransition(toNinja: boolean): void {
+  if (toNinja) {
+    playNotes([
+      { freq: 98, at: 0, dur: 0.9, gain: 0.22, type: "triangle" },
+      { freq: 147, at: 0.02, dur: 0.7, gain: 0.1, type: "sine" },
+      { freq: 392, at: 0.35, dur: 0.3, gain: 0.07, type: "sine" },
+      { freq: 587.33, at: 0.5, dur: 0.35, gain: 0.06, type: "sine" },
+      { freq: 784, at: 0.62, dur: 0.4, gain: 0.05, type: "sine" },
+    ]);
+  } else {
+    playNotes([
+      { freq: 523.25, at: 0, dur: 0.18, gain: 0.1 },
+      { freq: 659.25, at: 0.1, dur: 0.18, gain: 0.1 },
+      { freq: 1046.5, at: 0.2, dur: 0.45, gain: 0.12 },
+    ]);
+  }
+}
+
 /** The biggest one — a whole BELT earned: a longer rising fanfare ending on a full chord. */
 export function playBeltFanfare(): void {
   playNotes([

@@ -159,7 +159,8 @@ export function MapScreen({
         </h1>
         <p className={styles.subtitle}>{t.tagline}</p>
         {!ninjaMaster && (
-          <div className={styles.modeSwitch} role="group">
+          <div className={styles.modeSwitch} role="group" data-active={isNinja ? "ninja" : "normal"}>
+            <span className={styles.modeThumb} aria-hidden="true" />
             <button
               type="button"
               className={[styles.modeBtn, !isNinja ? styles.modeBtnActive : ""].join(" ")}
@@ -189,8 +190,18 @@ export function MapScreen({
         {belts.map((belt, i) => {
           const expanded = isExpanded(belt);
           const ninjaLocked = isNinjaBelt(belt) && !isNinjaBeltOpen(belt);
+          const isFrontier =
+            !reviewMode &&
+            belt.stripes.some((s) => stripeUnlocked(belt, s) && !(progress.stripeResults[s.id]?.passed ?? false));
           return (
-            <div key={belt.id} className={styles.card} style={{ animationDelay: `${Math.min(i, 9) * 60}ms` }}>
+            <div
+              key={belt.id}
+              className={[styles.card, isFrontier ? styles.cardFrontier : ""].join(" ")}
+              style={{
+                animationDelay: `${Math.min(i, 9) * 60}ms`,
+                ["--belt-accent" as string]: `var(${belt.colorVar})`,
+              }}
+            >
               <button
                 type="button"
                 className={styles.cardHeadBtn}
@@ -207,8 +218,8 @@ export function MapScreen({
                 <BeltStrip belt={belt} progress={progress} />
               </button>
 
-              {expanded && (
-                <>
+              <div className={[styles.collapse, expanded ? styles.collapseOpen : ""].join(" ")}>
+                <div className={styles.collapseInner}>
                   <p className={styles.tagline}>{belt.tagline[locale]}</p>
 
                   {belt.locked ? (
@@ -270,8 +281,8 @@ export function MapScreen({
                       ))}
                     </div>
                   )}
-                </>
-              )}
+                </div>
+              </div>
             </div>
           );
         })}

@@ -12,3 +12,26 @@
   border-radius: var(--radius-pill);
   transition: width var(--dur-med) var(--ease-out);
 }
+
+/* A soft sheen slides along the fill so progress feels alive. */
+.fill {
+  position: relative;
+  overflow: hidden;
+}
+
+.fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  animation: sheen 2.4s ease-in-out infinite;
+}
+
+@keyframes sheen {
+  0%, 60% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

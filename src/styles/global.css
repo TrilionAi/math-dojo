@@ -88,3 +88,60 @@ input {
     transform: translateY(-24px);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Premium polish — atmosphere, focus craft, tactile buttons.
+--------------------------------------------------------------------------- */
+
+/* Day dojo: warm paper with soft light pooling at the top. */
+body {
+  background-image:
+    radial-gradient(1100px 500px at 50% -10%, rgba(255, 197, 143, 0.28), transparent 60%),
+    radial-gradient(800px 420px at 90% 15%, rgba(31, 182, 164, 0.07), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Night dojo: deep vignette with a faint gold dust drifting in the dark. */
+:root[data-mode="ninja"] body {
+  background-image:
+    radial-gradient(1100px 520px at 50% -10%, rgba(217, 166, 34, 0.10), transparent 62%),
+    radial-gradient(900px 500px at 12% 30%, rgba(43, 191, 164, 0.05), transparent 60%),
+    radial-gradient(1.2px 1.2px at 22% 34%, rgba(217, 166, 34, 0.5), transparent 100%),
+    radial-gradient(1px 1px at 68% 18%, rgba(217, 166, 34, 0.4), transparent 100%),
+    radial-gradient(1.4px 1.4px at 84% 58%, rgba(217, 166, 34, 0.35), transparent 100%),
+    radial-gradient(1px 1px at 38% 76%, rgba(217, 166, 34, 0.35), transparent 100%),
+    radial-gradient(1.2px 1.2px at 8% 88%, rgba(217, 166, 34, 0.3), transparent 100%);
+  background-attachment: fixed;
+}
+
+/* Theme changes glide instead of snapping. */
+body,
+body * {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+/* Crafted focus — visible, on-brand, never the browser default blue blob. */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Buttons press down like real keys. */
+button:active {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  body * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

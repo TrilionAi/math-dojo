@@ -14,6 +14,8 @@ import { StatsScreen } from "./screens/StatsScreen";
 import { AccountScreen } from "./screens/AccountScreen";
 import { CertificateScreen } from "./screens/CertificateScreen";
 import { Whiteboard } from "./components/Whiteboard";
+import { ModeTransition } from "./components/ModeTransition";
+import { playModeTransition } from "./engine/sound";
 import { addBoardText } from "./engine/whiteboard";
 import { useLocale } from "./i18n/LocaleContext";
 import { UI_STRINGS } from "./i18n/ui";
@@ -53,6 +55,8 @@ export default function App() {
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress());
   const [boardOpen, setBoardOpen] = useState(false);
   const [mode, setMode] = useState<GameMode>(() => loadMode());
+  /** Non-null while the ink-sweep mode transition is playing. */
+  const [modeSwap, setModeSwap] = useState<GameMode | null>(null);
   const [view, setView] = useState<View>(() => (isPasswordRecoveryUrl() ? { name: "account" } : { name: "map" }));
   const [session, setSession] = useState<Session | null>(null);
   const [forceReset, setForceReset] = useState(() => isPasswordRecoveryUrl());
@@ -103,8 +107,16 @@ export default function App() {
   }
 
   function switchMode(next: GameMode) {
-    setMode(next);
-    setView({ name: "map" });
+    if (next === mode || modeSwap) return;
+    // The showpiece: ink floods the screen, the theme flips underneath at the
+    // moment of full cover, then the overlay dissolves over the new world.
+    playModeTransition(next === "ninja");
+    setModeSwap(next);
+    window.setTimeout(() => {
+      setMode(next);
+      setView({ name: "map" });
+    }, 520);
+    window.setTimeout(() => setModeSwap(null), 1450);
   }
 
   function selectStripe(stripeId: string) {
@@ -228,6 +240,7 @@ export default function App() {
     <>
       {screen}
       {boardOpen && <Whiteboard onClose={() => setBoardOpen(false)} />}
+      {modeSwap !== null && <ModeTransition toNinja={modeSwap === "ninja"} />}
       {showFab && (
         <button
           type="button"
