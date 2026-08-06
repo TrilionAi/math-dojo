@@ -83,7 +83,9 @@ export function LessonScreen({ stripe, onBack, onStart }: LessonScreenProps) {
                 <>
                   <span className={styles.exampleAnswer}>{lesson.example.answer}</span>
                   <span className={styles.exampleAnswer}>.</span>
-                  <span className={styles.exampleAnswer}>{lesson.example.secondaryAnswer}</span>
+                  <span className={styles.exampleAnswer}>
+                    {String(lesson.example.secondaryAnswer).padStart(lesson.example.secondaryDigits ?? 1, "0")}
+                  </span>
                 </>
               ) : (
                 <>

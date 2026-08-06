@@ -92,7 +92,7 @@ export function playPageComplete(): void {
   ]);
 }
 
-/** The big one — a stripe/belt earned on the results screen. */
+/** The big one — a stripe earned on the results screen. */
 export function playFanfare(): void {
   playNotes([
     { freq: 523.25, at: 0, dur: 0.14, gain: 0.15 },
@@ -100,5 +100,21 @@ export function playFanfare(): void {
     { freq: 783.99, at: 0.2, dur: 0.14, gain: 0.15 },
     { freq: 1046.5, at: 0.3, dur: 0.4, gain: 0.18 },
     { freq: 1318.5, at: 0.34, dur: 0.36, gain: 0.12 },
+  ]);
+}
+
+/** The biggest one — a whole BELT earned: a longer rising fanfare ending on a full chord. */
+export function playBeltFanfare(): void {
+  playNotes([
+    { freq: 392.0, at: 0, dur: 0.16, gain: 0.14 },
+    { freq: 523.25, at: 0.12, dur: 0.16, gain: 0.15 },
+    { freq: 659.25, at: 0.24, dur: 0.16, gain: 0.15 },
+    { freq: 783.99, at: 0.36, dur: 0.16, gain: 0.16 },
+    { freq: 1046.5, at: 0.48, dur: 0.5, gain: 0.18 },
+    // closing chord
+    { freq: 523.25, at: 0.62, dur: 0.65, gain: 0.1 },
+    { freq: 659.25, at: 0.62, dur: 0.65, gain: 0.1 },
+    { freq: 783.99, at: 0.62, dur: 0.65, gain: 0.1 },
+    { freq: 1318.5, at: 0.66, dur: 0.6, gain: 0.09 },
   ]);
 }

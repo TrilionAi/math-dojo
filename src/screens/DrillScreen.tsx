@@ -37,6 +37,7 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
   const [input, setInput] = useState("");
   const [secondaryInput, setSecondaryInput] = useState("");
   const [isNegative, setIsNegative] = useState(false);
+  const [isSecondaryNegative, setIsSecondaryNegative] = useState(false);
   const [activeField, setActiveField] = useState<ActiveField>("primary");
   const [feedback, setFeedback] = useState<Feedback>(null);
   const [solvedCount, setSolvedCount] = useState(0);
@@ -108,7 +109,13 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
 
   function handleToggleSign() {
     if (feedback || lockRef.current) return;
-    setIsNegative((v) => !v);
+    // the sign belongs to whichever answer box is active — pair answers like a
+    // circle's center can need a negative second coordinate too
+    if (hasSecondary && activeField === "secondary") {
+      setIsSecondaryNegative((v) => !v);
+    } else {
+      setIsNegative((v) => !v);
+    }
   }
 
   function handleToggleMute() {
@@ -123,9 +130,13 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
     lockRef.current = true;
     const numeric = Number((isNegative ? "-" : "") + input);
     const record = attemptsRef.current.get(current.id)!;
-    const isCorrect = hasSecondary
-      ? numeric === current.answer && Number(secondaryInput) === current.secondaryAnswer
-      : numeric === current.answer;
+    // Fixed-width decimals (e.g. hundredths) require the typed digit count to match,
+    // so ".5" can't pass as ".05" — the padding is part of the answer.
+    const secondaryNumeric = Number((isSecondaryNegative ? "-" : "") + secondaryInput);
+    const secondaryMatches =
+      secondaryNumeric === current.secondaryAnswer &&
+      (current.secondaryDigits === undefined || secondaryInput.length === current.secondaryDigits);
+    const isCorrect = hasSecondary ? numeric === current.answer && secondaryMatches : numeric === current.answer;
 
     if (isCorrect) {
       if (record.mistakeCount === 0) record.firstTryCorrect = true;
@@ -155,6 +166,7 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
         setInput("");
         setSecondaryInput("");
         setIsNegative(false);
+        setIsSecondaryNegative(false);
         setActiveField("primary");
         setFeedback(null);
         if (pageJustCompleted !== null) {
@@ -177,6 +189,7 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
         setInput("");
         setSecondaryInput("");
         setIsNegative(false);
+        setIsSecondaryNegative(false);
         setActiveField("primary");
         setFeedback(null);
         lockRef.current = false;
@@ -388,7 +401,7 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
                             activeField === "secondary" ? styles.answerBoxActive : "",
                           ].join(" ")}
                         >
-                          {secondaryInput || "?"}
+                          {secondaryInput ? (isSecondaryNegative ? `-${secondaryInput}` : secondaryInput) : "?"}
                         </button>
                       </>
                     )}
@@ -401,7 +414,10 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
                     ? current.secondaryFormat === "fraction"
                       ? t.correctAnswerRevealFraction(current.answer, current.secondaryAnswer!)
                       : current.secondaryFormat === "decimal"
-                        ? t.correctAnswerRevealDecimal(current.answer, current.secondaryAnswer!)
+                        ? t.correctAnswerRevealDecimal(
+                            current.answer,
+                            String(current.secondaryAnswer!).padStart(current.secondaryDigits ?? 1, "0"),
+                          )
                         : current.secondaryFormat === "pair"
                           ? t.correctAnswerRevealPair(current.answer, current.secondaryAnswer!)
                           : current.secondaryFormat === "radical"

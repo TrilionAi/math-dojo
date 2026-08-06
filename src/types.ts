@@ -51,6 +51,9 @@ export interface Problem {
    * roots or an x/y solution pair), or "5√2" with a "√" separator (radical — a
    * coefficient outside the root, a value remaining inside it). */
   secondaryFormat?: SecondaryAnswerFormat;
+  /** For "decimal" secondary answers: how many digits the fractional part has (default 1).
+   * With 2, an answer of 5 means ".05" and must be typed as "05" — the padding matters. */
+  secondaryDigits?: number;
   /** Present when the drill itself is "read this picture" — e.g. identifying a shaded fraction. */
   diagram?: Diagram;
   /** True when this problem's answer can be negative — shows the NumPad's sign toggle.

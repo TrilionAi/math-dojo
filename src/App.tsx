@@ -10,6 +10,7 @@ import { DrillScreen } from "./screens/DrillScreen";
 import { ResultsScreen } from "./screens/ResultsScreen";
 import { StatsScreen } from "./screens/StatsScreen";
 import { AccountScreen } from "./screens/AccountScreen";
+import { CertificateScreen } from "./screens/CertificateScreen";
 import type { ProgressState, SessionSummary, Stripe } from "./types";
 
 type View =
@@ -18,7 +19,8 @@ type View =
   | { name: "drill"; stripe: Stripe }
   | { name: "results"; summary: SessionSummary }
   | { name: "stats" }
-  | { name: "account" };
+  | { name: "account" }
+  | { name: "certificate" };
 
 function findStripe(id: string): Stripe | undefined {
   return belts.flatMap((b) => b.stripes).find((s) => s.id === id);
@@ -100,6 +102,10 @@ export default function App() {
     setView({ name: "account" });
   }
 
+  function openCertificate() {
+    setView({ name: "certificate" });
+  }
+
   switch (view.name) {
     case "lesson":
       return <LessonScreen stripe={view.stripe} onBack={goToMap} onStart={() => startDrill(view.stripe)} />;
@@ -126,6 +132,8 @@ export default function App() {
           onResetHandled={() => setForceReset(false)}
         />
       );
+    case "certificate":
+      return <CertificateScreen belts={belts} onBack={goToMap} />;
     case "map":
     default:
       return (
@@ -136,6 +144,7 @@ export default function App() {
           onSelectStripe={selectStripe}
           onOpenStats={openStats}
           onOpenAccount={openAccount}
+          onOpenCertificate={openCertificate}
         />
       );
   }

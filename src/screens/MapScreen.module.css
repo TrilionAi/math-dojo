@@ -226,3 +226,27 @@
 .supportLink:hover {
   color: var(--color-ink-soft);
 }
+
+.certBanner {
+  display: block;
+  margin: 0 auto var(--sp-5);
+  background: linear-gradient(135deg, #d4a017, #f2c14e);
+  color: #3a2c00;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--sp-4) var(--sp-6);
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  box-shadow: 0 6px 18px rgba(212, 160, 23, 0.45);
+  cursor: pointer;
+  animation: certGlow 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes certGlow {
+  from {
+    box-shadow: 0 6px 18px rgba(212, 160, 23, 0.35);
+  }
+  to {
+    box-shadow: 0 6px 26px rgba(212, 160, 23, 0.7);
+  }
+}

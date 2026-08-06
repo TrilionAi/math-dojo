@@ -14,6 +14,7 @@ interface MapScreenProps {
   onSelectStripe: (stripeId: string) => void;
   onOpenStats: () => void;
   onOpenAccount: () => void;
+  onOpenCertificate: () => void;
 }
 
 interface StripeGroup {
@@ -36,9 +37,20 @@ function groupByDegree(stripes: Stripe[]): StripeGroup[] {
   return groups;
 }
 
-export function MapScreen({ belts, progress, loggedIn, onSelectStripe, onOpenStats, onOpenAccount }: MapScreenProps) {
+export function MapScreen({
+  belts,
+  progress,
+  loggedIn,
+  onSelectStripe,
+  onOpenStats,
+  onOpenAccount,
+  onOpenCertificate,
+}: MapScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
+  const allComplete = belts.every((belt) =>
+    belt.stripes.every((stripe) => progress.stripeResults[stripe.id]?.passed),
+  );
 
   return (
     <div className={styles.page}>
@@ -69,6 +81,12 @@ export function MapScreen({ belts, progress, loggedIn, onSelectStripe, onOpenSta
         </h1>
         <p className={styles.subtitle}>{t.tagline}</p>
       </header>
+
+      {allComplete && (
+        <button type="button" className={styles.certBanner} onClick={onOpenCertificate}>
+          {t.certMapCta}
+        </button>
+      )}
 
       <div className={styles.beltList}>
         {belts.map((belt, i) => (

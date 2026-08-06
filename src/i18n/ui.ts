@@ -14,7 +14,7 @@ interface UiStrings {
   correctAnswerReveal: (answer: number) => string;
   correctAnswerRevealWithRemainder: (quotient: number, remainder: number) => string;
   correctAnswerRevealFraction: (numerator: number, denominator: number) => string;
-  correctAnswerRevealDecimal: (whole: number, tenths: number) => string;
+  correctAnswerRevealDecimal: (whole: number, tenths: number | string) => string;
   correctAnswerRevealPair: (a: number, b: number) => string;
   correctAnswerRevealRadical: (coefficient: number, inside: number) => string;
   remainderLabel: string;
@@ -67,6 +67,20 @@ interface UiStrings {
   accountForgotSuccess: (email: string) => string;
   accountResetSuccess: string;
   supportLink: string;
+  shareBeltCta: string;
+  shareBeltText: (beltName: string) => string;
+  shareCopied: string;
+  certMapCta: string;
+  certTitle: string;
+  certSubtitle: string;
+  certNameLabel: string;
+  certNamePlaceholder: string;
+  certBody: (totalStripes: number) => string;
+  certDateLabel: string;
+  certDownload: string;
+  certShare: string;
+  certShareText: string;
+  certBackToMap: string;
 }
 
 const en: UiStrings = {
@@ -141,6 +155,20 @@ const en: UiStrings = {
   accountForgotSuccess: (email) => `Check ${email} for a link to reset your password.`,
   accountResetSuccess: "Password updated — you're all set.",
   supportLink: "Support Math Dojo",
+  shareBeltCta: "Share this achievement",
+  shareBeltText: (beltName) => `🥋 I just earned the ${beltName} at Math Dojo!`,
+  shareCopied: "Copied — paste it anywhere!",
+  certMapCta: "🏆 Claim your certificate",
+  certTitle: "Certificate of Mastery",
+  certSubtitle: "has completed every belt of Math Dojo",
+  certNameLabel: "Your name, as it should appear:",
+  certNamePlaceholder: "Type your name",
+  certBody: (n) => `All ${n} skills mastered — from counting to calculus.`,
+  certDateLabel: "Completed on",
+  certDownload: "Download PNG",
+  certShare: "Share",
+  certShareText: "🏆 I completed EVERY belt of Math Dojo — from counting to calculus!",
+  certBackToMap: "Back to map",
 };
 
 const pt: UiStrings = {
@@ -215,6 +243,20 @@ const pt: UiStrings = {
   accountForgotSuccess: (email) => `Confira ${email} — tem um link pra redefinir sua senha.`,
   accountResetSuccess: "Senha atualizada — tudo certo.",
   supportLink: "Apoiar o Math Dojo",
+  shareBeltCta: "Compartilhar conquista",
+  shareBeltText: (beltName) => `🥋 Acabei de conquistar a ${beltName} no Math Dojo!`,
+  shareCopied: "Copiado — cole onde quiser!",
+  certMapCta: "🏆 Pegar meu certificado",
+  certTitle: "Certificado de Maestria",
+  certSubtitle: "completou todas as faixas do Math Dojo",
+  certNameLabel: "Seu nome, como deve aparecer:",
+  certNamePlaceholder: "Digite seu nome",
+  certBody: (n) => `Todas as ${n} habilidades dominadas — de contar até o cálculo.`,
+  certDateLabel: "Concluído em",
+  certDownload: "Baixar PNG",
+  certShare: "Compartilhar",
+  certShareText: "🏆 Completei TODAS as faixas do Math Dojo — de contar até o cálculo!",
+  certBackToMap: "Voltar ao mapa",
 };
 
 const es: UiStrings = {
@@ -289,6 +331,20 @@ const es: UiStrings = {
   accountForgotSuccess: (email) => `Revisa ${email} — hay un enlace para restablecer tu contraseña.`,
   accountResetSuccess: "Contraseña actualizada — todo listo.",
   supportLink: "Apoyar a Math Dojo",
+  shareBeltCta: "Compartir logro",
+  shareBeltText: (beltName) => `🥋 ¡Acabo de ganar el ${beltName} en Math Dojo!`,
+  shareCopied: "Copiado — ¡pégalo donde quieras!",
+  certMapCta: "🏆 Reclamar mi certificado",
+  certTitle: "Certificado de Maestría",
+  certSubtitle: "ha completado todos los cinturones de Math Dojo",
+  certNameLabel: "Tu nombre, como debe aparecer:",
+  certNamePlaceholder: "Escribe tu nombre",
+  certBody: (n) => `Las ${n} habilidades dominadas — de contar hasta el cálculo.`,
+  certDateLabel: "Completado el",
+  certDownload: "Descargar PNG",
+  certShare: "Compartir",
+  certShareText: "🏆 ¡Completé TODOS los cinturones de Math Dojo — de contar hasta el cálculo!",
+  certBackToMap: "Volver al mapa",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

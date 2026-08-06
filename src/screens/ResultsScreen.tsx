@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Belt, ProgressState, SessionSummary } from "../types";
 import { computeGrade } from "../engine/grading";
-import { playFanfare } from "../engine/sound";
+import { playBeltFanfare, playFanfare } from "../engine/sound";
+import { shareText } from "../engine/share";
+import { BeltBadge } from "../components/BeltBadge";
 import { useLocale } from "../i18n/LocaleContext";
 import { UI_STRINGS } from "../i18n/ui";
 import styles from "./ResultsScreen.module.css";
@@ -21,11 +23,24 @@ export function ResultsScreen({ summary, belts, progress, onRetry, onContinue }:
   const isLastStripeOfBelt = belt ? belt.stripes[belt.stripes.length - 1]?.id === summary.stripe.id : false;
   const beltEarned = summary.passed && isLastStripeOfBelt;
   const grade = computeGrade(summary.stripe, progress.stripeResults[summary.stripe.id]);
+  const [shareOutcome, setShareOutcome] = useState<"copied" | null>(null);
 
   useEffect(() => {
-    if (summary.passed) playFanfare();
+    if (summary.passed) {
+      if (beltEarned) playBeltFanfare();
+      else playFanfare();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function handleShareBelt() {
+    if (!belt) return;
+    const outcome = await shareText(t.shareBeltText(belt.name[locale]));
+    if (outcome === "copied") {
+      setShareOutcome("copied");
+      window.setTimeout(() => setShareOutcome(null), 2500);
+    }
+  }
 
   const accuracyPct = Math.round(summary.accuracy * 100);
   const outcomeClass = summary.passed ? styles.pass : styles.fail;
@@ -55,7 +70,15 @@ export function ResultsScreen({ summary, belts, progress, onRetry, onContinue }:
         </div>
       </div>
 
-      {beltEarned && belt && <div className={styles.beltEarned}>{t.beltEarned(belt.name[locale])}</div>}
+      {beltEarned && belt && (
+        <>
+          <BeltBadge belt={belt} />
+          <div className={styles.beltEarned}>{t.beltEarned(belt.name[locale])}</div>
+          <button type="button" className={styles.shareBtn} onClick={handleShareBelt}>
+            📣 {shareOutcome === "copied" ? t.shareCopied : t.shareBeltCta}
+          </button>
+        </>
+      )}
 
       <div className={styles.actions}>
         {summary.passed ? (

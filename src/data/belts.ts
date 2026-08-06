@@ -199,7 +199,17 @@ import {
   generateCircleCenter,
   generateCircleThroughPoint,
   generateAnalyticGeometryMix,
+  generateOneStepInequality,
+  generateMulInequality,
+  generateFlipInequality,
+  generateTwoStepInequality,
+  generateAbsoluteValue,
+  generateAbsoluteEquation,
+  generateIntervalCount,
+  generateInequalitiesMix,
   generateGoldBeltMix,
+  generateHundredthsToDecimal,
+  generateAddHundredths,
   generateBinaryToDecimal,
   generateDecimalToBinary,
   generatePowersOfTwo,
@@ -3466,9 +3476,103 @@ const blackBelt: Belt = {
       generate: generateDivideDecimalByWhole,
     },
     {
-      id: "black-20",
+      id: "black-19c",
       beltId: "black",
       index: 12,
+      degree: decimalsDegree,
+      title: { en: "What hundredths mean", pt: "O que significam os centésimos", es: "Qué significan los centésimos" },
+      summary: {
+        en: "Two places after the point — 5/100 is 0.05, not 0.5.",
+        pt: "Duas casas depois do ponto — 5/100 é 0.05, não 0.5.",
+        es: "Dos lugares después del punto — 5/100 es 0.05, no 0.5.",
+      },
+      lesson: {
+        intro: {
+          en: "The second place after the point counts hundredths. A fraction over 100 fills exactly two places — pad with a zero if the number is small.",
+          pt: "A segunda casa depois do ponto conta centésimos. Uma fração sobre 100 preenche exatamente duas casas — complete com zero se o número for pequeno.",
+          es: "El segundo lugar después del punto cuenta centésimos. Una fracción sobre 100 llena exactamente dos lugares — completa con cero si el número es pequeño.",
+        },
+        example: {
+          id: "ex-black-19c",
+          prompt: "37/100",
+          answer: 0,
+          operands: [37],
+          secondaryAnswer: 37,
+          secondaryFormat: "decimal",
+          secondaryDigits: 2,
+        },
+        steps: [
+          {
+            text: {
+              en: "37 hundredths fills the two places after the point: .37.",
+              pt: "37 centésimos preenche as duas casas depois do ponto: .37.",
+              es: "37 centésimos llena los dos lugares después del punto: .37.",
+            },
+          },
+          {
+            text: {
+              en: "No whole part, so it's 0.37. (And 5/100 would be 0.05 — pad the zero!)",
+              pt: "Sem parte inteira, fica 0.37. (E 5/100 seria 0.05 — complete o zero!)",
+              es: "Sin parte entera, queda 0.37. (¡Y 5/100 sería 0.05 — completa el cero!)",
+            },
+          },
+          { text: { en: "37/100 = 0.37.", pt: "37/100 = 0.37.", es: "37/100 = 0.37." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateHundredthsToDecimal,
+    },
+    {
+      id: "black-19d",
+      beltId: "black",
+      index: 13,
+      degree: decimalsDegree,
+      title: { en: "Adding with hundredths", pt: "Somando com centésimos", es: "Sumando con centésimos" },
+      summary: {
+        en: "Line up the points — hundredths carry just like units.",
+        pt: "Alinhe os pontos — centésimos têm 'vai um' como as unidades.",
+        es: "Alinea los puntos — los centésimos llevan igual que las unidades.",
+      },
+      lesson: {
+        intro: {
+          en: "Think in hundredths: 1.25 is 125 hundredths. Add them like whole numbers, then split the total back at the point.",
+          pt: "Pense em centésimos: 1.25 são 125 centésimos. Some como inteiros, depois separe o total de volta no ponto.",
+          es: "Piensa en centésimos: 1.25 son 125 centésimos. Suma como enteros, luego separa el total en el punto.",
+        },
+        example: {
+          id: "ex-black-19d",
+          prompt: "1.25 + 2.34",
+          answer: 3,
+          operands: [1, 25, 2, 34],
+          secondaryAnswer: 59,
+          secondaryFormat: "decimal",
+          secondaryDigits: 2,
+        },
+        steps: [
+          {
+            text: {
+              en: "In hundredths: {{125}} + 234 = 359.",
+              pt: "Em centésimos: {{125}} + 234 = 359.",
+              es: "En centésimos: {{125}} + 234 = 359.",
+            },
+          },
+          {
+            text: {
+              en: "359 hundredths is 3 wholes and 59 hundredths.",
+              pt: "359 centésimos são 3 inteiros e 59 centésimos.",
+              es: "359 centésimos son 3 enteros y 59 centésimos.",
+            },
+          },
+          { text: { en: "1.25 + 2.34 = 3.59.", pt: "1.25 + 2.34 = 3.59.", es: "1.25 + 2.34 = 3.59." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateAddHundredths,
+    },
+    {
+      id: "black-20",
+      beltId: "black",
+      index: 14,
       degree: decimalsDegree,
       title: { en: "Rounding decimals", pt: "Arredondar decimais", es: "Redondear decimales" },
       summary: {
@@ -6877,8 +6981,13 @@ const analyticDegree = {
   name: { en: "Analytic Geometry", pt: "Geometria Analítica", es: "Geometría Analítica" } as LocalizedText,
 };
 
-const goldExamDegree = {
+const inequalitiesDegree = {
   index: 7,
+  name: { en: "Inequalities & Absolute Value", pt: "Inequações e Módulo", es: "Desigualdades y Valor Absoluto" } as LocalizedText,
+};
+
+const goldExamDegree = {
+  index: 8,
   name: { en: "Belt Exam", pt: "Prova da Faixa", es: "Examen del Cinturón" } as LocalizedText,
 };
 
@@ -9508,6 +9617,371 @@ const goldBelt: Belt = {
       generate: generateAnalyticGeometryMix,
     },
     {
+      id: "gold-60",
+      beltId: "gold",
+      index: 1,
+      degree: inequalitiesDegree,
+      title: { en: "One-step inequalities", pt: "Inequações de um passo", es: "Desigualdades de un paso" },
+      summary: {
+        en: "Solve like an equation — the answer is a boundary, not a point.",
+        pt: "Resolva como equação — a resposta é uma fronteira, não um ponto.",
+        es: "Resuelve como una ecuación — la respuesta es una frontera, no un punto.",
+      },
+      lesson: {
+        intro: {
+          en: "x + 5 < 12 works exactly like x + 5 = 12: undo the +5 on both sides. The < sign just comes along for the ride.",
+          pt: "x + 5 < 12 funciona igual a x + 5 = 12: desfaça o +5 dos dois lados. O sinal < só vai junto.",
+          es: "x + 5 < 12 funciona igual que x + 5 = 12: deshaz el +5 en ambos lados. El signo < solo acompaña.",
+        },
+        example: {
+          id: "ex-gold-60",
+          prompt: "x + 5 < 12",
+          answer: 7,
+          operands: [5, 12],
+          isEquation: true,
+          equationLabel: "x <",
+        },
+        steps: [
+          {
+            text: {
+              en: "Subtract 5 from both sides.",
+              pt: "Subtraia 5 dos dois lados.",
+              es: "Resta 5 en ambos lados.",
+            },
+          },
+          {
+            text: {
+              en: "12 − 5 = {{7}}, and the sign stays put.",
+              pt: "12 − 5 = {{7}}, e o sinal fica como está.",
+              es: "12 − 5 = {{7}}, y el signo se queda igual.",
+            },
+          },
+          { text: { en: "x < 7.", pt: "x < 7.", es: "x < 7." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateOneStepInequality,
+    },
+    {
+      id: "gold-61",
+      beltId: "gold",
+      index: 2,
+      degree: inequalitiesDegree,
+      title: { en: "Dividing an inequality", pt: "Dividindo uma inequação", es: "Dividiendo una desigualdad" },
+      summary: {
+        en: "Divide by a positive number — the sign doesn't move.",
+        pt: "Divida por um número positivo — o sinal não muda.",
+        es: "Divide por un número positivo — el signo no cambia.",
+      },
+      lesson: {
+        intro: {
+          en: "3x ≤ 21: divide both sides by 3. Dividing by a positive number keeps the inequality pointing the same way.",
+          pt: "3x ≤ 21: divida os dois lados por 3. Dividir por positivo mantém a desigualdade apontando para o mesmo lado.",
+          es: "3x ≤ 21: divide ambos lados entre 3. Dividir por un positivo mantiene la desigualdad apuntando igual.",
+        },
+        example: {
+          id: "ex-gold-61",
+          prompt: "3x ≤ 21",
+          answer: 7,
+          operands: [3, 21],
+          isEquation: true,
+          equationLabel: "x ≤",
+        },
+        steps: [
+          {
+            text: {
+              en: "Divide both sides by 3.",
+              pt: "Divida os dois lados por 3.",
+              es: "Divide ambos lados entre 3.",
+            },
+          },
+          {
+            text: {
+              en: "21 ÷ 3 = {{7}}.",
+              pt: "21 ÷ 3 = {{7}}.",
+              es: "21 ÷ 3 = {{7}}.",
+            },
+          },
+          { text: { en: "x ≤ 7.", pt: "x ≤ 7.", es: "x ≤ 7." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateMulInequality,
+    },
+    {
+      id: "gold-62",
+      beltId: "gold",
+      index: 3,
+      degree: inequalitiesDegree,
+      title: { en: "The sign flip", pt: "A troca de sinal", es: "El giro del signo" },
+      summary: {
+        en: "Divide by a negative and the inequality turns around.",
+        pt: "Divida por negativo e a desigualdade vira.",
+        es: "Divide por un negativo y la desigualdad se voltea.",
+      },
+      lesson: {
+        intro: {
+          en: "The classic trap: −2x < 10 divided by −2 gives x > −5. Multiplying or dividing by a negative number reverses < into >.",
+          pt: "A pegadinha clássica: −2x < 10 dividido por −2 dá x > −5. Multiplicar ou dividir por negativo inverte < em >.",
+          es: "La trampa clásica: −2x < 10 dividido entre −2 da x > −5. Multiplicar o dividir por un negativo invierte < en >.",
+        },
+        example: {
+          id: "ex-gold-62",
+          prompt: "−2x < 10",
+          answer: -5,
+          operands: [2, 10],
+          isEquation: true,
+          equationLabel: "x >",
+          allowNegative: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "Divide both sides by −2: 10 ÷ (−2) = {{−5}}.",
+              pt: "Divida os dois lados por −2: 10 ÷ (−2) = {{−5}}.",
+              es: "Divide ambos lados entre −2: 10 ÷ (−2) = {{−5}}.",
+            },
+          },
+          {
+            text: {
+              en: "Dividing by a negative flips the sign: < becomes >.",
+              pt: "Dividir por negativo vira o sinal: < vira >.",
+              es: "Dividir por un negativo voltea el signo: < se vuelve >.",
+            },
+          },
+          { text: { en: "x > −5.", pt: "x > −5.", es: "x > −5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateFlipInequality,
+    },
+    {
+      id: "gold-63",
+      beltId: "gold",
+      index: 4,
+      degree: inequalitiesDegree,
+      title: { en: "Two-step inequalities", pt: "Inequações de dois passos", es: "Desigualdades de dos pasos" },
+      summary: {
+        en: "Undo the constant first, then the coefficient.",
+        pt: "Desfaça a constante primeiro, depois o coeficiente.",
+        es: "Deshaz la constante primero, luego el coeficiente.",
+      },
+      lesson: {
+        intro: {
+          en: "Same routine as two-step equations: move the constant, then divide — watching for the negative flip.",
+          pt: "Mesma rotina das equações de dois passos: mova a constante, depois divida — de olho na troca de sinal.",
+          es: "La misma rutina de las ecuaciones de dos pasos: mueve la constante, luego divide — atento al giro del signo.",
+        },
+        example: {
+          id: "ex-gold-63",
+          prompt: "2x − 4 > 10",
+          answer: 7,
+          operands: [2, 4, 10],
+          isEquation: true,
+          equationLabel: "x >",
+        },
+        steps: [
+          {
+            text: {
+              en: "Add 4: 2x > {{14}}.",
+              pt: "Some 4: 2x > {{14}}.",
+              es: "Suma 4: 2x > {{14}}.",
+            },
+          },
+          {
+            text: {
+              en: "Divide by 2 (positive, no flip): x > {{14}} ÷ 2 = 7.",
+              pt: "Divida por 2 (positivo, sem virar): x > {{14}} ÷ 2 = 7.",
+              es: "Divide entre 2 (positivo, sin giro): x > {{14}} ÷ 2 = 7.",
+            },
+          },
+          { text: { en: "x > 7.", pt: "x > 7.", es: "x > 7." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateTwoStepInequality,
+    },
+    {
+      id: "gold-64",
+      beltId: "gold",
+      index: 5,
+      degree: inequalitiesDegree,
+      title: { en: "Absolute value", pt: "Módulo (valor absoluto)", es: "Valor absoluto" },
+      summary: {
+        en: "|n| is the distance to zero — always positive.",
+        pt: "|n| é a distância até o zero — sempre positivo.",
+        es: "|n| es la distancia a cero — siempre positivo.",
+      },
+      lesson: {
+        intro: {
+          en: "The bars strip the sign: |−7| = 7. Compute what's inside first, then drop any minus.",
+          pt: "As barras tiram o sinal: |−7| = 7. Calcule o que está dentro primeiro, depois descarte o menos.",
+          es: "Las barras quitan el signo: |−7| = 7. Calcula lo de adentro primero, luego descarta el menos.",
+        },
+        example: { id: "ex-gold-64", prompt: "|5 − 12|", answer: 7, operands: [5, 12] },
+        steps: [
+          {
+            text: {
+              en: "Inside first: 5 − 12 = {{−7}}.",
+              pt: "Dentro primeiro: 5 − 12 = {{−7}}.",
+              es: "Adentro primero: 5 − 12 = {{−7}}.",
+            },
+          },
+          {
+            text: {
+              en: "Distance to zero: |{{−7}}| = 7.",
+              pt: "Distância até o zero: |{{−7}}| = 7.",
+              es: "Distancia a cero: |{{−7}}| = 7.",
+            },
+          },
+          { text: { en: "|5 − 12| = 7.", pt: "|5 − 12| = 7.", es: "|5 − 12| = 7." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateAbsoluteValue,
+    },
+    {
+      id: "gold-65",
+      beltId: "gold",
+      index: 6,
+      degree: inequalitiesDegree,
+      title: { en: "Absolute-value equations", pt: "Equações com módulo", es: "Ecuaciones con valor absoluto" },
+      summary: {
+        en: "|x − a| = r means two answers: a − r and a + r.",
+        pt: "|x − a| = r significa duas respostas: a − r e a + r.",
+        es: "|x − a| = r significa dos respuestas: a − r y a + r.",
+      },
+      lesson: {
+        intro: {
+          en: "\"Distance from a equals r\" points both ways on the number line. Walk r to the left and r to the right of a.",
+          pt: "\"Distância de a igual a r\" aponta para os dois lados da reta. Ande r para a esquerda e r para a direita de a.",
+          es: "\"Distancia de a igual a r\" apunta a ambos lados de la recta. Camina r a la izquierda y r a la derecha de a.",
+        },
+        example: {
+          id: "ex-gold-65",
+          prompt: "|x − 3| = 5",
+          answer: -2,
+          operands: [3, 5],
+          secondaryAnswer: 8,
+          secondaryFormat: "pair",
+          isEquation: true,
+          equationLabel: "x₁, x₂ =",
+          allowNegative: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "x sits 5 away from {{3}}.",
+              pt: "x está a 5 de distância do {{3}}.",
+              es: "x está a 5 de distancia del {{3}}.",
+            },
+          },
+          {
+            text: {
+              en: "Left: {{3}} − 5 = −2. Right: {{3}} + 5 = 8.",
+              pt: "Esquerda: {{3}} − 5 = −2. Direita: {{3}} + 5 = 8.",
+              es: "Izquierda: {{3}} − 5 = −2. Derecha: {{3}} + 5 = 8.",
+            },
+          },
+          { text: { en: "x = −2 or x = 8.", pt: "x = −2 ou x = 8.", es: "x = −2 o x = 8." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateAbsoluteEquation,
+    },
+    {
+      id: "gold-66",
+      beltId: "gold",
+      index: 7,
+      degree: inequalitiesDegree,
+      title: { en: "Counting an interval", pt: "Contando um intervalo", es: "Contando un intervalo" },
+      summary: {
+        en: "How many integers live between the bounds — mind the < vs ≤.",
+        pt: "Quantos inteiros moram entre as fronteiras — cuidado com < e ≤.",
+        es: "Cuántos enteros viven entre las fronteras — cuidado con < y ≤.",
+      },
+      lesson: {
+        intro: {
+          en: "A strict < excludes its endpoint; ≤ includes it. Find the first and last integers allowed, then count: last − first + 1.",
+          pt: "O < estrito exclui a ponta; o ≤ inclui. Ache o primeiro e o último inteiros permitidos e conte: último − primeiro + 1.",
+          es: "El < estricto excluye su extremo; el ≤ lo incluye. Halla el primer y el último entero permitidos y cuenta: último − primero + 1.",
+        },
+        example: {
+          id: "ex-gold-66",
+          prompt: "2 ≤ x < 7",
+          promptL10n: {
+            en: "How many integers satisfy 2 ≤ x < 7?",
+            pt: "Quantos inteiros satisfazem 2 ≤ x < 7?",
+            es: "¿Cuántos enteros cumplen 2 ≤ x < 7?",
+          },
+          answer: 5,
+          operands: [2, 7],
+        },
+        steps: [
+          {
+            text: {
+              en: "First allowed: 2 (the ≤ includes it). Last allowed: {{6}} (the < excludes 7).",
+              pt: "Primeiro permitido: 2 (o ≤ inclui). Último permitido: {{6}} (o < exclui o 7).",
+              es: "Primero permitido: 2 (el ≤ lo incluye). Último permitido: {{6}} (el < excluye el 7).",
+            },
+          },
+          {
+            text: {
+              en: "Count: {{6}} − 2 + 1 = 5.",
+              pt: "Conte: {{6}} − 2 + 1 = 5.",
+              es: "Cuenta: {{6}} − 2 + 1 = 5.",
+            },
+          },
+          { text: { en: "5 integers.", pt: "5 inteiros.", es: "5 enteros." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateIntervalCount,
+    },
+    {
+      id: "gold-67",
+      beltId: "gold",
+      index: 8,
+      degree: inequalitiesDegree,
+      title: {
+        en: "Inequalities & absolute value, mixed",
+        pt: "Inequações e módulo, misturados",
+        es: "Desigualdades y valor absoluto, mezclados",
+      },
+      summary: {
+        en: "Boundaries, flips, distances and counts — shuffled.",
+        pt: "Fronteiras, trocas de sinal, distâncias e contagens — embaralhadas.",
+        es: "Fronteras, giros, distancias y conteos — revueltos.",
+      },
+      lesson: {
+        intro: {
+          en: "Watch two things above all: a negative coefficient flips the sign, and bars mean distance — always positive, often two answers.",
+          pt: "Observe duas coisas acima de tudo: coeficiente negativo vira o sinal, e barras significam distância — sempre positiva, muitas vezes com duas respostas.",
+          es: "Observa dos cosas sobre todo: un coeficiente negativo voltea el signo, y las barras significan distancia — siempre positiva, a menudo con dos respuestas.",
+        },
+        example: { id: "ex-gold-67", prompt: "|−9|", answer: 9, operands: [-9] },
+        steps: [
+          {
+            text: {
+              en: "Bars strip the sign.",
+              pt: "As barras tiram o sinal.",
+              es: "Las barras quitan el signo.",
+            },
+          },
+          {
+            text: {
+              en: "|−9| = 9.",
+              pt: "|−9| = 9.",
+              es: "|−9| = 9.",
+            },
+          },
+          { text: { en: "The answer is 9.", pt: "A resposta é 9.", es: "La respuesta es 9." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 13 },
+      generate: generateInequalitiesMix,
+    },
+    {
       id: "gold-59",
       beltId: "gold",
       index: 1,
@@ -9518,9 +9992,9 @@ const goldBelt: Belt = {
         es: "Examen del Cinturón Dorado: todo mezclado",
       },
       summary: {
-        en: "All six degrees in one final gauntlet — the entrance-exam simulator.",
-        pt: "Os seis níveis numa prova final — o simulado de vestibular.",
-        es: "Los seis niveles en una prueba final — el simulador de examen.",
+        en: "All seven degrees in one final gauntlet — the entrance-exam simulator.",
+        pt: "Os sete níveis numa prova final — o simulado de vestibular.",
+        es: "Los siete niveles en una prueba final — el simulador de examen.",
       },
       lesson: {
         intro: {

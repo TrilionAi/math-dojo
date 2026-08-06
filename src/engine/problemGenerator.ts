@@ -3717,7 +3717,7 @@ export function generateAnalyticGeometryMix(count: number): Problem[] {
   return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
 }
 
-/** Gold Belt exam: all six degrees mixed. */
+/** Gold Belt exam: all seven degrees mixed. */
 export function generateGoldBeltMix(count: number): Problem[] {
   const makers = [
     () => generateLogsMix(1)[0],
@@ -3726,6 +3726,7 @@ export function generateGoldBeltMix(count: number): Problem[] {
     () => generateMatricesMix(1)[0],
     () => generatePolynomialsMix(1)[0],
     () => generateAnalyticGeometryMix(1)[0],
+    () => generateInequalitiesMix(1)[0],
   ];
   return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
 }
@@ -4023,4 +4024,216 @@ export function generateDigitalMix(count: number): Problem[] {
     () => generateLoopSteps(1)[0],
   ];
   return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+// ---------------------------------------------------------------------------
+// Gold Belt degree 7 — inequalities and absolute value.
+// ---------------------------------------------------------------------------
+
+/** One-step inequalities: x + a < b or x − a > b — the boundary value is the answer. */
+export function generateOneStepInequality(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const useLess = Math.random() < 0.5;
+    const a = randomInt(1, 12);
+    const bound = randomInt(1, 12);
+    if (useLess) {
+      return {
+        id: nextId(),
+        prompt: `x + ${a} < ${a + bound}`,
+        answer: bound,
+        operands: [a, a + bound],
+        isEquation: true,
+        equationLabel: "x <",
+      };
+    }
+    return {
+      id: nextId(),
+      prompt: `x − ${a} > ${bound}`,
+      answer: bound + a,
+      operands: [a, bound],
+      isEquation: true,
+      equationLabel: "x >",
+    };
+  });
+}
+
+/** Multiplication inequalities with a positive coefficient — divide both sides. */
+export function generateMulInequality(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 9);
+    const bound = randomInt(2, 12);
+    const useLeq = Math.random() < 0.5;
+    return {
+      id: nextId(),
+      prompt: `${a}x ${useLeq ? "≤" : "≥"} ${a * bound}`,
+      answer: bound,
+      operands: [a, a * bound],
+      isEquation: true,
+      equationLabel: useLeq ? "x ≤" : "x ≥",
+    };
+  });
+}
+
+/** Negative coefficient — dividing flips the inequality sign. */
+export function generateFlipInequality(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 9);
+    const bound = randomInt(-9, 9);
+    return {
+      id: nextId(),
+      prompt: `−${a}x < ${-a * bound}`,
+      answer: bound,
+      operands: [a, -a * bound],
+      isEquation: true,
+      equationLabel: "x >",
+      allowNegative: true,
+    };
+  });
+}
+
+/** Two-step inequalities: ax + b > c — undo the +b, then divide. */
+export function generateTwoStepInequality(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 9);
+    const bound = randomInt(1, 9);
+    const b = randomInt(1, 9);
+    const useGreater = Math.random() < 0.5;
+    if (useGreater) {
+      return {
+        id: nextId(),
+        prompt: `${a}x − ${b} > ${a * bound - b}`,
+        answer: bound,
+        operands: [a, b, a * bound - b],
+        isEquation: true,
+        equationLabel: "x >",
+      };
+    }
+    return {
+      id: nextId(),
+      prompt: `${a}x + ${b} < ${a * bound + b}`,
+      answer: bound,
+      operands: [a, b, a * bound + b],
+      isEquation: true,
+      equationLabel: "x <",
+    };
+  });
+}
+
+/** Absolute value as distance from zero — including expressions inside the bars. */
+export function generateAbsoluteValue(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const kind = randomInt(0, 2);
+    if (kind === 0) {
+      const n = randomInt(2, 99);
+      const sign = Math.random() < 0.5 ? -1 : 1;
+      return { id: nextId(), prompt: `|${sign * n}|`, answer: n, operands: [sign * n] };
+    }
+    if (kind === 1) {
+      const a = randomInt(1, 9);
+      const b = randomInt(a + 1, 20);
+      return { id: nextId(), prompt: `|${a} − ${b}|`, answer: b - a, operands: [a, b] };
+    }
+    const a = randomInt(2, 9);
+    const b = randomInt(2, 9);
+    return { id: nextId(), prompt: `|−${a}| + |−${b}|`, answer: a + b, operands: [a, b] };
+  });
+}
+
+/** |x − a| = r has two solutions: a − r and a + r. */
+export function generateAbsoluteEquation(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(-6, 8);
+    const r = randomInt(1, 9);
+    const inner = a === 0 ? "x" : `x ${a > 0 ? "−" : "+"} ${Math.abs(a)}`;
+    return {
+      id: nextId(),
+      prompt: `|${inner}| = ${r}`,
+      answer: a - r,
+      operands: [a, r],
+      secondaryAnswer: a + r,
+      secondaryFormat: "pair",
+      isEquation: true,
+      equationLabel: "x₁, x₂ =",
+      allowNegative: true,
+    };
+  });
+}
+
+/** Count the integers inside an interval like 2 ≤ x < 7. */
+export function generateIntervalCount(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const lo = randomInt(-8, 8);
+    const width = randomInt(3, 9);
+    const hi = lo + width;
+    const loStrict = Math.random() < 0.5;
+    const hiStrict = Math.random() < 0.5;
+    const first = loStrict ? lo + 1 : lo;
+    const last = hiStrict ? hi - 1 : hi;
+    return {
+      id: nextId(),
+      prompt: `${lo} ${loStrict ? "<" : "≤"} x ${hiStrict ? "<" : "≤"} ${hi}`,
+      promptL10n: localized(
+        `How many integers satisfy ${lo} ${loStrict ? "<" : "≤"} x ${hiStrict ? "<" : "≤"} ${hi}?`,
+        `Quantos inteiros satisfazem ${lo} ${loStrict ? "<" : "≤"} x ${hiStrict ? "<" : "≤"} ${hi}?`,
+        `¿Cuántos enteros cumplen ${lo} ${loStrict ? "<" : "≤"} x ${hiStrict ? "<" : "≤"} ${hi}?`,
+      ),
+      answer: last - first + 1,
+      operands: [lo, hi],
+    };
+  });
+}
+
+/** Inequalities & absolute value capstone: every skill of the degree, shuffled. */
+export function generateInequalitiesMix(count: number): Problem[] {
+  const makers = [
+    () => generateOneStepInequality(1)[0],
+    () => generateMulInequality(1)[0],
+    () => generateFlipInequality(1)[0],
+    () => generateTwoStepInequality(1)[0],
+    () => generateAbsoluteValue(1)[0],
+    () => generateAbsoluteEquation(1)[0],
+    () => generateIntervalCount(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+// ---------------------------------------------------------------------------
+// Black Belt decimals — hundredths (two digits after the point).
+// ---------------------------------------------------------------------------
+
+/** Reads a hundredths fraction (n/100) as a two-place decimal — "5/100" is 0.05. */
+export function generateHundredthsToDecimal(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const n = randomInt(1, 99);
+    return {
+      id: nextId(),
+      prompt: `${n}/100`,
+      answer: 0,
+      operands: [n],
+      secondaryAnswer: n,
+      secondaryFormat: "decimal" as const,
+      secondaryDigits: 2,
+    };
+  });
+}
+
+/** Adding two-place decimals — hundredths columns carry just like whole numbers. */
+export function generateAddHundredths(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const w1 = randomInt(0, 4);
+    const w2 = randomInt(0, 4);
+    const h1 = randomInt(1, 99);
+    const h2 = randomInt(1, 99);
+    const totalHundredths = (w1 * 100 + h1) + (w2 * 100 + h2);
+    const pad = (n: number) => String(n).padStart(2, "0");
+    return {
+      id: nextId(),
+      prompt: `${w1}.${pad(h1)} + ${w2}.${pad(h2)}`,
+      answer: Math.floor(totalHundredths / 100),
+      operands: [w1, h1, w2, h2],
+      secondaryAnswer: totalHundredths % 100,
+      secondaryFormat: "decimal" as const,
+      secondaryDigits: 2,
+    };
+  });
 }
