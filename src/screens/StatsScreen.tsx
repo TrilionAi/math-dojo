@@ -1,6 +1,8 @@
+import { useState } from "react";
 import type { Belt, ProgressState } from "../types";
 import { computeDayStreak } from "../engine/progress";
 import { computeGrade, type Grade } from "../engine/grading";
+import { shareText } from "../engine/share";
 import { BeltBadge } from "../components/BeltBadge";
 import { useLocale } from "../i18n/LocaleContext";
 import { UI_STRINGS } from "../i18n/ui";
@@ -16,6 +18,15 @@ interface StatsScreenProps {
 export function StatsScreen({ belts, progress, onBack, onOpenCertificate }: StatsScreenProps) {
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
+  const [sharedCopied, setSharedCopied] = useState(false);
+
+  async function handleShareBelt(belt: Belt) {
+    const outcome = await shareText(t.shareBeltText(belt.name[locale]));
+    if (outcome === "copied") {
+      setSharedCopied(true);
+      window.setTimeout(() => setSharedCopied(false), 2500);
+    }
+  }
 
   const playableBelts = belts.filter((b) => !b.locked);
   const allStripes = playableBelts.flatMap((b) => b.stripes);
@@ -86,11 +97,24 @@ export function StatsScreen({ belts, progress, onBack, onOpenCertificate }: Stat
       <p className={styles.gradeHint}>{t.statGradeHint}</p>
 
       <h2 className={styles.sectionTitle}>{t.statBadgesTitle}</h2>
+      <p className={styles.medalHint}>{sharedCopied ? t.shareCopied : t.statBadgesShareHint}</p>
       <div className={styles.medalGrid}>
         {playableBelts.map((belt) => {
           const last = belt.stripes[belt.stripes.length - 1];
           const earned = last ? (progress.stripeResults[last.id]?.passed ?? false) : false;
-          return <BeltBadge key={belt.id} belt={belt} small locked={!earned} />;
+          if (!earned) return <BeltBadge key={belt.id} belt={belt} small locked />;
+          return (
+            <button
+              key={belt.id}
+              type="button"
+              className={styles.medalBtn}
+              onClick={() => handleShareBelt(belt)}
+              title={t.shareBeltCta}
+              aria-label={`${t.shareBeltCta}: ${belt.name[locale]}`}
+            >
+              <BeltBadge belt={belt} small />
+            </button>
+          );
         })}
       </div>
 

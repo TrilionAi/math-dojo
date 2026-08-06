@@ -303,3 +303,22 @@
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(212, 160, 23, 0.4);
 }
+
+.medalHint {
+  font-size: var(--fs-xs);
+  color: var(--color-ink-faint);
+  margin-bottom: var(--sp-2);
+}
+
+.medalBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: transform 0.15s ease;
+}
+
+.medalBtn:hover {
+  transform: scale(1.06);
+}

@@ -1,4 +1,5 @@
 import type { Belt, ProgressState, SessionSummary, Stripe, StripeResult } from "../types";
+import { isTimedMode } from "./settings";
 
 const STORAGE_KEY = "math-dojo:progress:v1";
 
@@ -106,5 +107,8 @@ export function recordSessionResult(progress: ProgressState, summary: SessionSum
 }
 
 export function evaluateSession(stripe: Stripe, accuracy: number, avgTimeSec: number): boolean {
-  return accuracy >= stripe.mastery.passAccuracy && avgTimeSec <= stripe.mastery.targetTimeSec;
+  if (accuracy < stripe.mastery.passAccuracy) return false;
+  // Untimed mode: accuracy alone decides — the clock still runs for the S/A
+  // speed grades, but never blocks a pass.
+  return !isTimedMode() || avgTimeSec <= stripe.mastery.targetTimeSec;
 }

@@ -4,6 +4,7 @@ import { signUp, signIn, signOut, requestPasswordReset, updatePassword } from ".
 import { useLocale } from "../i18n/LocaleContext";
 import { UI_STRINGS } from "../i18n/ui";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import { isTimedMode, setTimedMode } from "../engine/settings";
 import styles from "./AccountScreen.module.css";
 
 interface AccountScreenProps {
@@ -70,6 +71,28 @@ function PasswordField({ label, value, onChange, visible, onToggleVisible, showL
         </button>
       </div>
     </label>
+  );
+}
+
+function SettingsCard({ title, label, hint }: { title: string; label: string; hint: string }) {
+  const [timed, setTimed] = useState(() => isTimedMode());
+  return (
+    <div className={styles.settingsCard}>
+      <h2 className={styles.settingsTitle}>{title}</h2>
+      <label className={styles.settingsRow}>
+        <input
+          type="checkbox"
+          className={styles.settingsCheckbox}
+          checked={timed}
+          onChange={(e) => {
+            setTimed(e.target.checked);
+            setTimedMode(e.target.checked);
+          }}
+        />
+        <span className={styles.settingsLabel}>{label}</span>
+      </label>
+      <p className={styles.settingsHint}>{hint}</p>
+    </div>
   );
 }
 
@@ -175,6 +198,7 @@ export function AccountScreen({ session, forceReset, onBack, onResetHandled }: A
           <p className={styles.email}>{session.user.email}</p>
         </header>
         <p className={styles.syncNote}>{t.accountSyncNote}</p>
+        <SettingsCard title={t.settingsTitle} label={t.settingsTimedLabel} hint={t.settingsTimedHint} />
         <div className={styles.loggedInActions}>
           <button type="button" className={styles.primaryBtn} onClick={onBack}>
             {t.accountContinuePlaying}
@@ -345,6 +369,8 @@ export function AccountScreen({ session, forceReset, onBack, onResetHandled }: A
           </button>
         </form>
       )}
+
+      <SettingsCard title={t.settingsTitle} label={t.settingsTimedLabel} hint={t.settingsTimedHint} />
     </div>
   );
 }

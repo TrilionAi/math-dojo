@@ -207,3 +207,45 @@
   flex-direction: column;
   gap: var(--sp-3);
 }
+
+.settingsCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4);
+  margin: var(--sp-5) 0;
+  text-align: left;
+}
+
+.settingsTitle {
+  font-size: var(--fs-base);
+  font-weight: 800;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-3);
+}
+
+.settingsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  cursor: pointer;
+}
+
+.settingsCheckbox {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.settingsLabel {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.settingsHint {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--color-ink-soft);
+  line-height: 1.5;
+}

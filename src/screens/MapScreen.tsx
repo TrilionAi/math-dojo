@@ -108,7 +108,9 @@ export function MapScreen({
                   <div key={gi} className={styles.stripeGroup}>
                     {group.degree && (
                       <div className={styles.degreeHeading}>
-                        {t.degreeLabel} {group.degree.index} · {group.degree.name[locale]}
+                        {group.degree.index > 0
+                          ? `${t.degreeLabel} ${group.degree.index} · ${group.degree.name[locale]}`
+                          : group.degree.name[locale]}
                       </div>
                     )}
                     <div className={styles.stripeRow}>

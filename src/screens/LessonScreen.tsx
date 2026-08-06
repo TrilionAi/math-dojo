@@ -1,4 +1,5 @@
 import type { Stripe } from "../types";
+import { isTimedMode } from "../engine/settings";
 import { useLocale } from "../i18n/LocaleContext";
 import { UI_STRINGS } from "../i18n/ui";
 import { GroupDiagram } from "../components/GroupDiagram";
@@ -174,12 +175,18 @@ export function LessonScreen({ stripe, onBack, onStart, onSendToBoard }: LessonS
           {t.startPractice}
         </button>
         <p className={styles.meta}>
-          {t.lessonMeta(
-            stripe.mastery.pagesToMaster,
-            stripe.mastery.problemsPerPage,
-            Math.round(stripe.mastery.passAccuracy * 100),
-            stripe.mastery.targetTimeSec,
-          )}
+          {isTimedMode()
+            ? t.lessonMeta(
+                stripe.mastery.pagesToMaster,
+                stripe.mastery.problemsPerPage,
+                Math.round(stripe.mastery.passAccuracy * 100),
+                stripe.mastery.targetTimeSec,
+              )
+            : t.lessonMetaUntimed(
+                stripe.mastery.pagesToMaster,
+                stripe.mastery.problemsPerPage,
+                Math.round(stripe.mastery.passAccuracy * 100),
+              )}
         </p>
       </div>
     </div>

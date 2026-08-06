@@ -94,6 +94,11 @@ interface UiStrings {
   boardClear: string;
   boardResetView: string;
   boardClose: string;
+  lessonMetaUntimed: (pagesToMaster: number, problemsPerPage: number, pct: number) => string;
+  settingsTitle: string;
+  settingsTimedLabel: string;
+  settingsTimedHint: string;
+  statBadgesShareHint: string;
 }
 
 const en: UiStrings = {
@@ -195,6 +200,13 @@ const en: UiStrings = {
   boardClear: "Clear everything",
   boardResetView: "Back to center",
   boardClose: "Close the whiteboard",
+  lessonMetaUntimed: (pagesToMaster, problemsPerPage, pct) =>
+    `${pagesToMaster} pages of ${problemsPerPage} problems · pass with ${pct}%+ accuracy — no time limit`,
+  settingsTitle: "Preferences",
+  settingsTimedLabel: "Timed mode",
+  settingsTimedHint:
+    "On: passing also requires your average time per problem to beat the stripe's target. Off: only accuracy counts — solve at your own pace (the clock still runs for the S/A speed ranks).",
+  statBadgesShareHint: "Tap an earned medal to share it.",
 };
 
 const pt: UiStrings = {
@@ -296,6 +308,13 @@ const pt: UiStrings = {
   boardClear: "Limpar tudo",
   boardResetView: "Voltar ao centro",
   boardClose: "Fechar a lousa",
+  lessonMetaUntimed: (pagesToMaster, problemsPerPage, pct) =>
+    `${pagesToMaster} páginas de ${problemsPerPage} contas · passe com ${pct}%+ de acerto — sem limite de tempo`,
+  settingsTitle: "Preferências",
+  settingsTimedLabel: "Modo cronometrado",
+  settingsTimedHint:
+    "Ligado: para passar, além do acerto, sua média de tempo por conta precisa ficar abaixo do alvo do grau. Desligado: só o acerto conta — resolva no seu ritmo (o relógio continua valendo para os ranks S/A de velocidade).",
+  statBadgesShareHint: "Toque numa medalha conquistada para compartilhar.",
 };
 
 const es: UiStrings = {
@@ -397,6 +416,13 @@ const es: UiStrings = {
   boardClear: "Borrar todo",
   boardResetView: "Volver al centro",
   boardClose: "Cerrar la pizarra",
+  lessonMetaUntimed: (pagesToMaster, problemsPerPage, pct) =>
+    `${pagesToMaster} páginas de ${problemsPerPage} problemas · aprueba con ${pct}%+ de precisión — sin límite de tiempo`,
+  settingsTitle: "Preferencias",
+  settingsTimedLabel: "Modo cronometrado",
+  settingsTimedHint:
+    "Activado: para aprobar, además de la precisión, tu tiempo promedio por problema debe quedar bajo el objetivo del grado. Desactivado: solo cuenta la precisión — resuelve a tu ritmo (el reloj sigue valiendo para los rangos S/A de velocidad).",
+  statBadgesShareHint: "Toca una medalla conseguida para compartirla.",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

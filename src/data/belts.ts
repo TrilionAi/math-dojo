@@ -236,7 +236,7 @@ import {
   generateDefiniteIntegral,
   generateCalculusCapstone,
 } from "../engine/problemGenerator";
-import type { Belt, LocalizedText } from "../types";
+import type { Belt, LocalizedText, Problem, Stripe } from "../types";
 
 const whiteBelt: Belt = {
   id: "white",
@@ -11183,5 +11183,129 @@ const coralBelt: Belt = {
     },
   ],
 };
+
+// ---------------------------------------------------------------------------
+// Graduation exams — every belt ends with a "Prova da Faixa": ONE question
+// from each skill stripe, in learning order, on a single page. Passing it is
+// what earns the belt. Mixed-practice stripes train; the exam samples each
+// real skill exactly once, so it never turns into an endless drill.
+// ---------------------------------------------------------------------------
+
+const EXAM_DEGREE_NAME: LocalizedText = {
+  en: "Belt Exam",
+  pt: "Prova da Faixa",
+  es: "Examen del Cinturón",
+};
+
+/** Capstone mixed drills — practice material, excluded from exam sampling so
+ * no skill gets asked twice. */
+const MIXED_PRACTICE_GENERATORS = new Set<(count: number) => Problem[]>([
+  generateNumberMasteryMix,
+  generatePlaneGeometryMix,
+  generateSolidGeometryMix,
+  generateTrigMix,
+  generateRedBeltMix,
+  generateLogsMix,
+  generateSequencesMix,
+  generateCountingMix,
+  generateMatricesMix,
+  generatePolynomialsMix,
+  generateAnalyticGeometryMix,
+  generateInequalitiesMix,
+  generateGoldBeltMix,
+  generateDigitalMix,
+]);
+
+function examSkills(belt: Belt, excludeId?: string): Stripe[] {
+  return belt.stripes.filter((s) => s.id !== excludeId && !MIXED_PRACTICE_GENERATORS.has(s.generate));
+}
+
+function makeExamGenerate(skills: Stripe[]): (count: number) => Problem[] {
+  return () => skills.map((s) => s.generate(1)[0]);
+}
+
+function examTime(skills: Stripe[]): number {
+  return Math.max(...skills.map((s) => s.mastery.targetTimeSec));
+}
+
+function addGraduationExam(belt: Belt, degreeIndex: number): void {
+  const skills = examSkills(belt);
+  const n = skills.length;
+  belt.stripes.push({
+    id: `${belt.id}-exam`,
+    beltId: belt.id,
+    index: 1,
+    degree: { index: degreeIndex, name: EXAM_DEGREE_NAME },
+    title: { en: "Graduation exam", pt: "Exame de graduação", es: "Examen de graduación" },
+    summary: {
+      en: `One question from each of the ${n} skills — pass it and the belt is yours.`,
+      pt: `Uma questão de cada uma das ${n} habilidades — passe e a faixa é sua.`,
+      es: `Una pregunta de cada una de las ${n} habilidades — apruébalo y el cinturón es tuyo.`,
+    },
+    lesson: {
+      intro: {
+        en: `The final test of this belt: a single page with one question per skill, in the order you learned them — the difficulty rises as you go. No repeats, no filler.`,
+        pt: `A prova final da faixa: uma única página com uma questão por habilidade, na ordem em que você aprendeu — a dificuldade cresce até o fim. Sem repetição, sem enrolação.`,
+        es: `La prueba final del cinturón: una sola página con una pregunta por habilidad, en el orden en que las aprendiste — la dificultad sube hasta el final. Sin repeticiones, sin relleno.`,
+      },
+      example: skills[0].generate(1)[0],
+      steps: [
+        {
+          text: {
+            en: `${n} questions, one per stripe of this belt.`,
+            pt: `${n} questões, uma para cada grau desta faixa.`,
+            es: `${n} preguntas, una por cada grado de este cinturón.`,
+          },
+        },
+        {
+          text: {
+            en: "They come in learning order, easiest first — settle in before the hard ones arrive.",
+            pt: "Elas vêm na ordem de aprendizado, das fáceis primeiro — aqueça antes das difíceis chegarem.",
+            es: "Vienen en orden de aprendizaje, las fáciles primero — entra en ritmo antes de que lleguen las difíciles.",
+          },
+        },
+        {
+          text: {
+            en: "Score 80%+ and the belt is earned.",
+            pt: "Acerte 80%+ e a faixa é conquistada.",
+            es: "Acierta 80%+ y el cinturón es tuyo.",
+          },
+        },
+      ],
+    },
+    mastery: { problemsPerPage: n, pagesToMaster: 1, passAccuracy: 0.8, targetTimeSec: examTime(skills) },
+    generate: makeExamGenerate(skills),
+  });
+}
+
+/** Red, Gold and Digital already had exam stripes — reshape them into the same
+ * one-question-per-skill single-page format (ids kept, progress preserved). */
+function convertExamStripe(belt: Belt, stripeId: string, degreeIndex?: number): void {
+  const exam = belt.stripes.find((s) => s.id === stripeId);
+  if (!exam) return;
+  const skills = examSkills(belt, stripeId);
+  exam.generate = makeExamGenerate(skills);
+  exam.mastery = {
+    problemsPerPage: skills.length,
+    pagesToMaster: 1,
+    passAccuracy: 0.8,
+    targetTimeSec: examTime(skills),
+  };
+  if (degreeIndex !== undefined) {
+    exam.degree = { index: degreeIndex, name: EXAM_DEGREE_NAME };
+    exam.index = 1;
+  }
+}
+
+addGraduationExam(whiteBelt, 0);
+addGraduationExam(blueBelt, 0);
+addGraduationExam(purpleBelt, 0);
+addGraduationExam(brownBelt, 0);
+addGraduationExam(greenBelt, 0);
+addGraduationExam(blackBelt, 7);
+addGraduationExam(coralBelt, 0);
+convertExamStripe(redBelt, "red-27");
+convertExamStripe(goldBelt, "gold-59");
+convertExamStripe(digitalBelt, "digital-15", 0);
 
 export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, greenBelt, blackBelt, redBelt, goldBelt, digitalBelt, coralBelt];
