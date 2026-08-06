@@ -818,6 +818,40 @@ export function generateDivideWholeBy10(count: number): Problem[] {
   });
 }
 
+/** Multiplying a decimal (tenths only) by a whole number — answer stays in tenths. */
+export function generateMultiplyDecimalByWhole(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const tenths = randomInt(1, 9);
+    const whole = randomInt(0, 3);
+    const factor = randomInt(2, 9);
+    const totalTenths = (whole * 10 + tenths) * factor;
+    return makeDecimal(
+      `${whole}.${tenths} × ${factor}`,
+      Math.floor(totalTenths / 10),
+      totalTenths % 10,
+      [whole, tenths, factor],
+    );
+  });
+}
+
+/** Dividing a decimal (tenths only) by a whole number — divides cleanly into tenths. */
+export function generateDivideDecimalByWhole(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const divisor = randomInt(2, 9);
+    const resultTenths = randomInt(1, 9);
+    const resultWhole = randomInt(0, 3);
+    const totalTenths = (resultWhole * 10 + resultTenths) * divisor;
+    const dividendWhole = Math.floor(totalTenths / 10);
+    const dividendTenths = totalTenths % 10;
+    return makeDecimal(
+      `${dividendWhole}.${dividendTenths} ÷ ${divisor}`,
+      resultWhole,
+      resultTenths,
+      [dividendWhole, dividendTenths, divisor],
+    );
+  });
+}
+
 /** Rounding a decimal (tenths only) to the nearest whole number — the capstone. */
 export function generateRoundDecimal(count: number): Problem[] {
   return withoutImmediateRepeats(count, () => {
@@ -2005,4 +2039,530 @@ export function generateCalculusCapstone(count: number): Problem[] {
       allowNegative: true,
     };
   });
+}
+
+// ---------------------------------------------------------------------------
+// Red Belt — geometry (plane and solid) and trigonometry.
+// ---------------------------------------------------------------------------
+
+function localized(en: string, pt: string, es: string): { en: string; pt: string; es: string } {
+  return { en, pt, es };
+}
+
+/** Perimeter of a rectangle — walk all four sides. */
+export function generateRectanglePerimeter(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const w = randomInt(3, 15);
+    const h = randomInt(3, 15);
+    return {
+      id: nextId(),
+      prompt: `Perimeter of a ${w} × ${h} rectangle`,
+      promptL10n: localized(
+        `Perimeter of a ${w} × ${h} rectangle`,
+        `Perímetro do retângulo ${w} × ${h}`,
+        `Perímetro del rectángulo ${w} × ${h}`,
+      ),
+      answer: 2 * (w + h),
+      operands: [w, h],
+    };
+  });
+}
+
+/** Area of a rectangle — width times height. */
+export function generateRectangleArea(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const w = randomInt(3, 15);
+    const h = randomInt(3, 15);
+    return {
+      id: nextId(),
+      prompt: `Area of a ${w} × ${h} rectangle`,
+      promptL10n: localized(
+        `Area of a ${w} × ${h} rectangle`,
+        `Área do retângulo ${w} × ${h}`,
+        `Área del rectángulo ${w} × ${h}`,
+      ),
+      answer: w * h,
+      operands: [w, h],
+    };
+  });
+}
+
+/** Area of a triangle — half of base times height (base kept even so it divides cleanly). */
+export function generateTriangleAreaProblem(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const base = 2 * randomInt(2, 10);
+    const height = randomInt(3, 12);
+    return {
+      id: nextId(),
+      prompt: `Triangle: base ${base}, height ${height}`,
+      promptL10n: localized(
+        `Triangle: base ${base}, height ${height} — area?`,
+        `Triângulo: base ${base}, altura ${height} — área?`,
+        `Triángulo: base ${base}, altura ${height} — ¿área?`,
+      ),
+      answer: (base * height) / 2,
+      operands: [base, height],
+    };
+  });
+}
+
+/** Area of a trapezoid — mean of the bases times the height (bases sum kept even). */
+export function generateTrapezoidArea(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const small = randomInt(2, 9);
+    const big = small + 2 * randomInt(1, 5);
+    const height = randomInt(3, 10);
+    return {
+      id: nextId(),
+      prompt: `Trapezoid: bases ${small} and ${big}, height ${height}`,
+      promptL10n: localized(
+        `Trapezoid: bases ${small} and ${big}, height ${height} — area?`,
+        `Trapézio: bases ${small} e ${big}, altura ${height} — área?`,
+        `Trapecio: bases ${small} y ${big}, altura ${height} — ¿área?`,
+      ),
+      answer: ((small + big) / 2) * height,
+      operands: [small, big, height],
+    };
+  });
+}
+
+/** The angles of a triangle sum to 180° — find the missing one. */
+export function generateTriangleAngleSum(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = 5 * randomInt(4, 20);
+    const maxB = 165 - a;
+    const b = 5 * randomInt(2, Math.floor(maxB / 5));
+    const x = 180 - a - b;
+    return {
+      id: nextId(),
+      prompt: `Triangle angles: ${a}°, ${b}°, x°`,
+      promptL10n: localized(
+        `Triangle angles: ${a}°, ${b}°, x°`,
+        `Ângulos do triângulo: ${a}°, ${b}°, x°`,
+        `Ángulos del triángulo: ${a}°, ${b}°, x°`,
+      ),
+      answer: x,
+      operands: [a, b],
+      isEquation: true,
+    };
+  });
+}
+
+/** Complementary (90°) and supplementary (180°) angles, as equations to finish. */
+export function generateComplementSupplement(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const useComplement = Math.random() < 0.5;
+    const total = useComplement ? 90 : 180;
+    const given = useComplement ? 5 * randomInt(1, 16) : 5 * randomInt(1, 34);
+    return {
+      id: nextId(),
+      prompt: `x + ${given}° = ${total}°`,
+      answer: total - given,
+      operands: [given, total],
+      isEquation: true,
+    };
+  });
+}
+
+const PYTHAGOREAN_TRIPLES: Array<[number, number, number]> = [
+  [3, 4, 5], [6, 8, 10], [5, 12, 13], [9, 12, 15], [8, 15, 17],
+  [7, 24, 25], [12, 16, 20], [20, 21, 29], [10, 24, 26], [15, 20, 25],
+  [18, 24, 30], [9, 40, 41],
+];
+
+/** Pythagoras: read the two legs off the picture and find the hypotenuse. */
+export function generatePythagoreanHypotenuse(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [a, b, c] = PYTHAGOREAN_TRIPLES[randomInt(0, PYTHAGOREAN_TRIPLES.length - 1)];
+    const flip = Math.random() < 0.5;
+    return {
+      id: nextId(),
+      prompt: "",
+      answer: c,
+      operands: [a, b],
+      diagram: { kind: "rightTriangle" as const, a: String(flip ? b : a), b: String(flip ? a : b), c: "?" },
+    };
+  });
+}
+
+/** Pythagoras in reverse: hypotenuse and one leg known, find the other leg. */
+export function generatePythagoreanLeg(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [a, b, c] = PYTHAGOREAN_TRIPLES[randomInt(0, PYTHAGOREAN_TRIPLES.length - 1)];
+    const hideVertical = Math.random() < 0.5;
+    return {
+      id: nextId(),
+      prompt: "",
+      answer: hideVertical ? a : b,
+      operands: hideVertical ? [b, c] : [a, c],
+      diagram: {
+        kind: "rightTriangle" as const,
+        a: hideVertical ? "?" : String(a),
+        b: hideVertical ? String(b) : "?",
+        c: String(c),
+      },
+    };
+  });
+}
+
+/** Similar figures: the same scale factor stretches every side. */
+export function generateSimilarTriangles(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const side1 = randomInt(2, 9);
+    const k = randomInt(2, 5);
+    let side2 = randomInt(2, 9);
+    while (side2 === side1) side2 = randomInt(2, 9);
+    return {
+      id: nextId(),
+      prompt: `Similar triangles — ${side1} → ${side1 * k}, ${side2} → x`,
+      promptL10n: localized(
+        `Similar triangles — side ${side1} becomes ${side1 * k}, side ${side2} becomes x`,
+        `Triângulos semelhantes — o lado ${side1} vira ${side1 * k}, o lado ${side2} vira x`,
+        `Triángulos semejantes — el lado ${side1} pasa a ${side1 * k}, el lado ${side2} pasa a x`,
+      ),
+      answer: side2 * k,
+      operands: [side1, side1 * k, side2],
+      isEquation: true,
+    };
+  });
+}
+
+/** Plane-geometry capstone: every skill of the degree, shuffled together. */
+export function generatePlaneGeometryMix(count: number): Problem[] {
+  const makers = [
+    () => generateRectanglePerimeter(1)[0],
+    () => generateRectangleArea(1)[0],
+    () => generateTriangleAreaProblem(1)[0],
+    () => generateTrapezoidArea(1)[0],
+    () => generateTriangleAngleSum(1)[0],
+    () => generateComplementSupplement(1)[0],
+    () => generatePythagoreanHypotenuse(1)[0],
+    () => generatePythagoreanLeg(1)[0],
+    () => generateSimilarTriangles(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+/** Volume of a cube — edge cubed. */
+export function generateCubeVolume(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const edge = randomInt(2, 9);
+    return {
+      id: nextId(),
+      prompt: `Cube with edge ${edge} — volume?`,
+      promptL10n: localized(
+        `Cube with edge ${edge} — volume?`,
+        `Cubo de aresta ${edge} — volume?`,
+        `Cubo de arista ${edge} — ¿volumen?`,
+      ),
+      answer: edge ** 3,
+      operands: [edge],
+    };
+  });
+}
+
+/** Volume of a rectangular box — length × width × height. */
+export function generateBoxVolume(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 9);
+    const b = randomInt(2, 9);
+    const c = randomInt(2, 9);
+    return {
+      id: nextId(),
+      prompt: `Box ${a} × ${b} × ${c} — volume?`,
+      promptL10n: localized(
+        `Box ${a} × ${b} × ${c} — volume?`,
+        `Bloco ${a} × ${b} × ${c} — volume?`,
+        `Caja ${a} × ${b} × ${c} — ¿volumen?`,
+      ),
+      answer: a * b * c,
+      operands: [a, b, c],
+    };
+  });
+}
+
+/** Surface area of a cube — six identical square faces. */
+export function generateCubeSurface(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const edge = randomInt(2, 10);
+    return {
+      id: nextId(),
+      prompt: `Cube with edge ${edge} — surface area?`,
+      promptL10n: localized(
+        `Cube with edge ${edge} — surface area?`,
+        `Cubo de aresta ${edge} — área total?`,
+        `Cubo de arista ${edge} — ¿área total?`,
+      ),
+      answer: 6 * edge * edge,
+      operands: [edge],
+    };
+  });
+}
+
+/** Volume of a cylinder with r = 7 or 14 so π = 22/7 cancels: V = πr²h. */
+export function generateCylinderVolume(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const r = Math.random() < 0.5 ? 7 : 14;
+    const h = randomInt(2, r === 7 ? 10 : 6);
+    const base = r === 7 ? 154 : 616;
+    return {
+      id: nextId(),
+      prompt: `Cylinder: r = ${r}, h = ${h} (π = 22/7) — volume?`,
+      promptL10n: localized(
+        `Cylinder: r = ${r}, h = ${h} (π = 22/7) — volume?`,
+        `Cilindro: r = ${r}, h = ${h} (π = 22/7) — volume?`,
+        `Cilindro: r = ${r}, h = ${h} (π = 22/7) — ¿volumen?`,
+      ),
+      answer: base * h,
+      operands: [r, h],
+    };
+  });
+}
+
+/** Volume of a cone — a third of the matching cylinder (height kept a multiple of 3). */
+export function generateConeVolume(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const r = Math.random() < 0.5 ? 7 : 14;
+    const h = 3 * randomInt(1, 4);
+    const base = r === 7 ? 154 : 616;
+    return {
+      id: nextId(),
+      prompt: `Cone: r = ${r}, h = ${h} (π = 22/7) — volume?`,
+      promptL10n: localized(
+        `Cone: r = ${r}, h = ${h} (π = 22/7) — volume?`,
+        `Cone: r = ${r}, h = ${h} (π = 22/7) — volume?`,
+        `Cono: r = ${r}, h = ${h} (π = 22/7) — ¿volumen?`,
+      ),
+      answer: (base * h) / 3,
+      operands: [r, h],
+    };
+  });
+}
+
+/** Volume of a pyramid — a third of the box over the same base (height a multiple of 3). */
+export function generatePyramidVolume(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 9);
+    const b = randomInt(2, 9);
+    const h = 3 * randomInt(1, 4);
+    return {
+      id: nextId(),
+      prompt: `Pyramid: base ${a} × ${b}, height ${h} — volume?`,
+      promptL10n: localized(
+        `Pyramid: base ${a} × ${b}, height ${h} — volume?`,
+        `Pirâmide: base ${a} × ${b}, altura ${h} — volume?`,
+        `Pirámide: base ${a} × ${b}, altura ${h} — ¿volumen?`,
+      ),
+      answer: (a * b * h) / 3,
+      operands: [a, b, h],
+    };
+  });
+}
+
+/** Solid-geometry capstone: every skill of the degree, shuffled together. */
+export function generateSolidGeometryMix(count: number): Problem[] {
+  const makers = [
+    () => generateCubeVolume(1)[0],
+    () => generateBoxVolume(1)[0],
+    () => generateCubeSurface(1)[0],
+    () => generateCylinderVolume(1)[0],
+    () => generateConeVolume(1)[0],
+    () => generatePyramidVolume(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+/** Primitive triples only, so the trig ratios are already in lowest terms. */
+const PRIMITIVE_TRIPLES: Array<[number, number, number]> = [
+  [3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 40, 41], [12, 35, 37],
+  [28, 45, 53], [11, 60, 61], [16, 63, 65], [33, 56, 65], [48, 55, 73], [13, 84, 85], [36, 77, 85],
+];
+
+type TrigRatio = "sin" | "cos" | "tan";
+
+function makeTrigRatioProblem(ratio: TrigRatio): Problem {
+  const triple = PRIMITIVE_TRIPLES[randomInt(0, PRIMITIVE_TRIPLES.length - 1)];
+  // either leg can play "opposite" — doubles the variety of each triple
+  const [opp, adj, hyp] = Math.random() < 0.5 ? triple : [triple[1], triple[0], triple[2]];
+  const label = { sin: ["sin θ", "sen θ", "sen θ"], cos: ["cos θ", "cos θ", "cos θ"], tan: ["tan θ", "tg θ", "tan θ"] }[
+    ratio
+  ];
+  const [num, den] =
+    ratio === "sin" ? [opp, hyp] : ratio === "cos" ? [adj, hyp] : [opp, adj];
+  return {
+    id: nextId(),
+    prompt: `${label[0]} = ?`,
+    promptL10n: localized(`${label[0]} = ?`, `${label[1]} = ?`, `${label[2]} = ?`),
+    answer: num,
+    operands: [opp, adj, hyp],
+    secondaryAnswer: den,
+    secondaryFormat: "fraction",
+    diagram: { kind: "rightTriangle" as const, a: String(opp), b: String(adj), c: String(hyp), theta: true },
+  };
+}
+
+/** Sine from a labeled right triangle: opposite over hypotenuse. */
+export function generateSinRatio(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => makeTrigRatioProblem("sin"));
+}
+
+/** Cosine from a labeled right triangle: adjacent over hypotenuse. */
+export function generateCosRatio(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => makeTrigRatioProblem("cos"));
+}
+
+/** Tangent from a labeled right triangle: opposite over adjacent. */
+export function generateTanRatio(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => makeTrigRatioProblem("tan"));
+}
+
+/** Special-angle values, scaled so the answer is a whole number. */
+export function generateSpecialAngles(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const kind = randomInt(0, 4);
+    if (kind === 0) {
+      const n = 2 * randomInt(1, 9);
+      return {
+        id: nextId(),
+        prompt: `${n} · sin 30°`,
+        promptL10n: localized(`${n} · sin 30°`, `${n} · sen 30°`, `${n} · sen 30°`),
+        answer: n / 2,
+        operands: [n, 30],
+      };
+    }
+    if (kind === 1) {
+      const n = 2 * randomInt(1, 9);
+      return {
+        id: nextId(),
+        prompt: `${n} · cos 60°`,
+        answer: n / 2,
+        operands: [n, 60],
+      };
+    }
+    if (kind === 2) {
+      const n = randomInt(2, 18);
+      return { id: nextId(), prompt: `${n} · tan 45°`, promptL10n: localized(`${n} · tan 45°`, `${n} · tg 45°`, `${n} · tan 45°`), answer: n, operands: [n, 45] };
+    }
+    if (kind === 3) {
+      const n = randomInt(2, 18);
+      return {
+        id: nextId(),
+        prompt: `${n} · sin 90°`,
+        promptL10n: localized(`${n} · sin 90°`, `${n} · sen 90°`, `${n} · sen 90°`),
+        answer: n,
+        operands: [n, 90],
+      };
+    }
+    const n = randomInt(2, 18);
+    return { id: nextId(), prompt: `${n} · cos 0°`, answer: n, operands: [n, 0] };
+  });
+}
+
+/** Given sin θ (acute), find cos θ — the other leg of the hidden triple. */
+export function generateCosFromSin(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    // the smaller triples only — recognizing 3-4-5 or 5-12-13 is the intended skill
+    const [opp, adj, hyp] = PRIMITIVE_TRIPLES[randomInt(0, 6)];
+    const flip = Math.random() < 0.5;
+    const sinN = flip ? adj : opp;
+    const cosN = flip ? opp : adj;
+    return {
+      id: nextId(),
+      prompt: `sin θ = ${sinN}/${hyp} — cos θ?`,
+      promptL10n: localized(
+        `sin θ = ${sinN}/${hyp} (acute θ) — cos θ?`,
+        `sen θ = ${sinN}/${hyp} (θ agudo) — cos θ?`,
+        `sen θ = ${sinN}/${hyp} (θ agudo) — ¿cos θ?`,
+      ),
+      answer: cosN,
+      operands: [sinN, hyp],
+      secondaryAnswer: hyp,
+      secondaryFormat: "fraction",
+    };
+  });
+}
+
+/** Scale a known ratio up to a real side: sin θ and the hypotenuse give the opposite side. */
+export function generateSideFromRatio(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [opp, adj, hyp] = PRIMITIVE_TRIPLES[randomInt(0, 3)];
+    const k = randomInt(2, 6);
+    const useSin = Math.random() < 0.5;
+    const num = useSin ? opp : adj;
+    return {
+      id: nextId(),
+      prompt: `${useSin ? "sin" : "cos"} θ = ${num}/${hyp}, hyp = ${hyp * k}`,
+      promptL10n: localized(
+        `${useSin ? "sin" : "cos"} θ = ${num}/${hyp}, hypotenuse ${hyp * k} — ${useSin ? "opposite" : "adjacent"} side?`,
+        `${useSin ? "sen" : "cos"} θ = ${num}/${hyp}, hipotenusa ${hyp * k} — cateto ${useSin ? "oposto" : "adjacente"}?`,
+        `${useSin ? "sen" : "cos"} θ = ${num}/${hyp}, hipotenusa ${hyp * k} — ¿cateto ${useSin ? "opuesto" : "adyacente"}?`,
+      ),
+      answer: num * k,
+      operands: [num, hyp, hyp * k],
+    };
+  });
+}
+
+const RADIAN_PAIRS: Array<[string, number]> = [
+  ["π/6", 30], ["π/4", 45], ["π/3", 60], ["π/2", 90], ["π", 180], ["2π", 360],
+  ["3π/2", 270], ["π/5", 36], ["π/9", 20], ["π/10", 18], ["π/12", 15], ["2π/3", 120],
+];
+
+/** Convert radians (as a slice of π) into degrees. */
+export function generateRadiansToDegrees(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [rad, deg] = RADIAN_PAIRS[randomInt(0, RADIAN_PAIRS.length - 1)];
+    return {
+      id: nextId(),
+      prompt: `${rad} rad → °`,
+      promptL10n: localized(`${rad} rad in degrees`, `${rad} rad em graus`, `${rad} rad en grados`),
+      answer: deg,
+      operands: [deg],
+    };
+  });
+}
+
+/** Reduce an angle from any quadrant back to its acute reference angle. */
+export function generateReferenceAngle(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const quadrant = randomInt(2, 4);
+    const ref = 5 * randomInt(2, 16);
+    const angle = quadrant === 2 ? 180 - ref : quadrant === 3 ? 180 + ref : 360 - ref;
+    return {
+      id: nextId(),
+      prompt: `${angle}° → 1º quadrant`,
+      promptL10n: localized(
+        `${angle}° reduced to the first quadrant`,
+        `${angle}° reduzido ao 1º quadrante`,
+        `${angle}° reducido al primer cuadrante`,
+      ),
+      answer: ref,
+      operands: [angle],
+    };
+  });
+}
+
+/** Trigonometry capstone: every skill of the degree, shuffled together. */
+export function generateTrigMix(count: number): Problem[] {
+  const makers = [
+    () => makeTrigRatioProblem("sin"),
+    () => makeTrigRatioProblem("cos"),
+    () => makeTrigRatioProblem("tan"),
+    () => generateSpecialAngles(1)[0],
+    () => generateCosFromSin(1)[0],
+    () => generateSideFromRatio(1)[0],
+    () => generateRadiansToDegrees(1)[0],
+    () => generateReferenceAngle(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
+
+/** Red Belt exam: plane geometry, solid geometry and trigonometry all mixed. */
+export function generateRedBeltMix(count: number): Problem[] {
+  const makers = [
+    () => generatePlaneGeometryMix(1)[0],
+    () => generateSolidGeometryMix(1)[0],
+    () => generateTrigMix(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
 }

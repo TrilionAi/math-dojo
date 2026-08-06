@@ -1,0 +1,38 @@
+.wrap {
+  width: min(260px, 80vw);
+  margin: 0 auto;
+  padding: var(--sp-2);
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.shape {
+  fill: var(--color-primary-soft);
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.marker {
+  fill: none;
+  stroke: var(--color-ink-soft);
+  stroke-width: 2;
+}
+
+.label {
+  font-size: 18px;
+  font-weight: 800;
+  fill: var(--color-ink);
+  font-family: inherit;
+}
+
+.thetaLabel {
+  font-size: 15px;
+  font-weight: 700;
+  fill: var(--color-ink-soft);
+  font-family: inherit;
+}

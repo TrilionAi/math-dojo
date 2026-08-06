@@ -57,7 +57,9 @@ import {
   generateSubtractDecimalsNoBorrow,
   generateSubtractDecimalsWithBorrow,
   generateMultiplyDecimalBy10Or100,
+  generateMultiplyDecimalByWhole,
   generateDivideWholeBy10,
+  generateDivideDecimalByWhole,
   generateRoundDecimal,
   generateVariableBoxReading,
   generateEvaluateExpression,
@@ -112,6 +114,33 @@ import {
   generateProportion,
   generateScientificNotation,
   generateNumberMasteryMix,
+  generateRectanglePerimeter,
+  generateRectangleArea,
+  generateTriangleAreaProblem,
+  generateTrapezoidArea,
+  generateTriangleAngleSum,
+  generateComplementSupplement,
+  generatePythagoreanHypotenuse,
+  generatePythagoreanLeg,
+  generateSimilarTriangles,
+  generatePlaneGeometryMix,
+  generateCubeVolume,
+  generateBoxVolume,
+  generateCubeSurface,
+  generateCylinderVolume,
+  generateConeVolume,
+  generatePyramidVolume,
+  generateSolidGeometryMix,
+  generateSinRatio,
+  generateCosRatio,
+  generateTanRatio,
+  generateSpecialAngles,
+  generateCosFromSin,
+  generateSideFromRatio,
+  generateRadiansToDegrees,
+  generateReferenceAngle,
+  generateTrigMix,
+  generateRedBeltMix,
   generateLimitLinearConcept,
   generateLimitQuadratic,
   generateLimitFactoring,
@@ -3212,9 +3241,66 @@ const blackBelt: Belt = {
       generate: generateMultiplyDecimalBy10Or100,
     },
     {
-      id: "black-19",
+      id: "black-18b",
       beltId: "black",
       index: 9,
+      degree: decimalsDegree,
+      title: {
+        en: "Multiplying decimals by whole numbers",
+        pt: "Multiplicar decimais por inteiros",
+        es: "Multiplicar decimales por enteros",
+      },
+      summary: {
+        en: "Multiply the tenths like whole numbers, then place the point back.",
+        pt: "Multiplique os décimos como inteiros, depois devolva o ponto.",
+        es: "Multiplica los décimos como enteros, luego devuelve el punto.",
+      },
+      lesson: {
+        intro: {
+          en: "Think of the decimal as tenths: 1.3 is 13 tenths. Multiply, then the answer is in tenths too.",
+          pt: "Pense no decimal como décimos: 1.3 é 13 décimos. Multiplique, e a resposta também estará em décimos.",
+          es: "Piensa en el decimal como décimos: 1.3 es 13 décimos. Multiplica, y la respuesta también estará en décimos.",
+        },
+        example: {
+          id: "ex-black-18b",
+          prompt: "1.3 × 4",
+          answer: 5,
+          secondaryAnswer: 2,
+          secondaryFormat: "decimal",
+          operands: [1, 3, 4],
+        },
+        steps: [
+          {
+            text: {
+              en: "1.3 is {{13}} tenths.",
+              pt: "1.3 são {{13}} décimos.",
+              es: "1.3 son {{13}} décimos.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: {{13}} × 4 = 52 tenths.",
+              pt: "Multiplique: {{13}} × 4 = 52 décimos.",
+              es: "Multiplica: {{13}} × 4 = 52 décimos.",
+            },
+          },
+          {
+            text: {
+              en: "52 tenths is 5.2.",
+              pt: "52 décimos são 5.2.",
+              es: "52 décimos son 5.2.",
+            },
+          },
+          { text: { en: "1.3 × 4 = 5.2.", pt: "1.3 × 4 = 5.2.", es: "1.3 × 4 = 5.2." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateMultiplyDecimalByWhole,
+    },
+    {
+      id: "black-19",
+      beltId: "black",
+      index: 10,
       degree: decimalsDegree,
       title: {
         en: "Dividing a whole number by 10",
@@ -3249,9 +3335,66 @@ const blackBelt: Belt = {
       generate: generateDivideWholeBy10,
     },
     {
+      id: "black-19b",
+      beltId: "black",
+      index: 11,
+      degree: decimalsDegree,
+      title: {
+        en: "Dividing decimals by whole numbers",
+        pt: "Dividir decimais por inteiros",
+        es: "Dividir decimales entre enteros",
+      },
+      summary: {
+        en: "Divide the tenths like whole numbers, then place the point back.",
+        pt: "Divida os décimos como inteiros, depois devolva o ponto.",
+        es: "Divide los décimos como enteros, luego devuelve el punto.",
+      },
+      lesson: {
+        intro: {
+          en: "Turn the decimal into tenths, divide, and the answer comes out in tenths.",
+          pt: "Transforme o decimal em décimos, divida, e a resposta sai em décimos.",
+          es: "Convierte el decimal en décimos, divide, y la respuesta sale en décimos.",
+        },
+        example: {
+          id: "ex-black-19b",
+          prompt: "5.2 ÷ 4",
+          answer: 1,
+          secondaryAnswer: 3,
+          secondaryFormat: "decimal",
+          operands: [5, 2, 4],
+        },
+        steps: [
+          {
+            text: {
+              en: "5.2 is {{52}} tenths.",
+              pt: "5.2 são {{52}} décimos.",
+              es: "5.2 son {{52}} décimos.",
+            },
+          },
+          {
+            text: {
+              en: "Divide: {{52}} ÷ 4 = 13 tenths.",
+              pt: "Divida: {{52}} ÷ 4 = 13 décimos.",
+              es: "Divide: {{52}} ÷ 4 = 13 décimos.",
+            },
+          },
+          {
+            text: {
+              en: "13 tenths is 1.3.",
+              pt: "13 décimos são 1.3.",
+              es: "13 décimos son 1.3.",
+            },
+          },
+          { text: { en: "5.2 ÷ 4 = 1.3.", pt: "5.2 ÷ 4 = 1.3.", es: "5.2 ÷ 4 = 1.3." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateDivideDecimalByWhole,
+    },
+    {
       id: "black-20",
       beltId: "black",
-      index: 10,
+      index: 12,
       degree: decimalsDegree,
       title: { en: "Rounding decimals", pt: "Arredondar decimais", es: "Redondear decimales" },
       summary: {
@@ -5252,10 +5395,1388 @@ const blackBelt: Belt = {
   ],
 };
 
+const planeGeoDegree = {
+  index: 1,
+  name: { en: "Plane Geometry", pt: "Geometria Plana", es: "Geometría Plana" } as LocalizedText,
+};
+
+const solidGeoDegree = {
+  index: 2,
+  name: { en: "Solid Geometry", pt: "Geometria Espacial", es: "Geometría del Espacio" } as LocalizedText,
+};
+
+const trigDegree = {
+  index: 3,
+  name: { en: "Trigonometry", pt: "Trigonometria", es: "Trigonometría" } as LocalizedText,
+};
+
+const redExamDegree = {
+  index: 4,
+  name: { en: "Belt Exam", pt: "Prova da Faixa", es: "Examen del Cinturón" } as LocalizedText,
+};
+
+const redBelt: Belt = {
+  id: "red",
+  name: { en: "Red Belt", pt: "Faixa Vermelha", es: "Cinturón Rojo" },
+  order: 7,
+  operationLabel: {
+    en: "Geometry · Trigonometry",
+    pt: "Geometria · Trigonometria",
+    es: "Geometría · Trigonometría",
+  },
+  colorVar: "--belt-red",
+  tagline: {
+    en: "Shapes, space and angles — from perimeters to sine and cosine.",
+    pt: "Formas, espaço e ângulos — do perímetro ao seno e cosseno.",
+    es: "Formas, espacio y ángulos — del perímetro al seno y coseno.",
+  },
+  stripes: [
+    {
+      id: "red-1",
+      beltId: "red",
+      index: 1,
+      degree: planeGeoDegree,
+      title: { en: "Perimeter", pt: "Perímetro", es: "Perímetro" },
+      summary: {
+        en: "Walk around the shape — the perimeter is the total distance.",
+        pt: "Dê a volta na figura — o perímetro é a distância total.",
+        es: "Da la vuelta a la figura — el perímetro es la distancia total.",
+      },
+      lesson: {
+        intro: {
+          en: "A rectangle has two widths and two heights. Add one of each, then double it.",
+          pt: "Um retângulo tem duas larguras e duas alturas. Some uma de cada, depois dobre.",
+          es: "Un rectángulo tiene dos anchos y dos altos. Suma uno de cada, luego duplica.",
+        },
+        example: {
+          id: "ex-red-1",
+          prompt: "Perimeter of a 5 × 8 rectangle",
+          promptL10n: {
+            en: "Perimeter of a 5 × 8 rectangle",
+            pt: "Perímetro do retângulo 5 × 8",
+            es: "Perímetro del rectángulo 5 × 8",
+          },
+          answer: 26,
+          operands: [5, 8],
+        },
+        steps: [
+          {
+            text: {
+              en: "One width plus one height: 5 + 8 = {{13}}.",
+              pt: "Uma largura mais uma altura: 5 + 8 = {{13}}.",
+              es: "Un ancho más un alto: 5 + 8 = {{13}}.",
+            },
+          },
+          {
+            text: {
+              en: "There are two of each side, so double it: {{13}} × 2 = 26.",
+              pt: "Cada lado aparece duas vezes, então dobre: {{13}} × 2 = 26.",
+              es: "Cada lado aparece dos veces, así que duplica: {{13}} × 2 = 26.",
+            },
+          },
+          { text: { en: "Perimeter = 26.", pt: "Perímetro = 26.", es: "Perímetro = 26." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateRectanglePerimeter,
+    },
+    {
+      id: "red-2",
+      beltId: "red",
+      index: 2,
+      degree: planeGeoDegree,
+      title: { en: "Area of a rectangle", pt: "Área do retângulo", es: "Área del rectángulo" },
+      summary: {
+        en: "Rows times columns — how many unit squares fit inside.",
+        pt: "Linhas vezes colunas — quantos quadradinhos cabem dentro.",
+        es: "Filas por columnas — cuántos cuadraditos caben dentro.",
+      },
+      lesson: {
+        intro: {
+          en: "Area counts unit squares. A 7 × 9 rectangle holds 7 rows of 9 squares.",
+          pt: "A área conta quadradinhos. Um retângulo 7 × 9 tem 7 fileiras de 9 quadradinhos.",
+          es: "El área cuenta cuadraditos. Un rectángulo 7 × 9 tiene 7 filas de 9 cuadraditos.",
+        },
+        example: {
+          id: "ex-red-2",
+          prompt: "Area of a 7 × 9 rectangle",
+          promptL10n: {
+            en: "Area of a 7 × 9 rectangle",
+            pt: "Área do retângulo 7 × 9",
+            es: "Área del rectángulo 7 × 9",
+          },
+          answer: 63,
+          operands: [7, 9],
+        },
+        diagram: { kind: "groups", groups: 7, perGroup: 9 },
+        steps: [
+          {
+            text: {
+              en: "7 rows, 9 squares in each row.",
+              pt: "7 fileiras, 9 quadradinhos em cada uma.",
+              es: "7 filas, 9 cuadraditos en cada una.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: 7 × 9 = 63.",
+              pt: "Multiplique: 7 × 9 = 63.",
+              es: "Multiplica: 7 × 9 = 63.",
+            },
+          },
+          { text: { en: "Area = 63.", pt: "Área = 63.", es: "Área = 63." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateRectangleArea,
+    },
+    {
+      id: "red-3",
+      beltId: "red",
+      index: 3,
+      degree: planeGeoDegree,
+      title: { en: "Area of a triangle", pt: "Área do triângulo", es: "Área del triángulo" },
+      summary: {
+        en: "Half a rectangle: base times height, divided by 2.",
+        pt: "Metade de um retângulo: base vezes altura, dividido por 2.",
+        es: "La mitad de un rectángulo: base por altura, dividido entre 2.",
+      },
+      lesson: {
+        intro: {
+          en: "Every triangle is half of some rectangle. Multiply base × height, then halve it.",
+          pt: "Todo triângulo é metade de algum retângulo. Multiplique base × altura, depois divida por 2.",
+          es: "Todo triángulo es la mitad de algún rectángulo. Multiplica base × altura, luego divide entre 2.",
+        },
+        example: {
+          id: "ex-red-3",
+          prompt: "Triangle: base 10, height 6",
+          promptL10n: {
+            en: "Triangle: base 10, height 6 — area?",
+            pt: "Triângulo: base 10, altura 6 — área?",
+            es: "Triángulo: base 10, altura 6 — ¿área?",
+          },
+          answer: 30,
+          operands: [10, 6],
+        },
+        steps: [
+          {
+            text: {
+              en: "The full rectangle would be 10 × 6 = {{60}}.",
+              pt: "O retângulo inteiro seria 10 × 6 = {{60}}.",
+              es: "El rectángulo completo sería 10 × 6 = {{60}}.",
+            },
+          },
+          {
+            text: {
+              en: "The triangle is half of it: {{60}} ÷ 2 = 30.",
+              pt: "O triângulo é a metade: {{60}} ÷ 2 = 30.",
+              es: "El triángulo es la mitad: {{60}} ÷ 2 = 30.",
+            },
+          },
+          { text: { en: "Area = 30.", pt: "Área = 30.", es: "Área = 30." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateTriangleAreaProblem,
+    },
+    {
+      id: "red-4",
+      beltId: "red",
+      index: 4,
+      degree: planeGeoDegree,
+      title: { en: "Area of a trapezoid", pt: "Área do trapézio", es: "Área del trapecio" },
+      summary: {
+        en: "Average the two bases, then multiply by the height.",
+        pt: "Tire a média das duas bases, depois multiplique pela altura.",
+        es: "Promedia las dos bases, luego multiplica por la altura.",
+      },
+      lesson: {
+        intro: {
+          en: "A trapezoid has a short base and a long base. Its area is the average base times the height.",
+          pt: "Um trapézio tem uma base menor e uma maior. A área é a base média vezes a altura.",
+          es: "Un trapecio tiene una base menor y una mayor. Su área es la base promedio por la altura.",
+        },
+        example: {
+          id: "ex-red-4",
+          prompt: "Trapezoid: bases 4 and 8, height 5",
+          promptL10n: {
+            en: "Trapezoid: bases 4 and 8, height 5 — area?",
+            pt: "Trapézio: bases 4 e 8, altura 5 — área?",
+            es: "Trapecio: bases 4 y 8, altura 5 — ¿área?",
+          },
+          answer: 30,
+          operands: [4, 8, 5],
+        },
+        steps: [
+          {
+            text: {
+              en: "Average the bases: (4 + 8) ÷ 2 = {{6}}.",
+              pt: "Média das bases: (4 + 8) ÷ 2 = {{6}}.",
+              es: "Promedio de las bases: (4 + 8) ÷ 2 = {{6}}.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply by the height: {{6}} × 5 = 30.",
+              pt: "Multiplique pela altura: {{6}} × 5 = 30.",
+              es: "Multiplica por la altura: {{6}} × 5 = 30.",
+            },
+          },
+          { text: { en: "Area = 30.", pt: "Área = 30.", es: "Área = 30." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateTrapezoidArea,
+    },
+    {
+      id: "red-5",
+      beltId: "red",
+      index: 5,
+      degree: planeGeoDegree,
+      title: {
+        en: "Angles of a triangle",
+        pt: "Ângulos do triângulo",
+        es: "Ángulos del triángulo",
+      },
+      summary: {
+        en: "The three angles always add up to 180°.",
+        pt: "Os três ângulos sempre somam 180°.",
+        es: "Los tres ángulos siempre suman 180°.",
+      },
+      lesson: {
+        intro: {
+          en: "No matter the triangle's shape, its angles total 180°. Add the two you know, subtract from 180.",
+          pt: "Não importa o formato do triângulo, os ângulos somam 180°. Some os dois que você conhece e subtraia de 180.",
+          es: "Sin importar la forma del triángulo, sus ángulos suman 180°. Suma los dos que conoces y resta de 180.",
+        },
+        example: {
+          id: "ex-red-5",
+          prompt: "Triangle angles: 50°, 60°, x°",
+          promptL10n: {
+            en: "Triangle angles: 50°, 60°, x°",
+            pt: "Ângulos do triângulo: 50°, 60°, x°",
+            es: "Ángulos del triángulo: 50°, 60°, x°",
+          },
+          answer: 70,
+          operands: [50, 60],
+          isEquation: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "Add the known angles: 50 + 60 = {{110}}.",
+              pt: "Some os ângulos conhecidos: 50 + 60 = {{110}}.",
+              es: "Suma los ángulos conocidos: 50 + 60 = {{110}}.",
+            },
+          },
+          {
+            text: {
+              en: "Subtract from 180: 180 − {{110}} = 70.",
+              pt: "Subtraia de 180: 180 − {{110}} = 70.",
+              es: "Resta de 180: 180 − {{110}} = 70.",
+            },
+          },
+          { text: { en: "x = 70°.", pt: "x = 70°.", es: "x = 70°." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateTriangleAngleSum,
+    },
+    {
+      id: "red-6",
+      beltId: "red",
+      index: 6,
+      degree: planeGeoDegree,
+      title: {
+        en: "Complementary and supplementary",
+        pt: "Complementares e suplementares",
+        es: "Complementarios y suplementarios",
+      },
+      summary: {
+        en: "Pairs that complete 90° or 180°.",
+        pt: "Pares que completam 90° ou 180°.",
+        es: "Pares que completan 90° o 180°.",
+      },
+      lesson: {
+        intro: {
+          en: "Complementary angles complete a right angle (90°). Supplementary angles complete a straight line (180°). Subtract the known angle from the total.",
+          pt: "Ângulos complementares completam um ângulo reto (90°). Suplementares completam uma linha reta (180°). Subtraia o ângulo conhecido do total.",
+          es: "Los ángulos complementarios completan un ángulo recto (90°). Los suplementarios completan una línea recta (180°). Resta el ángulo conocido del total.",
+        },
+        example: {
+          id: "ex-red-6",
+          prompt: "x + 120° = 180°",
+          answer: 60,
+          operands: [120, 180],
+          isEquation: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "The two angles form a straight line: 180° total.",
+              pt: "Os dois ângulos formam uma linha reta: 180° no total.",
+              es: "Los dos ángulos forman una línea recta: 180° en total.",
+            },
+          },
+          {
+            text: {
+              en: "Subtract the known one: 180 − 120 = 60.",
+              pt: "Subtraia o conhecido: 180 − 120 = 60.",
+              es: "Resta el conocido: 180 − 120 = 60.",
+            },
+          },
+          { text: { en: "x = 60°.", pt: "x = 60°.", es: "x = 60°." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateComplementSupplement,
+    },
+    {
+      id: "red-7",
+      beltId: "red",
+      index: 7,
+      degree: planeGeoDegree,
+      title: {
+        en: "Pythagoras: the hypotenuse",
+        pt: "Pitágoras: a hipotenusa",
+        es: "Pitágoras: la hipotenusa",
+      },
+      summary: {
+        en: "Legs squared, added, then square-rooted.",
+        pt: "Catetos ao quadrado, somados, depois a raiz.",
+        es: "Catetos al cuadrado, sumados, luego la raíz.",
+      },
+      lesson: {
+        intro: {
+          en: "In a right triangle, a² + b² = c². Square both legs, add, and take the square root to get the hypotenuse.",
+          pt: "No triângulo retângulo, a² + b² = c². Eleve os catetos ao quadrado, some, e tire a raiz para achar a hipotenusa.",
+          es: "En el triángulo rectángulo, a² + b² = c². Eleva los catetos al cuadrado, suma, y saca la raíz para hallar la hipotenusa.",
+        },
+        example: { id: "ex-red-7", prompt: "", answer: 5, operands: [3, 4] },
+        diagram: { kind: "rightTriangle", a: "3", b: "4", c: "?" },
+        steps: [
+          {
+            text: {
+              en: "Square the legs: 3² = 9 and 4² = 16.",
+              pt: "Eleve os catetos ao quadrado: 3² = 9 e 4² = 16.",
+              es: "Eleva los catetos al cuadrado: 3² = 9 y 4² = 16.",
+            },
+          },
+          {
+            text: {
+              en: "Add them: 9 + 16 = {{25}}.",
+              pt: "Some: 9 + 16 = {{25}}.",
+              es: "Súmalos: 9 + 16 = {{25}}.",
+            },
+          },
+          {
+            text: {
+              en: "Square root: √{{25}} = 5.",
+              pt: "Raiz quadrada: √{{25}} = 5.",
+              es: "Raíz cuadrada: √{{25}} = 5.",
+            },
+          },
+          { text: { en: "Hypotenuse = 5.", pt: "Hipotenusa = 5.", es: "Hipotenusa = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generatePythagoreanHypotenuse,
+    },
+    {
+      id: "red-8",
+      beltId: "red",
+      index: 8,
+      degree: planeGeoDegree,
+      title: {
+        en: "Pythagoras: a missing leg",
+        pt: "Pitágoras: cateto que falta",
+        es: "Pitágoras: el cateto que falta",
+      },
+      summary: {
+        en: "Same theorem, run backwards — subtract instead of add.",
+        pt: "O mesmo teorema, ao contrário — subtraia em vez de somar.",
+        es: "El mismo teorema, al revés — resta en vez de sumar.",
+      },
+      lesson: {
+        intro: {
+          en: "When the hypotenuse is known, the missing leg is √(c² − b²) — square, subtract, root.",
+          pt: "Quando a hipotenusa é conhecida, o cateto que falta é √(c² − b²) — eleve, subtraia, tire a raiz.",
+          es: "Cuando la hipotenusa se conoce, el cateto que falta es √(c² − b²) — eleva, resta, saca la raíz.",
+        },
+        example: { id: "ex-red-8", prompt: "", answer: 5, operands: [12, 13] },
+        diagram: { kind: "rightTriangle", a: "?", b: "12", c: "13" },
+        steps: [
+          {
+            text: {
+              en: "Square what you know: 13² = 169 and 12² = 144.",
+              pt: "Eleve o que você conhece: 13² = 169 e 12² = 144.",
+              es: "Eleva lo que conoces: 13² = 169 y 12² = 144.",
+            },
+          },
+          {
+            text: {
+              en: "Subtract: 169 − 144 = {{25}}.",
+              pt: "Subtraia: 169 − 144 = {{25}}.",
+              es: "Resta: 169 − 144 = {{25}}.",
+            },
+          },
+          {
+            text: {
+              en: "Square root: √{{25}} = 5.",
+              pt: "Raiz quadrada: √{{25}} = 5.",
+              es: "Raíz cuadrada: √{{25}} = 5.",
+            },
+          },
+          { text: { en: "Missing leg = 5.", pt: "Cateto = 5.", es: "Cateto = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generatePythagoreanLeg,
+    },
+    {
+      id: "red-9",
+      beltId: "red",
+      index: 9,
+      degree: planeGeoDegree,
+      title: { en: "Similar triangles", pt: "Semelhança de triângulos", es: "Semejanza de triángulos" },
+      summary: {
+        en: "Same shape, different size — every side scales by the same factor.",
+        pt: "Mesma forma, tamanho diferente — todo lado cresce pelo mesmo fator.",
+        es: "Misma forma, distinto tamaño — cada lado crece por el mismo factor.",
+      },
+      lesson: {
+        intro: {
+          en: "Find the scale factor from a pair of matching sides, then apply it to the side you want.",
+          pt: "Ache o fator de escala com um par de lados correspondentes, depois aplique no lado que você quer.",
+          es: "Halla el factor de escala con un par de lados correspondientes, luego aplícalo al lado que quieres.",
+        },
+        example: {
+          id: "ex-red-9",
+          prompt: "Similar triangles — 3 → 6, 5 → x",
+          promptL10n: {
+            en: "Similar triangles — side 3 becomes 6, side 5 becomes x",
+            pt: "Triângulos semelhantes — o lado 3 vira 6, o lado 5 vira x",
+            es: "Triángulos semejantes — el lado 3 pasa a 6, el lado 5 pasa a x",
+          },
+          answer: 10,
+          operands: [3, 6, 5],
+          isEquation: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "Scale factor: 6 ÷ 3 = {{2}}.",
+              pt: "Fator de escala: 6 ÷ 3 = {{2}}.",
+              es: "Factor de escala: 6 ÷ 3 = {{2}}.",
+            },
+          },
+          {
+            text: {
+              en: "Apply it to the other side: 5 × {{2}} = 10.",
+              pt: "Aplique no outro lado: 5 × {{2}} = 10.",
+              es: "Aplícalo al otro lado: 5 × {{2}} = 10.",
+            },
+          },
+          { text: { en: "x = 10.", pt: "x = 10.", es: "x = 10." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateSimilarTriangles,
+    },
+    {
+      id: "red-10",
+      beltId: "red",
+      index: 10,
+      degree: planeGeoDegree,
+      title: {
+        en: "Plane geometry, all mixed",
+        pt: "Geometria plana, tudo misturado",
+        es: "Geometría plana, todo mezclado",
+      },
+      summary: {
+        en: "Perimeters, areas, angles, Pythagoras and similarity — shuffled.",
+        pt: "Perímetros, áreas, ângulos, Pitágoras e semelhança — embaralhados.",
+        es: "Perímetros, áreas, ángulos, Pitágoras y semejanza — revueltos.",
+      },
+      lesson: {
+        intro: {
+          en: "Every plane-geometry skill can appear. Identify which formula the problem is asking for before computing.",
+          pt: "Qualquer habilidade de geometria plana pode aparecer. Identifique qual fórmula o problema pede antes de calcular.",
+          es: "Cualquier habilidad de geometría plana puede aparecer. Identifica qué fórmula pide el problema antes de calcular.",
+        },
+        example: {
+          id: "ex-red-10",
+          prompt: "Triangle: base 8, height 5",
+          promptL10n: {
+            en: "Triangle: base 8, height 5 — area?",
+            pt: "Triângulo: base 8, altura 5 — área?",
+            es: "Triángulo: base 8, altura 5 — ¿área?",
+          },
+          answer: 20,
+          operands: [8, 5],
+        },
+        steps: [
+          {
+            text: {
+              en: "Spot the skill: triangle area = base × height ÷ 2.",
+              pt: "Identifique a habilidade: área do triângulo = base × altura ÷ 2.",
+              es: "Identifica la habilidad: área del triángulo = base × altura ÷ 2.",
+            },
+          },
+          {
+            text: {
+              en: "8 × 5 = {{40}}, then {{40}} ÷ 2 = 20.",
+              pt: "8 × 5 = {{40}}, depois {{40}} ÷ 2 = 20.",
+              es: "8 × 5 = {{40}}, luego {{40}} ÷ 2 = 20.",
+            },
+          },
+          { text: { en: "Area = 20.", pt: "Área = 20.", es: "Área = 20." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generatePlaneGeometryMix,
+    },
+    {
+      id: "red-11",
+      beltId: "red",
+      index: 1,
+      degree: solidGeoDegree,
+      title: { en: "Volume of a cube", pt: "Volume do cubo", es: "Volumen del cubo" },
+      summary: {
+        en: "Edge × edge × edge — that's why it's called cubing.",
+        pt: "Aresta × aresta × aresta — por isso se chama elevar ao cubo.",
+        es: "Arista × arista × arista — por eso se llama elevar al cubo.",
+      },
+      lesson: {
+        intro: {
+          en: "Volume counts unit cubes. A cube with edge 4 stacks 4 layers of 4 × 4 cubes.",
+          pt: "O volume conta cubinhos. Um cubo de aresta 4 empilha 4 camadas de 4 × 4 cubinhos.",
+          es: "El volumen cuenta cubitos. Un cubo de arista 4 apila 4 capas de 4 × 4 cubitos.",
+        },
+        example: {
+          id: "ex-red-11",
+          prompt: "Cube with edge 4 — volume?",
+          promptL10n: {
+            en: "Cube with edge 4 — volume?",
+            pt: "Cubo de aresta 4 — volume?",
+            es: "Cubo de arista 4 — ¿volumen?",
+          },
+          answer: 64,
+          operands: [4],
+        },
+        steps: [
+          {
+            text: {
+              en: "One layer: 4 × 4 = {{16}} cubes.",
+              pt: "Uma camada: 4 × 4 = {{16}} cubinhos.",
+              es: "Una capa: 4 × 4 = {{16}} cubitos.",
+            },
+          },
+          {
+            text: {
+              en: "4 layers: {{16}} × 4 = 64.",
+              pt: "4 camadas: {{16}} × 4 = 64.",
+              es: "4 capas: {{16}} × 4 = 64.",
+            },
+          },
+          { text: { en: "Volume = 4³ = 64.", pt: "Volume = 4³ = 64.", es: "Volumen = 4³ = 64." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateCubeVolume,
+    },
+    {
+      id: "red-12",
+      beltId: "red",
+      index: 2,
+      degree: solidGeoDegree,
+      title: { en: "Volume of a box", pt: "Volume do bloco", es: "Volumen de la caja" },
+      summary: {
+        en: "Length × width × height.",
+        pt: "Comprimento × largura × altura.",
+        es: "Largo × ancho × alto.",
+      },
+      lesson: {
+        intro: {
+          en: "A rectangular box works like the cube, but each direction has its own size. Multiply the three.",
+          pt: "Um bloco retangular funciona como o cubo, mas cada direção tem seu tamanho. Multiplique os três.",
+          es: "Una caja rectangular funciona como el cubo, pero cada dirección tiene su tamaño. Multiplica los tres.",
+        },
+        example: {
+          id: "ex-red-12",
+          prompt: "Box 3 × 4 × 5 — volume?",
+          promptL10n: {
+            en: "Box 3 × 4 × 5 — volume?",
+            pt: "Bloco 3 × 4 × 5 — volume?",
+            es: "Caja 3 × 4 × 5 — ¿volumen?",
+          },
+          answer: 60,
+          operands: [3, 4, 5],
+        },
+        steps: [
+          {
+            text: {
+              en: "Base layer: 3 × 4 = {{12}} cubes.",
+              pt: "Camada da base: 3 × 4 = {{12}} cubinhos.",
+              es: "Capa de la base: 3 × 4 = {{12}} cubitos.",
+            },
+          },
+          {
+            text: {
+              en: "5 layers tall: {{12}} × 5 = 60.",
+              pt: "5 camadas de altura: {{12}} × 5 = 60.",
+              es: "5 capas de alto: {{12}} × 5 = 60.",
+            },
+          },
+          { text: { en: "Volume = 60.", pt: "Volume = 60.", es: "Volumen = 60." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateBoxVolume,
+    },
+    {
+      id: "red-13",
+      beltId: "red",
+      index: 3,
+      degree: solidGeoDegree,
+      title: {
+        en: "Surface area of a cube",
+        pt: "Área total do cubo",
+        es: "Área total del cubo",
+      },
+      summary: {
+        en: "Six identical square faces.",
+        pt: "Seis faces quadradas idênticas.",
+        es: "Seis caras cuadradas idénticas.",
+      },
+      lesson: {
+        intro: {
+          en: "Unfold a cube and you get 6 equal squares. Find one face's area, then take it six times.",
+          pt: "Desmonte um cubo e você tem 6 quadrados iguais. Ache a área de uma face e multiplique por seis.",
+          es: "Desarma un cubo y tienes 6 cuadrados iguales. Halla el área de una cara y multiplícala por seis.",
+        },
+        example: {
+          id: "ex-red-13",
+          prompt: "Cube with edge 4 — surface area?",
+          promptL10n: {
+            en: "Cube with edge 4 — surface area?",
+            pt: "Cubo de aresta 4 — área total?",
+            es: "Cubo de arista 4 — ¿área total?",
+          },
+          answer: 96,
+          operands: [4],
+        },
+        steps: [
+          {
+            text: {
+              en: "One face: 4² = {{16}}.",
+              pt: "Uma face: 4² = {{16}}.",
+              es: "Una cara: 4² = {{16}}.",
+            },
+          },
+          {
+            text: {
+              en: "Six faces: {{16}} × 6 = 96.",
+              pt: "Seis faces: {{16}} × 6 = 96.",
+              es: "Seis caras: {{16}} × 6 = 96.",
+            },
+          },
+          { text: { en: "Surface area = 96.", pt: "Área total = 96.", es: "Área total = 96." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateCubeSurface,
+    },
+    {
+      id: "red-14",
+      beltId: "red",
+      index: 4,
+      degree: solidGeoDegree,
+      title: { en: "Volume of a cylinder", pt: "Volume do cilindro", es: "Volumen del cilindro" },
+      summary: {
+        en: "Circle area times height — with π = 22/7 everything cancels.",
+        pt: "Área do círculo vezes altura — com π = 22/7 tudo se cancela.",
+        es: "Área del círculo por la altura — con π = 22/7 todo se cancela.",
+      },
+      lesson: {
+        intro: {
+          en: "V = π r² h. With r = 7 and π = 22/7, the circle's area is 22/7 × 49 = 154 — then just multiply by the height.",
+          pt: "V = π r² h. Com r = 7 e π = 22/7, a área do círculo é 22/7 × 49 = 154 — depois é só multiplicar pela altura.",
+          es: "V = π r² h. Con r = 7 y π = 22/7, el área del círculo es 22/7 × 49 = 154 — luego solo multiplica por la altura.",
+        },
+        example: {
+          id: "ex-red-14",
+          prompt: "Cylinder: r = 7, h = 5 (π = 22/7) — volume?",
+          promptL10n: {
+            en: "Cylinder: r = 7, h = 5 (π = 22/7) — volume?",
+            pt: "Cilindro: r = 7, h = 5 (π = 22/7) — volume?",
+            es: "Cilindro: r = 7, h = 5 (π = 22/7) — ¿volumen?",
+          },
+          answer: 770,
+          operands: [7, 5],
+        },
+        steps: [
+          {
+            text: {
+              en: "Circle area: 22/7 × 7² = 22 × 7 = {{154}}.",
+              pt: "Área do círculo: 22/7 × 7² = 22 × 7 = {{154}}.",
+              es: "Área del círculo: 22/7 × 7² = 22 × 7 = {{154}}.",
+            },
+          },
+          {
+            text: {
+              en: "Times the height: {{154}} × 5 = 770.",
+              pt: "Vezes a altura: {{154}} × 5 = 770.",
+              es: "Por la altura: {{154}} × 5 = 770.",
+            },
+          },
+          { text: { en: "Volume = 770.", pt: "Volume = 770.", es: "Volumen = 770." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateCylinderVolume,
+    },
+    {
+      id: "red-15",
+      beltId: "red",
+      index: 5,
+      degree: solidGeoDegree,
+      title: { en: "Volume of a cone", pt: "Volume do cone", es: "Volumen del cono" },
+      summary: {
+        en: "A third of the cylinder that wraps it.",
+        pt: "Um terço do cilindro que o envolve.",
+        es: "Un tercio del cilindro que lo envuelve.",
+      },
+      lesson: {
+        intro: {
+          en: "A cone fills exactly one third of the matching cylinder: V = π r² h ÷ 3.",
+          pt: "Um cone enche exatamente um terço do cilindro correspondente: V = π r² h ÷ 3.",
+          es: "Un cono llena exactamente un tercio del cilindro correspondiente: V = π r² h ÷ 3.",
+        },
+        example: {
+          id: "ex-red-15",
+          prompt: "Cone: r = 7, h = 6 (π = 22/7) — volume?",
+          promptL10n: {
+            en: "Cone: r = 7, h = 6 (π = 22/7) — volume?",
+            pt: "Cone: r = 7, h = 6 (π = 22/7) — volume?",
+            es: "Cono: r = 7, h = 6 (π = 22/7) — ¿volumen?",
+          },
+          answer: 308,
+          operands: [7, 6],
+        },
+        steps: [
+          {
+            text: {
+              en: "The full cylinder: 154 × 6 = {{924}}.",
+              pt: "O cilindro inteiro: 154 × 6 = {{924}}.",
+              es: "El cilindro completo: 154 × 6 = {{924}}.",
+            },
+          },
+          {
+            text: {
+              en: "The cone is a third: {{924}} ÷ 3 = 308.",
+              pt: "O cone é um terço: {{924}} ÷ 3 = 308.",
+              es: "El cono es un tercio: {{924}} ÷ 3 = 308.",
+            },
+          },
+          { text: { en: "Volume = 308.", pt: "Volume = 308.", es: "Volumen = 308." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 18 },
+      generate: generateConeVolume,
+    },
+    {
+      id: "red-16",
+      beltId: "red",
+      index: 6,
+      degree: solidGeoDegree,
+      title: { en: "Volume of a pyramid", pt: "Volume da pirâmide", es: "Volumen de la pirámide" },
+      summary: {
+        en: "A third of the box over the same base.",
+        pt: "Um terço do bloco sobre a mesma base.",
+        es: "Un tercio de la caja sobre la misma base.",
+      },
+      lesson: {
+        intro: {
+          en: "Like the cone, a pyramid fills a third of its box: V = base area × height ÷ 3.",
+          pt: "Como o cone, a pirâmide enche um terço do seu bloco: V = área da base × altura ÷ 3.",
+          es: "Como el cono, la pirámide llena un tercio de su caja: V = área de la base × altura ÷ 3.",
+        },
+        example: {
+          id: "ex-red-16",
+          prompt: "Pyramid: base 5 × 6, height 9 — volume?",
+          promptL10n: {
+            en: "Pyramid: base 5 × 6, height 9 — volume?",
+            pt: "Pirâmide: base 5 × 6, altura 9 — volume?",
+            es: "Pirámide: base 5 × 6, altura 9 — ¿volumen?",
+          },
+          answer: 90,
+          operands: [5, 6, 9],
+        },
+        steps: [
+          {
+            text: {
+              en: "Base area: 5 × 6 = {{30}}.",
+              pt: "Área da base: 5 × 6 = {{30}}.",
+              es: "Área de la base: 5 × 6 = {{30}}.",
+            },
+          },
+          {
+            text: {
+              en: "Box volume: {{30}} × 9 = 270. Pyramid: 270 ÷ 3 = 90.",
+              pt: "Volume do bloco: {{30}} × 9 = 270. Pirâmide: 270 ÷ 3 = 90.",
+              es: "Volumen de la caja: {{30}} × 9 = 270. Pirámide: 270 ÷ 3 = 90.",
+            },
+          },
+          { text: { en: "Volume = 90.", pt: "Volume = 90.", es: "Volumen = 90." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 18 },
+      generate: generatePyramidVolume,
+    },
+    {
+      id: "red-17",
+      beltId: "red",
+      index: 7,
+      degree: solidGeoDegree,
+      title: {
+        en: "Solid geometry, all mixed",
+        pt: "Geometria espacial, tudo misturado",
+        es: "Geometría del espacio, todo mezclado",
+      },
+      summary: {
+        en: "Cubes, boxes, cylinders, cones and pyramids — shuffled.",
+        pt: "Cubos, blocos, cilindros, cones e pirâmides — embaralhados.",
+        es: "Cubos, cajas, cilindros, conos y pirámides — revueltos.",
+      },
+      lesson: {
+        intro: {
+          en: "Every solid can appear. Read which shape it is, recall its formula, then compute.",
+          pt: "Qualquer sólido pode aparecer. Leia qual é a forma, lembre a fórmula, depois calcule.",
+          es: "Cualquier sólido puede aparecer. Lee cuál es la forma, recuerda su fórmula, luego calcula.",
+        },
+        example: {
+          id: "ex-red-17",
+          prompt: "Cube with edge 3 — volume?",
+          promptL10n: {
+            en: "Cube with edge 3 — volume?",
+            pt: "Cubo de aresta 3 — volume?",
+            es: "Cubo de arista 3 — ¿volumen?",
+          },
+          answer: 27,
+          operands: [3],
+        },
+        steps: [
+          {
+            text: {
+              en: "Spot the solid: a cube, so volume = edge³.",
+              pt: "Identifique o sólido: um cubo, então volume = aresta³.",
+              es: "Identifica el sólido: un cubo, así que volumen = arista³.",
+            },
+          },
+          {
+            text: {
+              en: "3³ = 3 × 3 × 3 = 27.",
+              pt: "3³ = 3 × 3 × 3 = 27.",
+              es: "3³ = 3 × 3 × 3 = 27.",
+            },
+          },
+          { text: { en: "Volume = 27.", pt: "Volume = 27.", es: "Volumen = 27." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateSolidGeometryMix,
+    },
+    {
+      id: "red-18",
+      beltId: "red",
+      index: 1,
+      degree: trigDegree,
+      title: { en: "What sine means", pt: "O que significa o seno", es: "Qué significa el seno" },
+      summary: {
+        en: "Opposite side over hypotenuse — read it off the triangle.",
+        pt: "Cateto oposto sobre hipotenusa — leia direto do triângulo.",
+        es: "Cateto opuesto sobre hipotenusa — léelo del triángulo.",
+      },
+      lesson: {
+        intro: {
+          en: "For the angle θ, sine compares the side across from θ with the hypotenuse: sin θ = opposite / hypotenuse.",
+          pt: "Para o ângulo θ, o seno compara o lado oposto a θ com a hipotenusa: sen θ = cateto oposto / hipotenusa.",
+          es: "Para el ángulo θ, el seno compara el lado opuesto a θ con la hipotenusa: sen θ = cateto opuesto / hipotenusa.",
+        },
+        example: {
+          id: "ex-red-18",
+          prompt: "sin θ = ?",
+          promptL10n: { en: "sin θ = ?", pt: "sen θ = ?", es: "sen θ = ?" },
+          answer: 3,
+          secondaryAnswer: 5,
+          secondaryFormat: "fraction",
+          operands: [3, 4, 5],
+        },
+        diagram: { kind: "rightTriangle", a: "3", b: "4", c: "5", theta: true },
+        steps: [
+          {
+            text: {
+              en: "θ sits at the bottom-right — the side across from it is 3.",
+              pt: "θ fica embaixo à direita — o lado oposto a ele é 3.",
+              es: "θ está abajo a la derecha — el lado opuesto a él es 3.",
+            },
+          },
+          {
+            text: {
+              en: "The hypotenuse (the slanted side) is 5.",
+              pt: "A hipotenusa (o lado inclinado) é 5.",
+              es: "La hipotenusa (el lado inclinado) es 5.",
+            },
+          },
+          { text: { en: "sin θ = 3/5.", pt: "sen θ = 3/5.", es: "sen θ = 3/5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateSinRatio,
+    },
+    {
+      id: "red-19",
+      beltId: "red",
+      index: 2,
+      degree: trigDegree,
+      title: { en: "What cosine means", pt: "O que significa o cosseno", es: "Qué significa el coseno" },
+      summary: {
+        en: "Adjacent side over hypotenuse.",
+        pt: "Cateto adjacente sobre hipotenusa.",
+        es: "Cateto adyacente sobre hipotenusa.",
+      },
+      lesson: {
+        intro: {
+          en: "Cosine uses the side touching θ (not the hypotenuse): cos θ = adjacent / hypotenuse.",
+          pt: "O cosseno usa o lado que encosta em θ (sem ser a hipotenusa): cos θ = cateto adjacente / hipotenusa.",
+          es: "El coseno usa el lado que toca a θ (sin ser la hipotenusa): cos θ = cateto adyacente / hipotenusa.",
+        },
+        example: {
+          id: "ex-red-19",
+          prompt: "cos θ = ?",
+          answer: 4,
+          secondaryAnswer: 5,
+          secondaryFormat: "fraction",
+          operands: [3, 4, 5],
+        },
+        diagram: { kind: "rightTriangle", a: "3", b: "4", c: "5", theta: true },
+        steps: [
+          {
+            text: {
+              en: "The side touching θ along the bottom is 4.",
+              pt: "O lado que encosta em θ na base é 4.",
+              es: "El lado que toca a θ en la base es 4.",
+            },
+          },
+          {
+            text: {
+              en: "The hypotenuse is 5.",
+              pt: "A hipotenusa é 5.",
+              es: "La hipotenusa es 5.",
+            },
+          },
+          { text: { en: "cos θ = 4/5.", pt: "cos θ = 4/5.", es: "cos θ = 4/5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateCosRatio,
+    },
+    {
+      id: "red-20",
+      beltId: "red",
+      index: 3,
+      degree: trigDegree,
+      title: { en: "What tangent means", pt: "O que significa a tangente", es: "Qué significa la tangente" },
+      summary: {
+        en: "Opposite over adjacent — no hypotenuse involved.",
+        pt: "Oposto sobre adjacente — sem usar a hipotenusa.",
+        es: "Opuesto sobre adyacente — sin usar la hipotenusa.",
+      },
+      lesson: {
+        intro: {
+          en: "Tangent compares the two legs: tan θ = opposite / adjacent. It's also the slope you learned in Functions.",
+          pt: "A tangente compara os dois catetos: tg θ = oposto / adjacente. É também a inclinação que você viu em Funções.",
+          es: "La tangente compara los dos catetos: tan θ = opuesto / adyacente. Es también la pendiente que viste en Funciones.",
+        },
+        example: {
+          id: "ex-red-20",
+          prompt: "tan θ = ?",
+          promptL10n: { en: "tan θ = ?", pt: "tg θ = ?", es: "tan θ = ?" },
+          answer: 3,
+          secondaryAnswer: 4,
+          secondaryFormat: "fraction",
+          operands: [3, 4, 5],
+        },
+        diagram: { kind: "rightTriangle", a: "3", b: "4", c: "5", theta: true },
+        steps: [
+          {
+            text: {
+              en: "Opposite side: 3. Adjacent side: 4.",
+              pt: "Cateto oposto: 3. Cateto adjacente: 4.",
+              es: "Cateto opuesto: 3. Cateto adyacente: 4.",
+            },
+          },
+          {
+            text: {
+              en: "Divide them: tan θ = 3/4.",
+              pt: "Divida: tg θ = 3/4.",
+              es: "Divídelos: tan θ = 3/4.",
+            },
+          },
+          { text: { en: "tan θ = 3/4.", pt: "tg θ = 3/4.", es: "tan θ = 3/4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateTanRatio,
+    },
+    {
+      id: "red-21",
+      beltId: "red",
+      index: 4,
+      degree: trigDegree,
+      title: { en: "The special angles", pt: "Os ângulos notáveis", es: "Los ángulos notables" },
+      summary: {
+        en: "sin 30° = 1/2, tan 45° = 1, sin 90° = 1 — values worth knowing cold.",
+        pt: "sen 30° = 1/2, tg 45° = 1, sen 90° = 1 — valores para saber de cor.",
+        es: "sen 30° = 1/2, tan 45° = 1, sen 90° = 1 — valores para saberse de memoria.",
+      },
+      lesson: {
+        intro: {
+          en: "A few angles have exact, simple values: sin 30° = cos 60° = 1/2, tan 45° = 1, sin 90° = cos 0° = 1. Multiply them by the number given.",
+          pt: "Alguns ângulos têm valores exatos e simples: sen 30° = cos 60° = 1/2, tg 45° = 1, sen 90° = cos 0° = 1. Multiplique pelo número dado.",
+          es: "Algunos ángulos tienen valores exactos y simples: sen 30° = cos 60° = 1/2, tan 45° = 1, sen 90° = cos 0° = 1. Multiplícalos por el número dado.",
+        },
+        example: {
+          id: "ex-red-21",
+          prompt: "8 · sin 30°",
+          promptL10n: { en: "8 · sin 30°", pt: "8 · sen 30°", es: "8 · sen 30°" },
+          answer: 4,
+          operands: [8, 30],
+        },
+        steps: [
+          {
+            text: {
+              en: "Recall the value: sin 30° = {{1/2}}.",
+              pt: "Lembre o valor: sen 30° = {{1/2}}.",
+              es: "Recuerda el valor: sen 30° = {{1/2}}.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: 8 × {{1/2}} = 4.",
+              pt: "Multiplique: 8 × {{1/2}} = 4.",
+              es: "Multiplica: 8 × {{1/2}} = 4.",
+            },
+          },
+          { text: { en: "8 · sin 30° = 4.", pt: "8 · sen 30° = 4.", es: "8 · sen 30° = 4." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateSpecialAngles,
+    },
+    {
+      id: "red-22",
+      beltId: "red",
+      index: 5,
+      degree: trigDegree,
+      title: { en: "From sine to cosine", pt: "Do seno ao cosseno", es: "Del seno al coseno" },
+      summary: {
+        en: "Recognize the hidden triple and read off the other leg.",
+        pt: "Reconheça a terna escondida e leia o outro cateto.",
+        es: "Reconoce la terna escondida y lee el otro cateto.",
+      },
+      lesson: {
+        intro: {
+          en: "sin θ = 3/5 hides a 3-4-5 triangle: opposite 3, hypotenuse 5, so the adjacent leg is 4 — and cos θ = 4/5.",
+          pt: "sen θ = 3/5 esconde um triângulo 3-4-5: oposto 3, hipotenusa 5, então o cateto adjacente é 4 — e cos θ = 4/5.",
+          es: "sen θ = 3/5 esconde un triángulo 3-4-5: opuesto 3, hipotenusa 5, así que el cateto adyacente es 4 — y cos θ = 4/5.",
+        },
+        example: {
+          id: "ex-red-22",
+          prompt: "sin θ = 3/5 — cos θ?",
+          promptL10n: {
+            en: "sin θ = 3/5 (acute θ) — cos θ?",
+            pt: "sen θ = 3/5 (θ agudo) — cos θ?",
+            es: "sen θ = 3/5 (θ agudo) — ¿cos θ?",
+          },
+          answer: 4,
+          secondaryAnswer: 5,
+          secondaryFormat: "fraction",
+          operands: [3, 5],
+        },
+        steps: [
+          {
+            text: {
+              en: "Opposite 3, hypotenuse 5 — find the missing leg with Pythagoras: √(25 − 9) = {{4}}.",
+              pt: "Oposto 3, hipotenusa 5 — ache o cateto que falta com Pitágoras: √(25 − 9) = {{4}}.",
+              es: "Opuesto 3, hipotenusa 5 — halla el cateto que falta con Pitágoras: √(25 − 9) = {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "Cosine is that leg over the hypotenuse: {{4}}/5.",
+              pt: "O cosseno é esse cateto sobre a hipotenusa: {{4}}/5.",
+              es: "El coseno es ese cateto sobre la hipotenusa: {{4}}/5.",
+            },
+          },
+          { text: { en: "cos θ = 4/5.", pt: "cos θ = 4/5.", es: "cos θ = 4/5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateCosFromSin,
+    },
+    {
+      id: "red-23",
+      beltId: "red",
+      index: 6,
+      degree: trigDegree,
+      title: {
+        en: "Finding a side with trig",
+        pt: "Achando um lado com trigonometria",
+        es: "Hallando un lado con trigonometría",
+      },
+      summary: {
+        en: "The ratio plus one real side reveals the others.",
+        pt: "A razão mais um lado real revela os outros.",
+        es: "La razón más un lado real revela los demás.",
+      },
+      lesson: {
+        intro: {
+          en: "sin θ = 3/5 means: every 5 units of hypotenuse give 3 of opposite. Scale by the real hypotenuse.",
+          pt: "sen θ = 3/5 significa: a cada 5 unidades de hipotenusa, 3 de cateto oposto. Escale pela hipotenusa real.",
+          es: "sen θ = 3/5 significa: cada 5 unidades de hipotenusa dan 3 de cateto opuesto. Escala por la hipotenusa real.",
+        },
+        example: {
+          id: "ex-red-23",
+          prompt: "sin θ = 3/5, hyp = 20",
+          promptL10n: {
+            en: "sin θ = 3/5, hypotenuse 20 — opposite side?",
+            pt: "sen θ = 3/5, hipotenusa 20 — cateto oposto?",
+            es: "sen θ = 3/5, hipotenusa 20 — ¿cateto opuesto?",
+          },
+          answer: 12,
+          operands: [3, 5, 20],
+        },
+        steps: [
+          {
+            text: {
+              en: "The real hypotenuse is 20 — that's 5 × {{4}}.",
+              pt: "A hipotenusa real é 20 — isso é 5 × {{4}}.",
+              es: "La hipotenusa real es 20 — eso es 5 × {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "Scale the opposite the same way: 3 × {{4}} = 12.",
+              pt: "Escale o oposto do mesmo jeito: 3 × {{4}} = 12.",
+              es: "Escala el opuesto igual: 3 × {{4}} = 12.",
+            },
+          },
+          { text: { en: "Opposite side = 12.", pt: "Cateto oposto = 12.", es: "Cateto opuesto = 12." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateSideFromRatio,
+    },
+    {
+      id: "red-24",
+      beltId: "red",
+      index: 7,
+      degree: trigDegree,
+      title: { en: "Radians and degrees", pt: "Radianos e graus", es: "Radianes y grados" },
+      summary: {
+        en: "π radians is half a turn: 180°.",
+        pt: "π radianos é meia volta: 180°.",
+        es: "π radianes es media vuelta: 180°.",
+      },
+      lesson: {
+        intro: {
+          en: "The key fact: π rad = 180°. Any slice of π converts by dividing 180 the same way.",
+          pt: "O fato-chave: π rad = 180°. Qualquer fração de π converte dividindo 180 do mesmo jeito.",
+          es: "El dato clave: π rad = 180°. Cualquier fracción de π se convierte dividiendo 180 igual.",
+        },
+        example: {
+          id: "ex-red-24",
+          prompt: "π/3 rad → °",
+          promptL10n: { en: "π/3 rad in degrees", pt: "π/3 rad em graus", es: "π/3 rad en grados" },
+          answer: 60,
+          operands: [60],
+        },
+        steps: [
+          {
+            text: {
+              en: "π rad = {{180}}°.",
+              pt: "π rad = {{180}}°.",
+              es: "π rad = {{180}}°.",
+            },
+          },
+          {
+            text: {
+              en: "A third of it: {{180}} ÷ 3 = 60.",
+              pt: "Um terço disso: {{180}} ÷ 3 = 60.",
+              es: "Un tercio de eso: {{180}} ÷ 3 = 60.",
+            },
+          },
+          { text: { en: "π/3 = 60°.", pt: "π/3 = 60°.", es: "π/3 = 60°." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateRadiansToDegrees,
+    },
+    {
+      id: "red-25",
+      beltId: "red",
+      index: 8,
+      degree: trigDegree,
+      title: {
+        en: "Back to the first quadrant",
+        pt: "De volta ao 1º quadrante",
+        es: "De vuelta al primer cuadrante",
+      },
+      summary: {
+        en: "Every angle mirrors an acute one — find it.",
+        pt: "Todo ângulo espelha um agudo — encontre-o.",
+        es: "Todo ángulo refleja uno agudo — encuéntralo.",
+      },
+      lesson: {
+        intro: {
+          en: "Measure how far the angle sits from the horizontal axis (180° or 360°). That distance is its acute mirror — the reference angle.",
+          pt: "Meça a distância do ângulo até o eixo horizontal (180° ou 360°). Essa distância é o espelho agudo dele — o ângulo de referência.",
+          es: "Mide la distancia del ángulo al eje horizontal (180° o 360°). Esa distancia es su espejo agudo — el ángulo de referencia.",
+        },
+        example: {
+          id: "ex-red-25",
+          prompt: "150° → 1º quadrant",
+          promptL10n: {
+            en: "150° reduced to the first quadrant",
+            pt: "150° reduzido ao 1º quadrante",
+            es: "150° reducido al primer cuadrante",
+          },
+          answer: 30,
+          operands: [150],
+        },
+        steps: [
+          {
+            text: {
+              en: "150° lives in the second quadrant, close to 180°.",
+              pt: "150° fica no segundo quadrante, perto de 180°.",
+              es: "150° está en el segundo cuadrante, cerca de 180°.",
+            },
+          },
+          {
+            text: {
+              en: "Distance to 180°: 180 − 150 = {{30}}.",
+              pt: "Distância até 180°: 180 − 150 = {{30}}.",
+              es: "Distancia a 180°: 180 − 150 = {{30}}.",
+            },
+          },
+          { text: { en: "Reference angle = 30°.", pt: "Ângulo de referência = 30°.", es: "Ángulo de referencia = 30°." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateReferenceAngle,
+    },
+    {
+      id: "red-26",
+      beltId: "red",
+      index: 9,
+      degree: trigDegree,
+      title: {
+        en: "Trigonometry, all mixed",
+        pt: "Trigonometria, tudo misturado",
+        es: "Trigonometría, todo mezclado",
+      },
+      summary: {
+        en: "Ratios, special angles, radians and references — shuffled.",
+        pt: "Razões, ângulos notáveis, radianos e referências — embaralhados.",
+        es: "Razones, ángulos notables, radianes y referencias — revueltos.",
+      },
+      lesson: {
+        intro: {
+          en: "Every trig skill can appear. Check first whether you're reading a triangle, recalling a value, or converting.",
+          pt: "Qualquer habilidade de trigonometria pode aparecer. Veja primeiro se você está lendo um triângulo, lembrando um valor ou convertendo.",
+          es: "Cualquier habilidad de trigonometría puede aparecer. Mira primero si estás leyendo un triángulo, recordando un valor o convirtiendo.",
+        },
+        example: {
+          id: "ex-red-26",
+          prompt: "10 · tan 45°",
+          promptL10n: { en: "10 · tan 45°", pt: "10 · tg 45°", es: "10 · tan 45°" },
+          answer: 10,
+          operands: [10, 45],
+        },
+        steps: [
+          {
+            text: {
+              en: "Recall the value: tan 45° = {{1}}.",
+              pt: "Lembre o valor: tg 45° = {{1}}.",
+              es: "Recuerda el valor: tan 45° = {{1}}.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: 10 × {{1}} = 10.",
+              pt: "Multiplique: 10 × {{1}} = 10.",
+              es: "Multiplica: 10 × {{1}} = 10.",
+            },
+          },
+          { text: { en: "10 · tan 45° = 10.", pt: "10 · tg 45° = 10.", es: "10 · tan 45° = 10." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateTrigMix,
+    },
+    {
+      id: "red-27",
+      beltId: "red",
+      index: 1,
+      degree: redExamDegree,
+      title: {
+        en: "Red Belt exam: everything mixed",
+        pt: "Prova da Faixa Vermelha: tudo misturado",
+        es: "Examen del Cinturón Rojo: todo mezclado",
+      },
+      summary: {
+        en: "Plane geometry, solids and trig in one final gauntlet.",
+        pt: "Geometria plana, sólidos e trigonometria numa prova final.",
+        es: "Geometría plana, sólidos y trigonometría en una prueba final.",
+      },
+      lesson: {
+        intro: {
+          en: "The whole belt in one drill: areas, angles, Pythagoras, volumes and trig ratios. Identify the skill, recall the tool, execute.",
+          pt: "A faixa inteira num treino só: áreas, ângulos, Pitágoras, volumes e razões trigonométricas. Identifique a habilidade, lembre a ferramenta, execute.",
+          es: "Todo el cinturón en un solo entrenamiento: áreas, ángulos, Pitágoras, volúmenes y razones trigonométricas. Identifica la habilidad, recuerda la herramienta, ejecuta.",
+        },
+        example: { id: "ex-red-27", prompt: "", answer: 10, operands: [6, 8] },
+        diagram: { kind: "rightTriangle", a: "6", b: "8", c: "?" },
+        steps: [
+          {
+            text: {
+              en: "Spot the skill: two legs known, hypotenuse missing — Pythagoras.",
+              pt: "Identifique a habilidade: dois catetos conhecidos, falta a hipotenusa — Pitágoras.",
+              es: "Identifica la habilidad: dos catetos conocidos, falta la hipotenusa — Pitágoras.",
+            },
+          },
+          {
+            text: {
+              en: "6² + 8² = 36 + 64 = {{100}}, and √{{100}} = 10.",
+              pt: "6² + 8² = 36 + 64 = {{100}}, e √{{100}} = 10.",
+              es: "6² + 8² = 36 + 64 = {{100}}, y √{{100}} = 10.",
+            },
+          },
+          { text: { en: "Hypotenuse = 10.", pt: "Hipotenusa = 10.", es: "Hipotenusa = 10." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 10, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateRedBeltMix,
+    },
+  ],
+};
+
 const coralBelt: Belt = {
   id: "coral",
   name: { en: "Coral Belt", pt: "Faixa Coral", es: "Cinturón Coral" },
-  order: 7,
+  order: 8,
   operationLabel: { en: "Calculus I", pt: "Cálculo I", es: "Cálculo I" },
   colorVar: "--belt-coral",
   tagline: {
@@ -5748,4 +7269,4 @@ const coralBelt: Belt = {
   ],
 };
 
-export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, greenBelt, blackBelt, coralBelt];
+export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, greenBelt, blackBelt, redBelt, coralBelt];

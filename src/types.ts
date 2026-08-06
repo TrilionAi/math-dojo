@@ -1,4 +1,4 @@
-export type BeltId = "white" | "blue" | "purple" | "brown" | "green" | "black" | "coral";
+export type BeltId = "white" | "blue" | "purple" | "brown" | "green" | "black" | "red" | "coral";
 
 export type Locale = "en" | "pt" | "es";
 
@@ -31,7 +31,8 @@ export type Diagram =
   | { kind: "slopeStaircase"; rise: number; run: number }
   | { kind: "parabola"; points: { x: number; y: number }[] }
   | { kind: "factorArea"; a: number; b: number }
-  | { kind: "areaBars"; heights: number[] };
+  | { kind: "areaBars"; heights: number[] }
+  | { kind: "rightTriangle"; a: string; b: string; c: string; theta?: boolean };
 
 export interface Problem {
   id: string;
