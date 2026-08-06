@@ -99,6 +99,19 @@ import {
   generateExponentRules,
   generateLinearSystem,
   generateRearrangeFactorSolve,
+  generateSquares,
+  generatePowers,
+  generateSquareRootsExact,
+  generateCubeRootsMixed,
+  generateSmallestPrimeFactor,
+  generateGcd,
+  generateLcm,
+  generateEasyPercent,
+  generateHardPercent,
+  generatePercentChange,
+  generateProportion,
+  generateScientificNotation,
+  generateNumberMasteryMix,
   generateLimitLinearConcept,
   generateLimitQuadratic,
   generateLimitFactoring,
@@ -1151,14 +1164,14 @@ const purpleBelt: Belt = {
       beltId: "purple",
       index: 4,
       title: {
-        en: "All single-digit tables, mixed",
+        en: "All times tables, mixed",
         pt: "Todas as tabuadas, misturadas",
         es: "Todas las tablas, mezcladas",
       },
       summary: {
-        en: "Every fact from 2 to 9, no more sorting by table.",
-        pt: "Todas as contas de 2 a 9, sem separar por tabuada.",
-        es: "Todas las cuentas del 2 al 9, sin separar por tabla.",
+        en: "The complete tables, every fact from 2 to 10, no more sorting by table.",
+        pt: "A tabuada completa, todas as contas de 2 a 10, sem separar por tabuada.",
+        es: "Las tablas completas, todas las cuentas del 2 al 10, sin separar por tabla.",
       },
       lesson: {
         intro: {
@@ -1868,6 +1881,588 @@ const brownBelt: Belt = {
   ],
 };
 
+const greenBelt: Belt = {
+  id: "green",
+  name: { en: "Green Belt", pt: "Faixa Verde", es: "Cinturón Verde" },
+  order: 5,
+  operationLabel: {
+    en: "Powers · Percentages · Proportion",
+    pt: "Potências · Porcentagens · Proporção",
+    es: "Potencias · Porcentajes · Proporción",
+  },
+  colorVar: "--belt-green",
+  tagline: {
+    en: "Master the numbers themselves — powers, roots, primes, percentages and proportion.",
+    pt: "Domine os próprios números — potências, raízes, primos, porcentagens e proporção.",
+    es: "Domina los números mismos — potencias, raíces, primos, porcentajes y proporción.",
+  },
+  stripes: [
+    {
+      id: "green-1",
+      beltId: "green",
+      index: 1,
+      title: { en: "What a power means", pt: "O que significa uma potência", es: "Qué significa una potencia" },
+      summary: {
+        en: "Squaring: multiplying a number by itself.",
+        pt: "Elevar ao quadrado: multiplicar um número por ele mesmo.",
+        es: "Elevar al cuadrado: multiplicar un número por sí mismo.",
+      },
+      lesson: {
+        intro: {
+          en: "The small raised number counts how many copies get multiplied. 4² means 4 × 4 — two copies of 4.",
+          pt: "O numerozinho em cima conta quantas cópias são multiplicadas. 4² significa 4 × 4 — duas cópias do 4.",
+          es: "El numerito de arriba cuenta cuántas copias se multiplican. 4² significa 4 × 4 — dos copias del 4.",
+        },
+        example: { id: "ex-green-1", prompt: "4²", answer: 16, operands: [4] },
+        diagram: { kind: "groups", groups: 4, perGroup: 4 },
+        steps: [
+          {
+            text: {
+              en: "4² means 4 × 4 — picture a square of 4 rows with 4 in each.",
+              pt: "4² significa 4 × 4 — imagine um quadrado de 4 fileiras com 4 em cada uma.",
+              es: "4² significa 4 × 4 — imagina un cuadrado de 4 filas con 4 en cada una.",
+            },
+          },
+          {
+            text: {
+              en: "Multiply: 4 × 4 = 16. That's why it's called 'squaring'.",
+              pt: "Multiplique: 4 × 4 = 16. Por isso se chama 'elevar ao quadrado'.",
+              es: "Multiplica: 4 × 4 = 16. Por eso se llama 'elevar al cuadrado'.",
+            },
+          },
+          { text: { en: "4² = 16.", pt: "4² = 16.", es: "4² = 16." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 6 },
+      generate: generateSquares,
+    },
+    {
+      id: "green-2",
+      beltId: "green",
+      index: 2,
+      title: { en: "Cubes and higher powers", pt: "Cubos e potências maiores", es: "Cubos y potencias mayores" },
+      summary: {
+        en: "More copies in the product — including the powers of 2 and of 10.",
+        pt: "Mais cópias na multiplicação — incluindo as potências de 2 e de 10.",
+        es: "Más copias en la multiplicación — incluyendo las potencias de 2 y de 10.",
+      },
+      lesson: {
+        intro: {
+          en: "Work left to right, one multiplication at a time. Powers of 10 are a shortcut: the exponent counts the zeros.",
+          pt: "Vá da esquerda para a direita, uma multiplicação de cada vez. Potências de 10 são um atalho: o expoente conta os zeros.",
+          es: "Ve de izquierda a derecha, una multiplicación a la vez. Las potencias de 10 son un atajo: el exponente cuenta los ceros.",
+        },
+        example: { id: "ex-green-2", prompt: "2⁴", answer: 16, operands: [2, 4] },
+        steps: [
+          {
+            text: {
+              en: "2⁴ is four copies: 2 × 2 × 2 × 2.",
+              pt: "2⁴ são quatro cópias: 2 × 2 × 2 × 2.",
+              es: "2⁴ son cuatro copias: 2 × 2 × 2 × 2.",
+            },
+          },
+          {
+            text: {
+              en: "Chain it: 2 × 2 = {{4}}, then {{4}} × 2 = {{8}}, then {{8}} × 2 = 16.",
+              pt: "Encadeie: 2 × 2 = {{4}}, depois {{4}} × 2 = {{8}}, depois {{8}} × 2 = 16.",
+              es: "Encadena: 2 × 2 = {{4}}, luego {{4}} × 2 = {{8}}, luego {{8}} × 2 = 16.",
+            },
+          },
+          {
+            text: {
+              en: "Shortcut for tens: 10³ = 1 followed by 3 zeros = 1000.",
+              pt: "Atalho para o 10: 10³ = 1 seguido de 3 zeros = 1000.",
+              es: "Atajo para el 10: 10³ = 1 seguido de 3 ceros = 1000.",
+            },
+          },
+          { text: { en: "2⁴ = 16.", pt: "2⁴ = 16.", es: "2⁴ = 16." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generatePowers,
+    },
+    {
+      id: "green-3",
+      beltId: "green",
+      index: 3,
+      title: { en: "Square roots", pt: "Raiz quadrada", es: "Raíz cuadrada" },
+      summary: {
+        en: "The reverse of squaring — which number times itself gives this?",
+        pt: "O contrário do quadrado — que número vezes ele mesmo dá isso?",
+        es: "Lo contrario del cuadrado — ¿qué número por sí mismo da esto?",
+      },
+      lesson: {
+        intro: {
+          en: "√49 asks: which number squared gives 49? Knowing your squares by heart makes roots instant.",
+          pt: "√49 pergunta: que número ao quadrado dá 49? Saber os quadrados de cor torna as raízes instantâneas.",
+          es: "√49 pregunta: ¿qué número al cuadrado da 49? Saber los cuadrados de memoria hace las raíces instantáneas.",
+        },
+        example: { id: "ex-green-3", prompt: "√49", answer: 7, operands: [49] },
+        steps: [
+          {
+            text: {
+              en: "Ask it backwards: ? × ? = 49.",
+              pt: "Pergunte ao contrário: ? × ? = 49.",
+              es: "Pregunta al revés: ? × ? = 49.",
+            },
+          },
+          {
+            text: {
+              en: "Test your squares: 6² = 36 is too small, 7² = {{49}} fits.",
+              pt: "Teste seus quadrados: 6² = 36 é pouco, 7² = {{49}} encaixa.",
+              es: "Prueba tus cuadrados: 6² = 36 es poco, 7² = {{49}} encaja.",
+            },
+          },
+          { text: { en: "√49 = 7.", pt: "√49 = 7.", es: "√49 = 7." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 7 },
+      generate: generateSquareRootsExact,
+    },
+    {
+      id: "green-4",
+      beltId: "green",
+      index: 4,
+      title: { en: "Cube roots", pt: "Raiz cúbica", es: "Raíz cúbica" },
+      summary: {
+        en: "Undoing a cube — plus the bigger square roots for review.",
+        pt: "Desfazendo um cubo — mais as raízes quadradas maiores de revisão.",
+        es: "Deshaciendo un cubo — más las raíces cuadradas grandes de repaso.",
+      },
+      lesson: {
+        intro: {
+          en: "∛125 asks: which number multiplied three times gives 125? The perfect cubes 8, 27, 64, 125, ... are worth memorizing.",
+          pt: "∛125 pergunta: que número multiplicado três vezes dá 125? Vale decorar os cubos perfeitos 8, 27, 64, 125, ...",
+          es: "∛125 pregunta: ¿qué número multiplicado tres veces da 125? Vale memorizar los cubos perfectos 8, 27, 64, 125, ...",
+        },
+        example: { id: "ex-green-4", prompt: "∛125", answer: 5, operands: [125] },
+        steps: [
+          {
+            text: {
+              en: "Ask it backwards: ? × ? × ? = 125.",
+              pt: "Pergunte ao contrário: ? × ? × ? = 125.",
+              es: "Pregunta al revés: ? × ? × ? = 125.",
+            },
+          },
+          {
+            text: {
+              en: "Test the cubes: 4³ = 64 is too small, 5³ = 5 × 5 × 5 = {{125}} fits.",
+              pt: "Teste os cubos: 4³ = 64 é pouco, 5³ = 5 × 5 × 5 = {{125}} encaixa.",
+              es: "Prueba los cubos: 4³ = 64 es poco, 5³ = 5 × 5 × 5 = {{125}} encaja.",
+            },
+          },
+          { text: { en: "∛125 = 5.", pt: "∛125 = 5.", es: "∛125 = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateCubeRootsMixed,
+    },
+    {
+      id: "green-5",
+      beltId: "green",
+      index: 5,
+      title: { en: "Primes and factors", pt: "Primos e fatores", es: "Primos y factores" },
+      summary: {
+        en: "Find the smallest prime that divides a number.",
+        pt: "Encontre o menor primo que divide um número.",
+        es: "Encuentra el menor primo que divide un número.",
+      },
+      lesson: {
+        intro: {
+          en: "A prime only divides by 1 and itself: 2, 3, 5, 7, 11, ... To crack a number open, test the primes in order: even? → 2. Digits sum to a multiple of 3? → 3. Ends in 0 or 5? → 5. Then try 7.",
+          pt: "Um primo só divide por 1 e por ele mesmo: 2, 3, 5, 7, 11, ... Para abrir um número, teste os primos em ordem: é par? → 2. A soma dos algarismos dá múltiplo de 3? → 3. Termina em 0 ou 5? → 5. Depois teste o 7.",
+          es: "Un primo solo se divide por 1 y por sí mismo: 2, 3, 5, 7, 11, ... Para abrir un número, prueba los primos en orden: ¿es par? → 2. ¿Los dígitos suman múltiplo de 3? → 3. ¿Termina en 0 o 5? → 5. Luego prueba el 7.",
+        },
+        example: {
+          id: "ex-green-5",
+          prompt: "Smallest prime factor of 51",
+          promptL10n: {
+            en: "Smallest prime factor of 51",
+            pt: "Menor fator primo de 51",
+            es: "Menor factor primo de 51",
+          },
+          answer: 3,
+          operands: [51],
+        },
+        steps: [
+          {
+            text: {
+              en: "Is 51 even? No — so 2 is out.",
+              pt: "51 é par? Não — então o 2 está fora.",
+              es: "¿51 es par? No — el 2 queda fuera.",
+            },
+          },
+          {
+            text: {
+              en: "Sum the digits: 5 + 1 = {{6}}, a multiple of 3 — so 3 divides 51.",
+              pt: "Some os algarismos: 5 + 1 = {{6}}, múltiplo de 3 — então 3 divide 51.",
+              es: "Suma los dígitos: 5 + 1 = {{6}}, múltiplo de 3 — así que 3 divide 51.",
+            },
+          },
+          {
+            text: {
+              en: "Check: 51 ÷ 3 = 17. Smallest prime factor: 3.",
+              pt: "Confira: 51 ÷ 3 = 17. Menor fator primo: 3.",
+              es: "Verifica: 51 ÷ 3 = 17. Menor factor primo: 3.",
+            },
+          },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateSmallestPrimeFactor,
+    },
+    {
+      id: "green-6",
+      beltId: "green",
+      index: 6,
+      title: {
+        en: "Greatest common divisor",
+        pt: "MDC — máximo divisor comum",
+        es: "MCD — máximo común divisor",
+      },
+      summary: {
+        en: "The biggest number that divides both.",
+        pt: "O maior número que divide os dois ao mesmo tempo.",
+        es: "El número más grande que divide a los dos.",
+      },
+      lesson: {
+        intro: {
+          en: "Start from the smaller number's biggest divisors and walk down — the first one that also divides the other number wins.",
+          pt: "Comece pelos maiores divisores do número menor e vá descendo — o primeiro que também dividir o outro número vence.",
+          es: "Empieza por los divisores más grandes del número menor y baja — el primero que también divida al otro número gana.",
+        },
+        example: {
+          id: "ex-green-6",
+          prompt: "GCD(24, 36)",
+          promptL10n: { en: "GCD(24, 36)", pt: "MDC(24, 36)", es: "MCD(24, 36)" },
+          answer: 12,
+          operands: [24, 36],
+        },
+        steps: [
+          {
+            text: {
+              en: "Divisors of 24, biggest first: 24, 12, 8, 6, ...",
+              pt: "Divisores de 24, do maior para o menor: 24, 12, 8, 6, ...",
+              es: "Divisores de 24, de mayor a menor: 24, 12, 8, 6, ...",
+            },
+          },
+          {
+            text: {
+              en: "Does 24 divide 36? No. Does {{12}}? Yes: 36 = 12 × 3.",
+              pt: "24 divide 36? Não. E {{12}}? Sim: 36 = 12 × 3.",
+              es: "¿24 divide a 36? No. ¿Y {{12}}? Sí: 36 = 12 × 3.",
+            },
+          },
+          { text: { en: "GCD(24, 36) = 12.", pt: "MDC(24, 36) = 12.", es: "MCD(24, 36) = 12." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateGcd,
+    },
+    {
+      id: "green-7",
+      beltId: "green",
+      index: 7,
+      title: {
+        en: "Least common multiple",
+        pt: "MMC — mínimo múltiplo comum",
+        es: "mcm — mínimo común múltiplo",
+      },
+      summary: {
+        en: "The first number both times tables share.",
+        pt: "O primeiro número que aparece nas duas tabuadas.",
+        es: "El primer número que aparece en las dos tablas.",
+      },
+      lesson: {
+        intro: {
+          en: "List multiples of the bigger number and stop at the first one the smaller number also divides.",
+          pt: "Liste os múltiplos do número maior e pare no primeiro que o número menor também divide.",
+          es: "Enumera los múltiplos del número mayor y detente en el primero que el número menor también divida.",
+        },
+        example: {
+          id: "ex-green-7",
+          prompt: "LCM(6, 8)",
+          promptL10n: { en: "LCM(6, 8)", pt: "MMC(6, 8)", es: "mcm(6, 8)" },
+          answer: 24,
+          operands: [6, 8],
+        },
+        steps: [
+          {
+            text: {
+              en: "Multiples of 8: 8, 16, {{24}}, ...",
+              pt: "Múltiplos de 8: 8, 16, {{24}}, ...",
+              es: "Múltiplos de 8: 8, 16, {{24}}, ...",
+            },
+          },
+          {
+            text: {
+              en: "Does 6 divide 8? No. 16? No. {{24}}? Yes: 24 ÷ 6 = 4.",
+              pt: "6 divide 8? Não. 16? Não. {{24}}? Sim: 24 ÷ 6 = 4.",
+              es: "¿6 divide a 8? No. ¿16? No. ¿{{24}}? Sí: 24 ÷ 6 = 4.",
+            },
+          },
+          { text: { en: "LCM(6, 8) = 24.", pt: "MMC(6, 8) = 24.", es: "mcm(6, 8) = 24." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateLcm,
+    },
+    {
+      id: "green-8",
+      beltId: "green",
+      index: 8,
+      title: { en: "The friendly percentages", pt: "As porcentagens fáceis", es: "Los porcentajes fáciles" },
+      summary: {
+        en: "10%, 20%, 25%, 50%, 75% — each one is a simple fraction in disguise.",
+        pt: "10%, 20%, 25%, 50%, 75% — cada uma é uma fração simples disfarçada.",
+        es: "10%, 20%, 25%, 50%, 75% — cada uno es una fracción simple disfrazada.",
+      },
+      lesson: {
+        intro: {
+          en: "Percent means 'out of 100'. The friendly ones are fractions: 50% = half, 25% = a quarter, 10% = a tenth, 75% = three quarters, 20% = a fifth.",
+          pt: "Porcento significa 'a cada 100'. As fáceis são frações: 50% = metade, 25% = um quarto, 10% = um décimo, 75% = três quartos, 20% = um quinto.",
+          es: "Por ciento significa 'de cada 100'. Los fáciles son fracciones: 50% = mitad, 25% = un cuarto, 10% = un décimo, 75% = tres cuartos, 20% = un quinto.",
+        },
+        example: {
+          id: "ex-green-8",
+          prompt: "25% of 80",
+          promptL10n: { en: "25% of 80", pt: "25% de 80", es: "25% de 80" },
+          answer: 20,
+          operands: [25, 80],
+        },
+        diagram: { kind: "fraction", total: 4, shaded: 1 },
+        steps: [
+          {
+            text: {
+              en: "25% is a quarter — one part out of 4, like the bar above.",
+              pt: "25% é um quarto — uma parte de 4, como na barra acima.",
+              es: "25% es un cuarto — una parte de 4, como en la barra de arriba.",
+            },
+          },
+          {
+            text: {
+              en: "A quarter of 80: 80 ÷ 4 = 20.",
+              pt: "Um quarto de 80: 80 ÷ 4 = 20.",
+              es: "Un cuarto de 80: 80 ÷ 4 = 20.",
+            },
+          },
+          { text: { en: "25% of 80 = 20.", pt: "25% de 80 = 20.", es: "25% de 80 = 20." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 8 },
+      generate: generateEasyPercent,
+    },
+    {
+      id: "green-9",
+      beltId: "green",
+      index: 9,
+      title: { en: "Any percentage", pt: "Qualquer porcentagem", es: "Cualquier porcentaje" },
+      summary: {
+        en: "Build any percent from 10% blocks and 5% halves.",
+        pt: "Monte qualquer porcentagem com blocos de 10% e metades de 5%.",
+        es: "Arma cualquier porcentaje con bloques de 10% y mitades de 5%.",
+      },
+      lesson: {
+        intro: {
+          en: "Find 10% first (divide by 10), then stack: 30% = 3 blocks of 10%. For a 5, add half a block.",
+          pt: "Ache 10% primeiro (divida por 10), depois empilhe: 30% = 3 blocos de 10%. Para um 5, some meio bloco.",
+          es: "Halla el 10% primero (divide por 10), luego apila: 30% = 3 bloques de 10%. Para un 5, suma medio bloque.",
+        },
+        example: {
+          id: "ex-green-9",
+          prompt: "30% of 140",
+          promptL10n: { en: "30% of 140", pt: "30% de 140", es: "30% de 140" },
+          answer: 42,
+          operands: [30, 140],
+        },
+        steps: [
+          {
+            text: {
+              en: "10% of 140 = {{14}}.",
+              pt: "10% de 140 = {{14}}.",
+              es: "10% de 140 = {{14}}.",
+            },
+          },
+          {
+            text: {
+              en: "30% is three of those: {{14}} × 3 = 42.",
+              pt: "30% são três desses: {{14}} × 3 = 42.",
+              es: "30% son tres de esos: {{14}} × 3 = 42.",
+            },
+          },
+          { text: { en: "30% of 140 = 42.", pt: "30% de 140 = 42.", es: "30% de 140 = 42." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateHardPercent,
+    },
+    {
+      id: "green-10",
+      beltId: "green",
+      index: 10,
+      title: { en: "Percent up and down", pt: "Acréscimo e desconto", es: "Aumento y descuento" },
+      summary: {
+        en: "Prices rise 20%, sales cut 25% — compute the new value.",
+        pt: "Preços sobem 20%, promoções cortam 25% — calcule o valor novo.",
+        es: "Los precios suben 20%, las ofertas cortan 25% — calcula el valor nuevo.",
+      },
+      lesson: {
+        intro: {
+          en: "Find the percent amount first, then add it (increase) or subtract it (discount) from the original.",
+          pt: "Ache primeiro o valor da porcentagem, depois some (acréscimo) ou subtraia (desconto) do original.",
+          es: "Halla primero el valor del porcentaje, luego súmalo (aumento) o réstalo (descuento) del original.",
+        },
+        example: { id: "ex-green-10", prompt: "80 + 25%", answer: 100, operands: [80, 25] },
+        steps: [
+          {
+            text: {
+              en: "25% of 80 = 80 ÷ 4 = {{20}}.",
+              pt: "25% de 80 = 80 ÷ 4 = {{20}}.",
+              es: "25% de 80 = 80 ÷ 4 = {{20}}.",
+            },
+          },
+          {
+            text: {
+              en: "It's an increase, so add: 80 + {{20}} = 100.",
+              pt: "É um acréscimo, então some: 80 + {{20}} = 100.",
+              es: "Es un aumento, así que suma: 80 + {{20}} = 100.",
+            },
+          },
+          { text: { en: "80 + 25% = 100.", pt: "80 + 25% = 100.", es: "80 + 25% = 100." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generatePercentChange,
+    },
+    {
+      id: "green-11",
+      beltId: "green",
+      index: 11,
+      title: { en: "Proportion: the rule of three", pt: "Proporção: regra de três", es: "Proporción: regla de tres" },
+      summary: {
+        en: "Two ratios in balance — find the missing piece.",
+        pt: "Duas razões em equilíbrio — ache a parte que falta.",
+        es: "Dos razones en equilibrio — halla la parte que falta.",
+      },
+      lesson: {
+        intro: {
+          en: "In a : b = c : x, find what multiplied a into c — the same scale factor turns b into x.",
+          pt: "Em a : b = c : x, descubra por quanto o a foi multiplicado para virar c — o mesmo fator transforma b em x.",
+          es: "En a : b = c : x, descubre por cuánto se multiplicó a para llegar a c — el mismo factor convierte b en x.",
+        },
+        example: {
+          id: "ex-green-11",
+          prompt: "2 : 5 = 6 : x",
+          answer: 15,
+          operands: [2, 5, 6],
+          isEquation: true,
+        },
+        steps: [
+          {
+            text: {
+              en: "From 2 to 6 the scale factor is {{3}} (2 × 3 = 6).",
+              pt: "De 2 para 6 o fator é {{3}} (2 × 3 = 6).",
+              es: "De 2 a 6 el factor es {{3}} (2 × 3 = 6).",
+            },
+          },
+          {
+            text: {
+              en: "Apply the same factor to 5: 5 × {{3}} = 15.",
+              pt: "Aplique o mesmo fator ao 5: 5 × {{3}} = 15.",
+              es: "Aplica el mismo factor al 5: 5 × {{3}} = 15.",
+            },
+          },
+          { text: { en: "x = 15.", pt: "x = 15.", es: "x = 15." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateProportion,
+    },
+    {
+      id: "green-12",
+      beltId: "green",
+      index: 12,
+      title: { en: "Scientific notation", pt: "Notação científica", es: "Notación científica" },
+      summary: {
+        en: "Big numbers written short: a digit, a decimal, and a power of 10.",
+        pt: "Números grandes escritos curtos: um algarismo, uma vírgula e uma potência de 10.",
+        es: "Números grandes escritos cortos: un dígito, un decimal y una potencia de 10.",
+      },
+      lesson: {
+        intro: {
+          en: "The exponent says how many places the decimal point slides right. Fill the empty places with zeros.",
+          pt: "O expoente diz quantas casas a vírgula anda para a direita. Preencha as casas vazias com zeros.",
+          es: "El exponente dice cuántos lugares se corre el punto a la derecha. Rellena los lugares vacíos con ceros.",
+        },
+        example: { id: "ex-green-12", prompt: "3.4 × 10³", answer: 3400, operands: [3, 4, 3] },
+        steps: [
+          {
+            text: {
+              en: "The exponent is {{3}} — slide the point 3 places right.",
+              pt: "O expoente é {{3}} — ande com a vírgula 3 casas para a direita.",
+              es: "El exponente es {{3}} — corre el punto 3 lugares a la derecha.",
+            },
+          },
+          {
+            text: {
+              en: "3.4 → 34 → 340 → 3400.",
+              pt: "3,4 → 34 → 340 → 3400.",
+              es: "3.4 → 34 → 340 → 3400.",
+            },
+          },
+          { text: { en: "3.4 × 10³ = 3400.", pt: "3,4 × 10³ = 3400.", es: "3.4 × 10³ = 3400." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateScientificNotation,
+    },
+    {
+      id: "green-13",
+      beltId: "green",
+      index: 13,
+      title: { en: "Number mastery, all mixed", pt: "Domínio dos números, tudo misturado", es: "Dominio de los números, todo mezclado" },
+      summary: {
+        en: "Every Green Belt skill in one drill — powers to percentages, no warning which comes next.",
+        pt: "Todas as habilidades da Faixa Verde em um treino só — de potências a porcentagens, sem avisar qual vem.",
+        es: "Todas las habilidades del Cinturón Verde en un solo entrenamiento — de potencias a porcentajes, sin avisar cuál viene.",
+      },
+      lesson: {
+        intro: {
+          en: "The belt test: powers, roots, primes, GCD, LCM, percentages, proportion and scientific notation, shuffled together. Read each problem carefully before answering.",
+          pt: "A prova da faixa: potências, raízes, primos, MDC, MMC, porcentagens, proporção e notação científica, tudo embaralhado. Leia cada conta com atenção antes de responder.",
+          es: "La prueba del cinturón: potencias, raíces, primos, MCD, mcm, porcentajes, proporción y notación científica, todo revuelto. Lee cada problema con atención antes de responder.",
+        },
+        example: {
+          id: "ex-green-13",
+          prompt: "75% of 40",
+          promptL10n: { en: "75% of 40", pt: "75% de 40", es: "75% de 40" },
+          answer: 30,
+          operands: [75, 40],
+        },
+        steps: [
+          {
+            text: {
+              en: "Spot the skill first — this one is a friendly percentage.",
+              pt: "Primeiro identifique a habilidade — essa é uma porcentagem fácil.",
+              es: "Primero identifica la habilidad — este es un porcentaje fácil.",
+            },
+          },
+          {
+            text: {
+              en: "75% is three quarters: 40 ÷ 4 = {{10}}, then {{10}} × 3 = 30.",
+              pt: "75% é três quartos: 40 ÷ 4 = {{10}}, depois {{10}} × 3 = 30.",
+              es: "75% es tres cuartos: 40 ÷ 4 = {{10}}, luego {{10}} × 3 = 30.",
+            },
+          },
+          { text: { en: "75% of 40 = 30.", pt: "75% de 40 = 30.", es: "75% de 40 = 30." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 8, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateNumberMasteryMix,
+    },
+  ],
+};
+
 const fractionsDegree = {
   index: 1,
   name: { en: "Fractions", pt: "Frações", es: "Fracciones" } as LocalizedText,
@@ -1901,7 +2496,7 @@ const preCalcDegree = {
 const blackBelt: Belt = {
   id: "black",
   name: { en: "Black Belt", pt: "Faixa Preta", es: "Cinturón Negro" },
-  order: 5,
+  order: 6,
   operationLabel: {
     en: "Fractions · Decimals · Algebra · Equations · Functions",
     pt: "Frações · Decimais · Álgebra · Equações · Funções",
@@ -4660,7 +5255,7 @@ const blackBelt: Belt = {
 const coralBelt: Belt = {
   id: "coral",
   name: { en: "Coral Belt", pt: "Faixa Coral", es: "Cinturón Coral" },
-  order: 6,
+  order: 7,
   operationLabel: { en: "Calculus I", pt: "Cálculo I", es: "Cálculo I" },
   colorVar: "--belt-coral",
   tagline: {
@@ -5153,4 +5748,4 @@ const coralBelt: Belt = {
   ],
 };
 
-export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, blackBelt, coralBelt];
+export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, greenBelt, blackBelt, coralBelt];

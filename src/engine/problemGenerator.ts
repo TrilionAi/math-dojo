@@ -396,17 +396,17 @@ export function generateThreeDigitMinusThreeDigitDoubleCarry(count: number): Pro
 export function generateFriendlyTables(count: number): Problem[] {
   const tables = [2, 5, 10];
   return withoutImmediateRepeats(count, () => {
-    const base = randomInt(2, 9);
+    const base = randomInt(2, 10);
     const table = tables[randomInt(0, tables.length - 1)];
     return makeProduct([base, table]);
   });
 }
 
-/** The ×3 and ×4 tables. */
+/** The ×3 and ×4 tables, full runs from 2 through 10. */
 export function generateTables3and4(count: number): Problem[] {
   const tables = [3, 4];
   return withoutImmediateRepeats(count, () => {
-    const other = randomInt(2, 9);
+    const other = randomInt(2, 10);
     const table = tables[randomInt(0, tables.length - 1)];
     return makeProduct([other, table]);
   });
@@ -416,17 +416,17 @@ export function generateTables3and4(count: number): Problem[] {
 export function generateHardTables(count: number): Problem[] {
   const tables = [6, 7, 8, 9];
   return withoutImmediateRepeats(count, () => {
-    const other = randomInt(2, 9);
+    const other = randomInt(2, 10);
     const table = tables[randomInt(0, tables.length - 1)];
     return makeProduct([other, table]);
   });
 }
 
-/** Every single-digit fact, 2 through 9, all mixed together. */
+/** Every times-table fact, 2 through 10, all mixed together. */
 export function generateAllTablesMixed(count: number): Problem[] {
   return withoutImmediateRepeats(count, () => {
-    const a = randomInt(2, 9);
-    const b = randomInt(2, 9);
+    const a = randomInt(2, 10);
+    const b = randomInt(2, 10);
     return makeProduct([a, b]);
   });
 }
@@ -492,11 +492,11 @@ export function generateThreeDigitByTwoDigit(count: number): Problem[] {
   });
 }
 
-/** Exact division — the inverse of a times table fact, no remainder. */
+/** Exact division — the inverse of a times table fact (2 through 10), no remainder. */
 export function generateExactDivision(count: number): Problem[] {
   return withoutImmediateRepeats(count, () => {
-    const b = randomInt(2, 9);
-    const q = randomInt(2, 9);
+    const b = randomInt(2, 10);
+    const q = randomInt(2, 10);
     return makeQuotient(b * q, b, false);
   });
 }
@@ -1766,6 +1766,224 @@ export function generateDefiniteIntegral(count: number): Problem[] {
       operands: [c, a, b],
     };
   });
+}
+
+// ---------------------------------------------------------------------------
+// Green Belt — number mastery: powers, roots, primes, GCD/LCM, percentages,
+// proportion, scientific notation.
+// ---------------------------------------------------------------------------
+
+/** Squaring a number, 2 through 15 — what a power means. */
+export function generateSquares(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const n = randomInt(2, 15);
+    return { id: nextId(), prompt: `${n}${superscript(2)}`, answer: n * n, operands: [n] };
+  });
+}
+
+const POWER_PAIRS: Array<[number, number]> = [
+  [2, 3], [2, 4], [2, 5], [2, 6], [2, 7], [2, 8],
+  [3, 3], [3, 4], [4, 3], [4, 4], [5, 3], [5, 4],
+  [6, 3], [7, 3], [8, 3], [9, 3],
+  [10, 2], [10, 3], [10, 4], [10, 5],
+];
+
+/** Cubes and higher powers — including the powers of 2 and of 10. */
+export function generatePowers(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [base, exp] = POWER_PAIRS[randomInt(0, POWER_PAIRS.length - 1)];
+    return { id: nextId(), prompt: `${base}${superscript(exp)}`, answer: base ** exp, operands: [base, exp] };
+  });
+}
+
+/** Square roots of perfect squares, √4 through √225. */
+export function generateSquareRootsExact(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const n = randomInt(2, 15);
+    return { id: nextId(), prompt: `√${n * n}`, answer: n, operands: [n * n] };
+  });
+}
+
+/** Cube roots of perfect cubes (∛8 through ∛1000), mixed with the larger square roots. */
+export function generateCubeRootsMixed(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    if (Math.random() < 0.7) {
+      const n = randomInt(2, 10);
+      return { id: nextId(), prompt: `∛${n * n * n}`, answer: n, operands: [n * n * n] };
+    }
+    const n = randomInt(11, 15);
+    return { id: nextId(), prompt: `√${n * n}`, answer: n, operands: [n * n] };
+  });
+}
+
+/** Multipliers whose smallest prime factor is exactly p, keyed by p — so the
+ * product n = p × m is guaranteed to have p as its smallest prime factor. */
+const PRIME_FACTOR_MULTIPLIERS: Record<number, number[]> = {
+  2: [5, 6, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 33, 35, 39, 45, 49],
+  3: [3, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 33],
+  5: [5, 7, 11, 13, 17, 19],
+  7: [7, 11, 13],
+};
+
+/** Find the smallest prime factor of a composite number. */
+export function generateSmallestPrimeFactor(count: number): Problem[] {
+  const primes = [2, 3, 5, 7];
+  return withoutImmediateRepeats(count, () => {
+    const p = primes[randomInt(0, primes.length - 1)];
+    const multipliers = PRIME_FACTOR_MULTIPLIERS[p];
+    const m = multipliers[randomInt(0, multipliers.length - 1)];
+    const n = p * m;
+    return {
+      id: nextId(),
+      prompt: `Smallest prime factor of ${n}`,
+      promptL10n: {
+        en: `Smallest prime factor of ${n}`,
+        pt: `Menor fator primo de ${n}`,
+        es: `Menor factor primo de ${n}`,
+      },
+      answer: p,
+      operands: [n],
+    };
+  });
+}
+
+const COPRIME_PAIRS: Array<[number, number]> = [
+  [2, 3], [3, 4], [2, 5], [3, 5], [4, 5], [5, 6], [2, 7], [3, 7], [4, 7], [3, 8], [5, 7], [2, 9],
+];
+
+/** Greatest common divisor — both numbers are built from a hidden shared factor. */
+export function generateGcd(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const [m, n] = COPRIME_PAIRS[randomInt(0, COPRIME_PAIRS.length - 1)];
+    const maxG = Math.floor(96 / Math.max(m, n));
+    const g = randomInt(2, Math.max(2, Math.min(12, maxG)));
+    const a = g * m;
+    const b = g * n;
+    return {
+      id: nextId(),
+      prompt: `GCD(${a}, ${b})`,
+      promptL10n: { en: `GCD(${a}, ${b})`, pt: `MDC(${a}, ${b})`, es: `MCD(${a}, ${b})` },
+      answer: g,
+      operands: [a, b],
+    };
+  });
+}
+
+/** Least common multiple of two numbers from 2 through 12. */
+export function generateLcm(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 12);
+    let b = randomInt(2, 12);
+    while (b === a) b = randomInt(2, 12);
+    const lcm = (a * b) / gcd(a, b);
+    return {
+      id: nextId(),
+      prompt: `LCM(${a}, ${b})`,
+      promptL10n: { en: `LCM(${a}, ${b})`, pt: `MMC(${a}, ${b})`, es: `mcm(${a}, ${b})` },
+      answer: lcm,
+      operands: [a, b],
+    };
+  });
+}
+
+function makePercentProblem(p: number, base: number): Problem {
+  return {
+    id: nextId(),
+    prompt: `${p}% of ${base}`,
+    promptL10n: { en: `${p}% of ${base}`, pt: `${p}% de ${base}`, es: `${p}% de ${base}` },
+    answer: (p * base) / 100,
+    operands: [p, base],
+  };
+}
+
+/** The friendly percentages — 10%, 20%, 25%, 50%, 75% — of numbers that divide cleanly. */
+export function generateEasyPercent(count: number): Problem[] {
+  const percents = [10, 20, 25, 50, 75];
+  return withoutImmediateRepeats(count, () => {
+    const p = percents[randomInt(0, percents.length - 1)];
+    const base = p === 25 || p === 75 ? 4 * randomInt(2, 40) : 10 * randomInt(2, 20);
+    return makePercentProblem(p, base);
+  });
+}
+
+/** Any multiple-of-5 percentage of a larger round number. */
+export function generateHardPercent(count: number): Problem[] {
+  const percents = [5, 15, 30, 35, 40, 45, 60, 65, 80, 85, 90, 95];
+  return withoutImmediateRepeats(count, () => {
+    const p = percents[randomInt(0, percents.length - 1)];
+    const base = 20 * randomInt(1, 15);
+    return makePercentProblem(p, base);
+  });
+}
+
+/** Percentage increase or decrease — the everyday "price up 20%, price down 25%". */
+export function generatePercentChange(count: number): Problem[] {
+  const percents = [10, 20, 25, 50];
+  return withoutImmediateRepeats(count, () => {
+    const p = percents[randomInt(0, percents.length - 1)];
+    const base = 20 * randomInt(1, 10);
+    const increase = Math.random() < 0.5;
+    const delta = (p * base) / 100;
+    return {
+      id: nextId(),
+      prompt: `${base} ${increase ? "+" : "−"} ${p}%`,
+      answer: increase ? base + delta : base - delta,
+      operands: [base, p],
+    };
+  });
+}
+
+/** A proportion "a : b = c : x" — the rule of three, solved by finding the scale factor. */
+export function generateProportion(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 9);
+    let b = randomInt(2, 9);
+    while (b === a) b = randomInt(2, 9);
+    const k = randomInt(2, 9);
+    return {
+      id: nextId(),
+      prompt: `${a} : ${b} = ${a * k} : x`,
+      answer: b * k,
+      operands: [a, b, a * k],
+      isEquation: true,
+    };
+  });
+}
+
+/** Expand scientific notation d.t × 10ⁿ into an ordinary number. */
+export function generateScientificNotation(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const d = randomInt(1, 9);
+    const t = randomInt(1, 9);
+    const e = randomInt(2, 4);
+    const value = (d * 10 + t) * 10 ** (e - 1);
+    return {
+      id: nextId(),
+      prompt: `${d}.${t} × 10${superscript(e)}`,
+      answer: value,
+      operands: [d, t, e],
+    };
+  });
+}
+
+/** Green Belt capstone: every number-mastery skill mixed together — powers,
+ * roots, primes, GCD/LCM, percentages, proportion and scientific notation. */
+export function generateNumberMasteryMix(count: number): Problem[] {
+  const makers = [
+    () => generateSquares(1)[0],
+    () => generatePowers(1)[0],
+    () => generateSquareRootsExact(1)[0],
+    () => generateCubeRootsMixed(1)[0],
+    () => generateSmallestPrimeFactor(1)[0],
+    () => generateGcd(1)[0],
+    () => generateLcm(1)[0],
+    () => generateEasyPercent(1)[0],
+    () => generateHardPercent(1)[0],
+    () => generatePercentChange(1)[0],
+    () => generateProportion(1)[0],
+    () => generateScientificNotation(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
 }
 
 /** Capstone: differentiate and evaluate at a point, then add a definite integral —

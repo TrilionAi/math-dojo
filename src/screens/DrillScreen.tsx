@@ -277,7 +277,9 @@ export function DrillScreen({ stripe, onComplete, onExit }: DrillScreenProps) {
                 feedback === "incorrect" ? styles.cardIncorrect : "",
               ].join(" ")}
             >
-              {current.prompt && <div className={styles.prompt}>{current.prompt}</div>}
+              {(current.promptL10n?.[locale] ?? current.prompt) && (
+                <div className={styles.prompt}>{current.promptL10n?.[locale] ?? current.prompt}</div>
+              )}
               {current.diagram && (
                 <div className={styles.diagramWrap}>
                   {current.diagram.kind === "groups" && (

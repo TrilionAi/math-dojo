@@ -66,6 +66,9 @@ function isReviewModeActive(): boolean {
 
 export function isStripeUnlocked(stripe: Stripe, belts: Belt[], progress: ProgressState): boolean {
   if (isReviewModeActive()) return true;
+  // A stripe someone already passed stays accessible forever — even if a new
+  // belt was later inserted before it in the progression.
+  if (progress.stripeResults[stripe.id]?.passed) return true;
   const flat = getAllStripesFlat(belts);
   const idx = flat.findIndex((s) => s.id === stripe.id);
   if (idx <= 0) return true;

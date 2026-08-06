@@ -58,7 +58,7 @@ export function LessonScreen({ stripe, onBack, onStart }: LessonScreenProps) {
         <div className={styles.exampleProblem}>
           {lesson.example.isEquation ? (
             <div className={styles.exampleEquation}>
-              <div>{lesson.example.prompt}</div>
+              <div>{lesson.example.promptL10n?.[locale] ?? lesson.example.prompt}</div>
               <div>
                 {lesson.example.equationLabel ?? "x ="}{" "}
                 <span className={styles.exampleAnswer}>{lesson.example.answer}</span>
@@ -71,7 +71,7 @@ export function LessonScreen({ stripe, onBack, onStart }: LessonScreenProps) {
             </div>
           ) : (
             <>
-              {lesson.example.prompt} ={" "}
+              {lesson.example.promptL10n?.[locale] ?? lesson.example.prompt} ={" "}
               {lesson.example.secondaryFormat === "fraction" ? (
                 <span className={styles.exampleFraction}>
                   <span className={styles.exampleAnswer}>{lesson.example.answer}</span>

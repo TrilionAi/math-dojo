@@ -1,4 +1,4 @@
-export type BeltId = "white" | "blue" | "purple" | "brown" | "black" | "coral";
+export type BeltId = "white" | "blue" | "purple" | "brown" | "green" | "black" | "coral";
 
 export type Locale = "en" | "pt" | "es";
 
@@ -36,6 +36,9 @@ export type Diagram =
 export interface Problem {
   id: string;
   prompt: string;
+  /** Present when the prompt needs words, not just math notation (e.g. "MDC(24, 36)",
+   * "25% of 80") — the UI shows the current locale's version and falls back to `prompt`. */
+  promptL10n?: LocalizedText;
   answer: number;
   operands: number[];
   /** Present only for two-part answers — division's leftover, a fraction's denominator,
