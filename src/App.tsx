@@ -205,7 +205,7 @@ export default function App() {
     default:
       screen = (
         <MapScreen
-          belts={mode === "ninja" ? ninjaBelts : belts}
+          belts={ninjaMaster ? [...belts, ...ninjaBelts] : mode === "ninja" ? ninjaBelts : belts}
           normalBelts={belts}
           mode={mode}
           ninjaMaster={ninjaMaster}

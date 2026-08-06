@@ -326,3 +326,40 @@
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
+
+.cardHeadBtn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: inherit;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.chevron {
+  margin-left: auto;
+  color: var(--color-ink-faint);
+  font-size: var(--fs-base);
+  transition: transform 0.2s ease;
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(0deg);
+}
+
+/* Inside the accordion head, the operation label hugs the right edge and the
+   chevron sits after it — instead of space-between stretching three items. */
+.cardHeadBtn .cardHead {
+  justify-content: flex-start;
+  gap: var(--sp-3);
+}
+
+.cardHeadBtn .operation {
+  margin-left: auto;
+  text-align: right;
+}

@@ -60,7 +60,7 @@ export function getAllStripesFlat(belts: Belt[]): Stripe[] {
  * mastery gate so every stripe with content can be browsed directly — for
  * content review while building, not part of the real player experience.
  */
-function isReviewModeActive(): boolean {
+export function isReviewModeActive(): boolean {
   if (typeof window === "undefined") return false;
   return new URLSearchParams(window.location.search).get("unlock") === "all";
 }
