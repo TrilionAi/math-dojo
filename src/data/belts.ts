@@ -200,6 +200,21 @@ import {
   generateCircleThroughPoint,
   generateAnalyticGeometryMix,
   generateGoldBeltMix,
+  generateBinaryToDecimal,
+  generateDecimalToBinary,
+  generatePowersOfTwo,
+  generateHexToDecimal,
+  generateModulo,
+  generateBinaryAddition,
+  generateBitwiseAnd,
+  generateBitwiseOrXor,
+  generateBitShift,
+  generateTruthTableRows,
+  generateSetUnion,
+  generateRecurrenceEval,
+  generateGraphFacts,
+  generateLoopSteps,
+  generateDigitalMix,
   generateLimitLinearConcept,
   generateLimitQuadratic,
   generateLimitFactoring,
@@ -9538,10 +9553,671 @@ const goldBelt: Belt = {
   ],
 };
 
+const digitalBelt: Belt = {
+  id: "digital",
+  name: { en: "Digital Belt", pt: "Faixa Digital", es: "Cinturón Digital" },
+  order: 9,
+  operationLabel: {
+    en: "Binary · Modulo · Logic · Graphs",
+    pt: "Binário · Módulo · Lógica · Grafos",
+    es: "Binario · Módulo · Lógica · Grafos",
+  },
+  colorVar: "--belt-digital",
+  tagline: {
+    en: "The math running inside every computer — bases, bits, sets and steps.",
+    pt: "A matemática que roda dentro de todo computador — bases, bits, conjuntos e passos.",
+    es: "La matemática que corre dentro de toda computadora — bases, bits, conjuntos y pasos.",
+  },
+  stripes: [
+    {
+      id: "digital-1",
+      beltId: "digital",
+      index: 1,
+      title: { en: "Binary to decimal", pt: "Binário para decimal", es: "Binario a decimal" },
+      summary: {
+        en: "Each binary digit is a power of 2 — add the ones that are on.",
+        pt: "Cada dígito binário é uma potência de 2 — some as que estão ligadas.",
+        es: "Cada dígito binario es una potencia de 2 — suma las que están encendidas.",
+      },
+      lesson: {
+        intro: {
+          en: "Reading right to left, the places are worth 1, 2, 4, 8, 16… A digit 1 means that power counts; a 0 means it doesn't.",
+          pt: "Lendo da direita para a esquerda, as casas valem 1, 2, 4, 8, 16… Um dígito 1 significa que aquela potência conta; um 0, que não.",
+          es: "Leyendo de derecha a izquierda, los lugares valen 1, 2, 4, 8, 16… Un dígito 1 significa que esa potencia cuenta; un 0, que no.",
+        },
+        example: {
+          id: "ex-digital-1",
+          prompt: "1011₂",
+          promptL10n: { en: "1011₂ in decimal", pt: "1011₂ em decimal", es: "1011₂ en decimal" },
+          answer: 11,
+          operands: [11],
+        },
+        steps: [
+          {
+            text: {
+              en: "Place values with a 1: 8, 2 and 1 (the 4 is off).",
+              pt: "Casas com 1: 8, 2 e 1 (o 4 está desligado).",
+              es: "Lugares con 1: 8, 2 y 1 (el 4 está apagado).",
+            },
+          },
+          {
+            text: {
+              en: "Add them: 8 + 2 + 1 = 11.",
+              pt: "Some: 8 + 2 + 1 = 11.",
+              es: "Súmalos: 8 + 2 + 1 = 11.",
+            },
+          },
+          { text: { en: "1011₂ = 11.", pt: "1011₂ = 11.", es: "1011₂ = 11." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateBinaryToDecimal,
+    },
+    {
+      id: "digital-2",
+      beltId: "digital",
+      index: 2,
+      title: { en: "Decimal to binary", pt: "Decimal para binário", es: "Decimal a binario" },
+      summary: {
+        en: "Break the number into powers of 2, largest first.",
+        pt: "Quebre o número em potências de 2, da maior para a menor.",
+        es: "Divide el número en potencias de 2, de mayor a menor.",
+      },
+      lesson: {
+        intro: {
+          en: "Grab the biggest power of 2 that fits, subtract, repeat. Write a 1 for every power you used and a 0 for the ones you skipped.",
+          pt: "Pegue a maior potência de 2 que cabe, subtraia, repita. Escreva 1 para cada potência usada e 0 para as que pulou.",
+          es: "Toma la mayor potencia de 2 que quepa, resta, repite. Escribe 1 por cada potencia usada y 0 por las que saltaste.",
+        },
+        example: {
+          id: "ex-digital-2",
+          prompt: "13 → binary",
+          promptL10n: { en: "13 in binary", pt: "13 em binário", es: "13 en binario" },
+          answer: 1101,
+          operands: [13],
+        },
+        steps: [
+          {
+            text: {
+              en: "13 = 8 + 4 + 1 — powers 8, 4 and 1 are used, 2 is skipped.",
+              pt: "13 = 8 + 4 + 1 — as potências 8, 4 e 1 entram, o 2 fica de fora.",
+              es: "13 = 8 + 4 + 1 — las potencias 8, 4 y 1 entran, el 2 queda fuera.",
+            },
+          },
+          {
+            text: {
+              en: "From the 8s place down: 1 1 0 1.",
+              pt: "Da casa do 8 para baixo: 1 1 0 1.",
+              es: "Del lugar del 8 hacia abajo: 1 1 0 1.",
+            },
+          },
+          { text: { en: "13 = 1101₂.", pt: "13 = 1101₂.", es: "13 = 1101₂." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 16 },
+      generate: generateDecimalToBinary,
+    },
+    {
+      id: "digital-3",
+      beltId: "digital",
+      index: 3,
+      title: { en: "Powers of two", pt: "Potências de 2", es: "Potencias de 2" },
+      summary: {
+        en: "256, 1024, 65536 — the numbers computers are made of.",
+        pt: "256, 1024, 65536 — os números de que os computadores são feitos.",
+        es: "256, 1024, 65536 — los números de los que están hechas las computadoras.",
+      },
+      lesson: {
+        intro: {
+          en: "Every doubling adds one exponent. Memorize the landmarks: 2⁸ = 256, 2¹⁰ = 1024, 2¹⁶ = 65536 — and build the rest by doubling or halving.",
+          pt: "Cada dobro soma um no expoente. Decore os marcos: 2⁸ = 256, 2¹⁰ = 1024, 2¹⁶ = 65536 — e monte o resto dobrando ou dividindo.",
+          es: "Cada doble suma uno al exponente. Memoriza los hitos: 2⁸ = 256, 2¹⁰ = 1024, 2¹⁶ = 65536 — y arma el resto doblando o dividiendo.",
+        },
+        example: { id: "ex-digital-3", prompt: "2¹⁰", answer: 1024, operands: [10] },
+        steps: [
+          {
+            text: {
+              en: "Landmark: 2⁸ = {{256}}.",
+              pt: "Marco: 2⁸ = {{256}}.",
+              es: "Hito: 2⁸ = {{256}}.",
+            },
+          },
+          {
+            text: {
+              en: "Double twice: {{256}} → 512 → 1024.",
+              pt: "Dobre duas vezes: {{256}} → 512 → 1024.",
+              es: "Dobla dos veces: {{256}} → 512 → 1024.",
+            },
+          },
+          { text: { en: "2¹⁰ = 1024.", pt: "2¹⁰ = 1024.", es: "2¹⁰ = 1024." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generatePowersOfTwo,
+    },
+    {
+      id: "digital-4",
+      beltId: "digital",
+      index: 4,
+      title: { en: "Hex to decimal", pt: "Hexadecimal para decimal", es: "Hexadecimal a decimal" },
+      summary: {
+        en: "Base 16: digits go 0-9 then A-F, places are worth 16.",
+        pt: "Base 16: os dígitos vão de 0-9 e depois A-F, as casas valem 16.",
+        es: "Base 16: los dígitos van de 0-9 y luego A-F, los lugares valen 16.",
+      },
+      lesson: {
+        intro: {
+          en: "In 0x2F, the 2 sits in the sixteens place and F means 15. Multiply and add: 2 × 16 + 15.",
+          pt: "Em 0x2F, o 2 está na casa dos dezesseis e F significa 15. Multiplique e some: 2 × 16 + 15.",
+          es: "En 0x2F, el 2 está en el lugar de los dieciséis y F significa 15. Multiplica y suma: 2 × 16 + 15.",
+        },
+        example: {
+          id: "ex-digital-4",
+          prompt: "0x2F",
+          promptL10n: { en: "0x2F in decimal", pt: "0x2F em decimal", es: "0x2F en decimal" },
+          answer: 47,
+          operands: [47],
+        },
+        steps: [
+          {
+            text: {
+              en: "The 2 is worth 2 × 16 = {{32}}.",
+              pt: "O 2 vale 2 × 16 = {{32}}.",
+              es: "El 2 vale 2 × 16 = {{32}}.",
+            },
+          },
+          {
+            text: {
+              en: "F is 15. Add: {{32}} + 15 = 47.",
+              pt: "F é 15. Some: {{32}} + 15 = 47.",
+              es: "F es 15. Suma: {{32}} + 15 = 47.",
+            },
+          },
+          { text: { en: "0x2F = 47.", pt: "0x2F = 47.", es: "0x2F = 47." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateHexToDecimal,
+    },
+    {
+      id: "digital-5",
+      beltId: "digital",
+      index: 5,
+      title: { en: "The modulo operation", pt: "A operação módulo", es: "La operación módulo" },
+      summary: {
+        en: "a mod b is the remainder — the heartbeat of clocks and hashes.",
+        pt: "a mod b é o resto — o coração de relógios e hashes.",
+        es: "a mod b es el resto — el corazón de relojes y hashes.",
+      },
+      lesson: {
+        intro: {
+          en: "Divide, ignore the quotient, keep the leftover. 17 mod 5: how much is left after taking out all whole 5s?",
+          pt: "Divida, ignore o quociente, fique com a sobra. 17 mod 5: quanto sobra depois de tirar todos os 5 inteiros?",
+          es: "Divide, ignora el cociente, quédate con el sobrante. 17 mod 5: ¿cuánto queda después de sacar todos los 5 enteros?",
+        },
+        example: { id: "ex-digital-5", prompt: "17 mod 5", answer: 2, operands: [17, 5] },
+        steps: [
+          {
+            text: {
+              en: "Whole fives inside 17: 3 × 5 = {{15}}.",
+              pt: "Cincos inteiros dentro de 17: 3 × 5 = {{15}}.",
+              es: "Cincos enteros dentro de 17: 3 × 5 = {{15}}.",
+            },
+          },
+          {
+            text: {
+              en: "Leftover: 17 − {{15}} = 2.",
+              pt: "Sobra: 17 − {{15}} = 2.",
+              es: "Sobrante: 17 − {{15}} = 2.",
+            },
+          },
+          { text: { en: "17 mod 5 = 2.", pt: "17 mod 5 = 2.", es: "17 mod 5 = 2." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateModulo,
+    },
+    {
+      id: "digital-6",
+      beltId: "digital",
+      index: 6,
+      title: { en: "Binary addition", pt: "Soma binária", es: "Suma binaria" },
+      summary: {
+        en: "1 + 1 = 10 — the carry is everything.",
+        pt: "1 + 1 = 10 — o 'vai um' é tudo.",
+        es: "1 + 1 = 10 — la llevada lo es todo.",
+      },
+      lesson: {
+        intro: {
+          en: "Same column arithmetic you know, but the column overflows at 2 instead of 10. Or convert to decimal, add, convert back.",
+          pt: "A mesma conta em colunas que você conhece, mas a coluna estoura no 2 em vez de no 10. Ou converta para decimal, some, e volte.",
+          es: "La misma cuenta en columnas que conoces, pero la columna se desborda en 2 en vez de 10. O convierte a decimal, suma, y vuelve.",
+        },
+        example: {
+          id: "ex-digital-6",
+          prompt: "101₂ + 11₂",
+          promptL10n: {
+            en: "101₂ + 11₂ (answer in binary)",
+            pt: "101₂ + 11₂ (resposta em binário)",
+            es: "101₂ + 11₂ (respuesta en binario)",
+          },
+          answer: 1000,
+          operands: [5, 3],
+        },
+        steps: [
+          {
+            text: {
+              en: "In decimal: 101₂ = {{5}} and 11₂ = {{3}}.",
+              pt: "Em decimal: 101₂ = {{5}} e 11₂ = {{3}}.",
+              es: "En decimal: 101₂ = {{5}} y 11₂ = {{3}}.",
+            },
+          },
+          {
+            text: {
+              en: "{{5}} + {{3}} = 8, and 8 in binary is 1000.",
+              pt: "{{5}} + {{3}} = 8, e 8 em binário é 1000.",
+              es: "{{5}} + {{3}} = 8, y 8 en binario es 1000.",
+            },
+          },
+          { text: { en: "101₂ + 11₂ = 1000₂.", pt: "101₂ + 11₂ = 1000₂.", es: "101₂ + 11₂ = 1000₂." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 18 },
+      generate: generateBinaryAddition,
+    },
+    {
+      id: "digital-7",
+      beltId: "digital",
+      index: 7,
+      title: { en: "Bitwise AND", pt: "AND bit a bit", es: "AND bit a bit" },
+      summary: {
+        en: "A bit survives only where both numbers have it.",
+        pt: "Um bit sobrevive só onde os dois números o têm.",
+        es: "Un bit sobrevive solo donde ambos números lo tienen.",
+      },
+      lesson: {
+        intro: {
+          en: "Write both numbers in binary and compare column by column: 1 AND 1 gives 1, anything else gives 0.",
+          pt: "Escreva os dois números em binário e compare coluna por coluna: 1 AND 1 dá 1, qualquer outra coisa dá 0.",
+          es: "Escribe ambos números en binario y compara columna por columna: 1 AND 1 da 1, cualquier otra cosa da 0.",
+        },
+        example: { id: "ex-digital-7", prompt: "6 AND 3", answer: 2, operands: [6, 3] },
+        steps: [
+          {
+            text: {
+              en: "6 = 110₂ and 3 = 011₂.",
+              pt: "6 = 110₂ e 3 = 011₂.",
+              es: "6 = 110₂ y 3 = 011₂.",
+            },
+          },
+          {
+            text: {
+              en: "Only the middle column has 1 in both: 010₂ = {{2}}.",
+              pt: "Só a coluna do meio tem 1 nos dois: 010₂ = {{2}}.",
+              es: "Solo la columna del medio tiene 1 en ambos: 010₂ = {{2}}.",
+            },
+          },
+          { text: { en: "6 AND 3 = 2.", pt: "6 AND 3 = 2.", es: "6 AND 3 = 2." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateBitwiseAnd,
+    },
+    {
+      id: "digital-8",
+      beltId: "digital",
+      index: 8,
+      title: { en: "OR and XOR", pt: "OR e XOR", es: "OR y XOR" },
+      summary: {
+        en: "OR merges the bits; XOR keeps only the differences.",
+        pt: "OR junta os bits; XOR guarda só as diferenças.",
+        es: "OR une los bits; XOR guarda solo las diferencias.",
+      },
+      lesson: {
+        intro: {
+          en: "Column by column: OR gives 1 if either bit is 1. XOR gives 1 only when the bits differ.",
+          pt: "Coluna por coluna: OR dá 1 se qualquer bit for 1. XOR dá 1 só quando os bits são diferentes.",
+          es: "Columna por columna: OR da 1 si cualquiera de los bits es 1. XOR da 1 solo cuando los bits difieren.",
+        },
+        example: { id: "ex-digital-8", prompt: "6 XOR 3", answer: 5, operands: [6, 3] },
+        steps: [
+          {
+            text: {
+              en: "6 = 110₂ and 3 = 011₂.",
+              pt: "6 = 110₂ e 3 = 011₂.",
+              es: "6 = 110₂ y 3 = 011₂.",
+            },
+          },
+          {
+            text: {
+              en: "Columns that differ: left and right — 101₂ = {{5}}.",
+              pt: "Colunas diferentes: esquerda e direita — 101₂ = {{5}}.",
+              es: "Columnas que difieren: izquierda y derecha — 101₂ = {{5}}.",
+            },
+          },
+          { text: { en: "6 XOR 3 = 5.", pt: "6 XOR 3 = 5.", es: "6 XOR 3 = 5." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateBitwiseOrXor,
+    },
+    {
+      id: "digital-9",
+      beltId: "digital",
+      index: 9,
+      title: { en: "Bit shifts", pt: "Deslocamento de bits", es: "Desplazamiento de bits" },
+      summary: {
+        en: "<< doubles, >> halves — one exponent per step.",
+        pt: "<< dobra, >> divide pela metade — um expoente por passo.",
+        es: "<< dobla, >> divide a la mitad — un exponente por paso.",
+      },
+      lesson: {
+        intro: {
+          en: "Shifting left appends a 0 in binary — that's a doubling. n << k multiplies n by 2ᵏ; n >> k divides it.",
+          pt: "Deslocar para a esquerda acrescenta um 0 em binário — isso é dobrar. n << k multiplica n por 2ᵏ; n >> k divide.",
+          es: "Desplazar a la izquierda agrega un 0 en binario — eso es doblar. n << k multiplica n por 2ᵏ; n >> k lo divide.",
+        },
+        example: { id: "ex-digital-9", prompt: "5 << 2", answer: 20, operands: [5, 2] },
+        steps: [
+          {
+            text: {
+              en: "Two left shifts = multiply by 2² = {{4}}.",
+              pt: "Dois deslocamentos à esquerda = multiplicar por 2² = {{4}}.",
+              es: "Dos desplazamientos a la izquierda = multiplicar por 2² = {{4}}.",
+            },
+          },
+          {
+            text: {
+              en: "5 × {{4}} = 20.",
+              pt: "5 × {{4}} = 20.",
+              es: "5 × {{4}} = 20.",
+            },
+          },
+          { text: { en: "5 << 2 = 20.", pt: "5 << 2 = 20.", es: "5 << 2 = 20." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 10 },
+      generate: generateBitShift,
+    },
+    {
+      id: "digital-10",
+      beltId: "digital",
+      index: 10,
+      title: { en: "Counting with bits", pt: "Contando com bits", es: "Contando con bits" },
+      summary: {
+        en: "n bits make 2ⁿ values — and 2ⁿ truth-table rows.",
+        pt: "n bits geram 2ⁿ valores — e 2ⁿ linhas na tabela-verdade.",
+        es: "n bits generan 2ⁿ valores — y 2ⁿ filas en la tabla de verdad.",
+      },
+      lesson: {
+        intro: {
+          en: "Each new bit doubles the possibilities. 3 variables that can each be true or false give 2 × 2 × 2 = 8 combinations.",
+          pt: "Cada bit novo dobra as possibilidades. 3 variáveis que podem ser verdadeiro ou falso dão 2 × 2 × 2 = 8 combinações.",
+          es: "Cada bit nuevo dobla las posibilidades. 3 variables que pueden ser verdadero o falso dan 2 × 2 × 2 = 8 combinaciones.",
+        },
+        example: {
+          id: "ex-digital-10",
+          prompt: "truth table, 3 variables — rows?",
+          promptL10n: {
+            en: "Truth table with 3 variables — how many rows?",
+            pt: "Tabela-verdade com 3 variáveis — quantas linhas?",
+            es: "Tabla de verdad con 3 variables — ¿cuántas filas?",
+          },
+          answer: 8,
+          operands: [3],
+        },
+        steps: [
+          {
+            text: {
+              en: "Each variable doubles the count: 2 × 2 × 2.",
+              pt: "Cada variável dobra a contagem: 2 × 2 × 2.",
+              es: "Cada variable dobla la cuenta: 2 × 2 × 2.",
+            },
+          },
+          {
+            text: {
+              en: "2³ = 8.",
+              pt: "2³ = 8.",
+              es: "2³ = 8.",
+            },
+          },
+          { text: { en: "8 rows.", pt: "8 linhas.", es: "8 filas." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 9 },
+      generate: generateTruthTableRows,
+    },
+    {
+      id: "digital-11",
+      beltId: "digital",
+      index: 11,
+      title: { en: "Sets: union size", pt: "Conjuntos: tamanho da união", es: "Conjuntos: tamaño de la unión" },
+      summary: {
+        en: "Add both sets, subtract the overlap you counted twice.",
+        pt: "Some os dois conjuntos e subtraia a interseção contada duas vezes.",
+        es: "Suma ambos conjuntos y resta la intersección contada dos veces.",
+      },
+      lesson: {
+        intro: {
+          en: "|A ∪ B| = |A| + |B| − |A ∩ B|. The overlap got counted in both sets, so it comes off once.",
+          pt: "|A ∪ B| = |A| + |B| − |A ∩ B|. A interseção foi contada nos dois conjuntos, então sai uma vez.",
+          es: "|A ∪ B| = |A| + |B| − |A ∩ B|. La intersección se contó en ambos conjuntos, así que se resta una vez.",
+        },
+        example: {
+          id: "ex-digital-11",
+          prompt: "|A| = 12, |B| = 9, |A ∩ B| = 4 — |A ∪ B|?",
+          answer: 17,
+          operands: [12, 9, 4],
+        },
+        steps: [
+          {
+            text: {
+              en: "Add: 12 + 9 = {{21}}.",
+              pt: "Some: 12 + 9 = {{21}}.",
+              es: "Suma: 12 + 9 = {{21}}.",
+            },
+          },
+          {
+            text: {
+              en: "Remove the double-counted overlap: {{21}} − 4 = 17.",
+              pt: "Tire a interseção contada em dobro: {{21}} − 4 = 17.",
+              es: "Quita la intersección contada doble: {{21}} − 4 = 17.",
+            },
+          },
+          { text: { en: "|A ∪ B| = 17.", pt: "|A ∪ B| = 17.", es: "|A ∪ B| = 17." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 6, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateSetUnion,
+    },
+    {
+      id: "digital-12",
+      beltId: "digital",
+      index: 12,
+      title: { en: "Following a recursion", pt: "Seguindo uma recursão", es: "Siguiendo una recursión" },
+      summary: {
+        en: "Each value is built from the previous one — walk the chain.",
+        pt: "Cada valor nasce do anterior — percorra a corrente.",
+        es: "Cada valor nace del anterior — recorre la cadena.",
+      },
+      lesson: {
+        intro: {
+          en: "f(n) = f(n−1) + 5 says: to get the next value, add 5. Start at f(1) and step forward — or spot that n−1 steps of +5 is just (n−1) × 5.",
+          pt: "f(n) = f(n−1) + 5 diz: para o próximo valor, some 5. Comece em f(1) e avance — ou perceba que n−1 passos de +5 é só (n−1) × 5.",
+          es: "f(n) = f(n−1) + 5 dice: para el siguiente valor, suma 5. Empieza en f(1) y avanza — o nota que n−1 pasos de +5 es solo (n−1) × 5.",
+        },
+        example: {
+          id: "ex-digital-12",
+          prompt: "f(1) = 3, f(n) = f(n−1) + 5; f(6)",
+          answer: 28,
+          operands: [3, 5, 6],
+        },
+        steps: [
+          {
+            text: {
+              en: "From f(1) to f(6) there are {{5}} steps of +5.",
+              pt: "De f(1) até f(6) são {{5}} passos de +5.",
+              es: "De f(1) a f(6) hay {{5}} pasos de +5.",
+            },
+          },
+          {
+            text: {
+              en: "3 + {{5}} × 5 = 3 + 25 = 28.",
+              pt: "3 + {{5}} × 5 = 3 + 25 = 28.",
+              es: "3 + {{5}} × 5 = 3 + 25 = 28.",
+            },
+          },
+          { text: { en: "f(6) = 28.", pt: "f(6) = 28.", es: "f(6) = 28." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateRecurrenceEval,
+    },
+    {
+      id: "digital-13",
+      beltId: "digital",
+      index: 13,
+      title: { en: "Graph facts", pt: "Fatos de grafos", es: "Hechos de grafos" },
+      summary: {
+        en: "Every edge touches two vertices — degrees always sum to 2 × edges.",
+        pt: "Toda aresta toca dois vértices — os graus sempre somam 2 × arestas.",
+        es: "Cada arista toca dos vértices — los grados siempre suman 2 × aristas.",
+      },
+      lesson: {
+        intro: {
+          en: "The handshake lemma: summing every vertex's degree counts each edge twice. And the complete graph Kₙ has C(n, 2) edges.",
+          pt: "O lema do aperto de mão: somar o grau de todos os vértices conta cada aresta duas vezes. E o grafo completo Kₙ tem C(n, 2) arestas.",
+          es: "El lema del apretón de manos: sumar el grado de cada vértice cuenta cada arista dos veces. Y el grafo completo Kₙ tiene C(n, 2) aristas.",
+        },
+        example: {
+          id: "ex-digital-13",
+          prompt: "graph, 7 edges — sum of degrees?",
+          promptL10n: {
+            en: "Graph with 7 edges — sum of all vertex degrees?",
+            pt: "Grafo com 7 arestas — soma dos graus dos vértices?",
+            es: "Grafo con 7 aristas — ¿suma de los grados de los vértices?",
+          },
+          answer: 14,
+          operands: [7],
+        },
+        steps: [
+          {
+            text: {
+              en: "Each edge contributes to exactly {{2}} vertices.",
+              pt: "Cada aresta contribui para exatamente {{2}} vértices.",
+              es: "Cada arista contribuye a exactamente {{2}} vértices.",
+            },
+          },
+          {
+            text: {
+              en: "7 × {{2}} = 14.",
+              pt: "7 × {{2}} = 14.",
+              es: "7 × {{2}} = 14.",
+            },
+          },
+          { text: { en: "Sum of degrees = 14.", pt: "Soma dos graus = 14.", es: "Suma de grados = 14." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 12 },
+      generate: generateGraphFacts,
+    },
+    {
+      id: "digital-14",
+      beltId: "digital",
+      index: 14,
+      title: { en: "Counting steps", pt: "Contando passos", es: "Contando pasos" },
+      summary: {
+        en: "How many times does the loop run? The seed of Big-O.",
+        pt: "Quantas vezes o loop roda? A semente do Big-O.",
+        es: "¿Cuántas veces corre el bucle? La semilla del Big-O.",
+      },
+      lesson: {
+        intro: {
+          en: "Nested loops multiply (n × n). A triangular loop sums 1+2+…+n. Halving until 1 takes log₂ n steps. Recognize the pattern, then compute.",
+          pt: "Loops aninhados multiplicam (n × n). Um loop triangular soma 1+2+…+n. Dividir pela metade até 1 leva log₂ n passos. Reconheça o padrão, depois calcule.",
+          es: "Los bucles anidados multiplican (n × n). Un bucle triangular suma 1+2+…+n. Dividir a la mitad hasta 1 toma log₂ n pasos. Reconoce el patrón, luego calcula.",
+        },
+        example: {
+          id: "ex-digital-14",
+          prompt: "for i in 1..8: for j in 1..8 — steps?",
+          promptL10n: {
+            en: "Nested loops, each 1 to 8 — total iterations?",
+            pt: "Loops aninhados, cada um de 1 a 8 — total de iterações?",
+            es: "Bucles anidados, cada uno de 1 a 8 — ¿iteraciones totales?",
+          },
+          answer: 64,
+          operands: [8],
+        },
+        steps: [
+          {
+            text: {
+              en: "The inner loop runs 8 times for each of the 8 outer turns.",
+              pt: "O loop interno roda 8 vezes para cada uma das 8 voltas do externo.",
+              es: "El bucle interno corre 8 veces por cada una de las 8 vueltas del externo.",
+            },
+          },
+          {
+            text: {
+              en: "8 × 8 = 64.",
+              pt: "8 × 8 = 64.",
+              es: "8 × 8 = 64.",
+            },
+          },
+          { text: { en: "64 iterations.", pt: "64 iterações.", es: "64 iteraciones." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 7, passAccuracy: 0.8, targetTimeSec: 14 },
+      generate: generateLoopSteps,
+    },
+    {
+      id: "digital-15",
+      beltId: "digital",
+      index: 15,
+      title: {
+        en: "Digital Belt exam: everything mixed",
+        pt: "Prova da Faixa Digital: tudo misturado",
+        es: "Examen del Cinturón Digital: todo mezclado",
+      },
+      summary: {
+        en: "Bases, bits, sets, graphs and steps — the full programmer gauntlet.",
+        pt: "Bases, bits, conjuntos, grafos e passos — a prova completa do programador.",
+        es: "Bases, bits, conjuntos, grafos y pasos — la prueba completa del programador.",
+      },
+      lesson: {
+        intro: {
+          en: "Anything from this belt can appear. Read the notation — a ₂ subscript means binary, 0x means hex, mod means remainder.",
+          pt: "Qualquer coisa desta faixa pode aparecer. Leia a notação — o subscrito ₂ é binário, 0x é hexadecimal, mod é resto.",
+          es: "Cualquier cosa de este cinturón puede aparecer. Lee la notación — el subíndice ₂ es binario, 0x es hexadecimal, mod es resto.",
+        },
+        example: { id: "ex-digital-15", prompt: "2⁸", answer: 256, operands: [8] },
+        steps: [
+          {
+            text: {
+              en: "A landmark power of two.",
+              pt: "Um marco das potências de 2.",
+              es: "Un hito de las potencias de 2.",
+            },
+          },
+          {
+            text: {
+              en: "2⁸ = 256 — one byte's worth of values.",
+              pt: "2⁸ = 256 — os valores de um byte.",
+              es: "2⁸ = 256 — los valores de un byte.",
+            },
+          },
+          { text: { en: "2⁸ = 256.", pt: "2⁸ = 256.", es: "2⁸ = 256." } },
+        ],
+      },
+      mastery: { problemsPerPage: 12, pagesToMaster: 9, passAccuracy: 0.8, targetTimeSec: 15 },
+      generate: generateDigitalMix,
+    },
+  ],
+};
+
 const coralBelt: Belt = {
   id: "coral",
   name: { en: "Coral Belt", pt: "Faixa Coral", es: "Cinturón Coral" },
-  order: 9,
+  order: 10,
   operationLabel: { en: "Calculus I", pt: "Cálculo I", es: "Cálculo I" },
   colorVar: "--belt-coral",
   tagline: {
@@ -10034,4 +10710,4 @@ const coralBelt: Belt = {
   ],
 };
 
-export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, greenBelt, blackBelt, redBelt, goldBelt, coralBelt];
+export const belts: Belt[] = [whiteBelt, blueBelt, purpleBelt, brownBelt, greenBelt, blackBelt, redBelt, goldBelt, digitalBelt, coralBelt];

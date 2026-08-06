@@ -3729,3 +3729,298 @@ export function generateGoldBeltMix(count: number): Problem[] {
   ];
   return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
 }
+
+// ---------------------------------------------------------------------------
+// Digital Belt — programmer math: bases, modulo, bitwise, sets, recursion,
+// graphs and step counting.
+// ---------------------------------------------------------------------------
+
+/** Reads a binary numeral as its decimal value. */
+export function generateBinaryToDecimal(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const value = randomInt(5, 63);
+    return {
+      id: nextId(),
+      prompt: `${value.toString(2)}₂`,
+      promptL10n: localized(
+        `${value.toString(2)}₂ in decimal`,
+        `${value.toString(2)}₂ em decimal`,
+        `${value.toString(2)}₂ en decimal`,
+      ),
+      answer: value,
+      operands: [value],
+    };
+  });
+}
+
+/** Writes a decimal number in binary — the answer is typed as its binary digits. */
+export function generateDecimalToBinary(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const value = randomInt(3, 63);
+    return {
+      id: nextId(),
+      prompt: `${value} → binary`,
+      promptL10n: localized(`${value} in binary`, `${value} em binário`, `${value} en binario`),
+      answer: Number(value.toString(2)),
+      operands: [value],
+    };
+  });
+}
+
+/** The powers of 2 every programmer knows by heart — 2⁴ through 2¹⁶. */
+export function generatePowersOfTwo(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const exp = randomInt(4, 16);
+    return { id: nextId(), prompt: `2${superscript(exp)}`, answer: 2 ** exp, operands: [exp] };
+  });
+}
+
+/** Reads a two-digit hex numeral as its decimal value. */
+export function generateHexToDecimal(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const value = randomInt(10, 255);
+    const hex = value.toString(16).toUpperCase();
+    return {
+      id: nextId(),
+      prompt: `0x${hex}`,
+      promptL10n: localized(`0x${hex} in decimal`, `0x${hex} em decimal`, `0x${hex} en decimal`),
+      answer: value,
+      operands: [value],
+    };
+  });
+}
+
+/** The modulo operation — the remainder that drives clocks, hashes and parity. */
+export function generateModulo(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const b = randomInt(2, 12);
+    const a = randomInt(b + 1, 99);
+    return {
+      id: nextId(),
+      prompt: `${a} mod ${b}`,
+      answer: a % b,
+      operands: [a, b],
+    };
+  });
+}
+
+/** Adding two binary numerals — answer typed in binary. */
+export function generateBinaryAddition(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(2, 15);
+    const b = randomInt(2, 15);
+    return {
+      id: nextId(),
+      prompt: `${a.toString(2)}₂ + ${b.toString(2)}₂`,
+      promptL10n: localized(
+        `${a.toString(2)}₂ + ${b.toString(2)}₂ (answer in binary)`,
+        `${a.toString(2)}₂ + ${b.toString(2)}₂ (resposta em binário)`,
+        `${a.toString(2)}₂ + ${b.toString(2)}₂ (respuesta en binario)`,
+      ),
+      answer: Number((a + b).toString(2)),
+      operands: [a, b],
+    };
+  });
+}
+
+/** Bitwise AND — a bit survives only where both inputs have it. */
+export function generateBitwiseAnd(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(1, 15);
+    const b = randomInt(1, 15);
+    return { id: nextId(), prompt: `${a} AND ${b}`, answer: a & b, operands: [a, b] };
+  });
+}
+
+/** Bitwise OR and XOR — merge bits, or keep only the differences. */
+export function generateBitwiseOrXor(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const a = randomInt(1, 15);
+    const b = randomInt(1, 15);
+    const useXor = Math.random() < 0.5;
+    return {
+      id: nextId(),
+      prompt: `${a} ${useXor ? "XOR" : "OR"} ${b}`,
+      answer: useXor ? a ^ b : a | b,
+      operands: [a, b],
+    };
+  });
+}
+
+/** Bit shifts — each step left doubles, each step right halves. */
+export function generateBitShift(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const useLeft = Math.random() < 0.5;
+    if (useLeft) {
+      const a = randomInt(1, 12);
+      const k = randomInt(1, 4);
+      return { id: nextId(), prompt: `${a} << ${k}`, answer: a << k, operands: [a, k] };
+    }
+    const k = randomInt(1, 4);
+    const result = randomInt(1, 12);
+    const a = result << k;
+    return { id: nextId(), prompt: `${a} >> ${k}`, answer: result, operands: [a, k] };
+  });
+}
+
+/** How many rows/values n bits produce — 2ⁿ combinations. */
+export function generateTruthTableRows(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const n = randomInt(2, 10);
+    const kind = randomInt(0, 1);
+    if (kind === 0) {
+      return {
+        id: nextId(),
+        prompt: `truth table, ${n} variables — rows?`,
+        promptL10n: localized(
+          `Truth table with ${n} variables — how many rows?`,
+          `Tabela-verdade com ${n} variáveis — quantas linhas?`,
+          `Tabla de verdad con ${n} variables — ¿cuántas filas?`,
+        ),
+        answer: 2 ** n,
+        operands: [n],
+      };
+    }
+    return {
+      id: nextId(),
+      prompt: `${n} bits — how many values?`,
+      promptL10n: localized(
+        `${n} bits — how many different values?`,
+        `${n} bits — quantos valores diferentes?`,
+        `${n} bits — ¿cuántos valores diferentes?`,
+      ),
+      answer: 2 ** n,
+      operands: [n],
+    };
+  });
+}
+
+/** Inclusion–exclusion for two sets: |A ∪ B| = |A| + |B| − |A ∩ B|. */
+export function generateSetUnion(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const inter = randomInt(1, 8);
+    const a = inter + randomInt(2, 12);
+    const b = inter + randomInt(2, 12);
+    return {
+      id: nextId(),
+      prompt: `|A| = ${a}, |B| = ${b}, |A ∩ B| = ${inter} — |A ∪ B|?`,
+      answer: a + b - inter,
+      operands: [a, b, inter],
+    };
+  });
+}
+
+/** Walk a linear recurrence forward: f(1) given, f(n) = f(n−1) + step. */
+export function generateRecurrenceEval(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const f1 = randomInt(1, 9);
+    const step = randomInt(2, 9);
+    const n = randomInt(4, 9);
+    return {
+      id: nextId(),
+      prompt: `f(1) = ${f1}, f(n) = f(n−1) + ${step}; f(${n})`,
+      answer: f1 + (n - 1) * step,
+      operands: [f1, step, n],
+    };
+  });
+}
+
+/** Graph facts with numeric answers: the handshake lemma and complete-graph edges. */
+export function generateGraphFacts(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    if (Math.random() < 0.5) {
+      const edges = randomInt(3, 30);
+      return {
+        id: nextId(),
+        prompt: `graph, ${edges} edges — sum of degrees?`,
+        promptL10n: localized(
+          `Graph with ${edges} edges — sum of all vertex degrees?`,
+          `Grafo com ${edges} arestas — soma dos graus dos vértices?`,
+          `Grafo con ${edges} aristas — ¿suma de los grados de los vértices?`,
+        ),
+        answer: 2 * edges,
+        operands: [edges],
+      };
+    }
+    const n = randomInt(3, 10);
+    return {
+      id: nextId(),
+      prompt: `K${subscript(n)} — edges?`,
+      promptL10n: localized(
+        `Complete graph K${subscript(n)} (${n} vertices) — how many edges?`,
+        `Grafo completo K${subscript(n)} (${n} vértices) — quantas arestas?`,
+        `Grafo completo K${subscript(n)} (${n} vértices) — ¿cuántas aristas?`,
+      ),
+      answer: (n * (n - 1)) / 2,
+      operands: [n],
+    };
+  });
+}
+
+/** Count loop iterations — the seed of complexity analysis. */
+export function generateLoopSteps(count: number): Problem[] {
+  return withoutImmediateRepeats(count, () => {
+    const kind = randomInt(0, 2);
+    if (kind === 0) {
+      const n = randomInt(5, 20);
+      return {
+        id: nextId(),
+        prompt: `for i in 1..${n}: for j in 1..${n} — steps?`,
+        promptL10n: localized(
+          `Nested loops, each 1 to ${n} — total iterations?`,
+          `Loops aninhados, cada um de 1 a ${n} — total de iterações?`,
+          `Bucles anidados, cada uno de 1 a ${n} — ¿iteraciones totales?`,
+        ),
+        answer: n * n,
+        operands: [n],
+      };
+    }
+    if (kind === 1) {
+      const n = randomInt(4, 12);
+      return {
+        id: nextId(),
+        prompt: `for i in 1..${n}: for j in 1..i — steps?`,
+        promptL10n: localized(
+          `Triangular loop: for i in 1..${n}, inner runs i times — total?`,
+          `Loop triangular: para i de 1 a ${n}, o interno roda i vezes — total?`,
+          `Bucle triangular: para i de 1 a ${n}, el interno corre i veces — ¿total?`,
+        ),
+        answer: (n * (n + 1)) / 2,
+        operands: [n],
+      };
+    }
+    const exp = randomInt(4, 10);
+    return {
+      id: nextId(),
+      prompt: `halving ${2 ** exp} → 1 — steps?`,
+      promptL10n: localized(
+        `Halving ${2 ** exp} down to 1 — how many steps?`,
+        `Dividindo ${2 ** exp} pela metade até 1 — quantos passos?`,
+        `Dividiendo ${2 ** exp} a la mitad hasta 1 — ¿cuántos pasos?`,
+      ),
+      answer: exp,
+      operands: [exp],
+    };
+  });
+}
+
+/** Digital Belt exam: every programmer-math skill, shuffled. */
+export function generateDigitalMix(count: number): Problem[] {
+  const makers = [
+    () => generateBinaryToDecimal(1)[0],
+    () => generateDecimalToBinary(1)[0],
+    () => generatePowersOfTwo(1)[0],
+    () => generateHexToDecimal(1)[0],
+    () => generateModulo(1)[0],
+    () => generateBinaryAddition(1)[0],
+    () => generateBitwiseAnd(1)[0],
+    () => generateBitwiseOrXor(1)[0],
+    () => generateBitShift(1)[0],
+    () => generateTruthTableRows(1)[0],
+    () => generateSetUnion(1)[0],
+    () => generateRecurrenceEval(1)[0],
+    () => generateGraphFacts(1)[0],
+    () => generateLoopSteps(1)[0],
+  ];
+  return withoutImmediateRepeats(count, () => makers[randomInt(0, makers.length - 1)]());
+}
