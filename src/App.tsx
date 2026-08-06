@@ -87,11 +87,16 @@ export default function App() {
     return unsubscribe;
   }, []);
 
+  // Completing BOTH journeys makes you a Ninja Master — the dojo stays in its
+  // night colors forever, whichever mode you browse.
+  const ninjaMaster =
+    ninjaBelts.length > 0 && ninjaBelts.every((b) => b.stripes.every((s) => progress.stripeResults[s.id]?.passed));
+
   // the theme follows the mode — data-mode="ninja" flips the whole palette dark
   useEffect(() => {
-    document.documentElement.dataset.mode = mode;
+    document.documentElement.dataset.mode = ninjaMaster ? "ninja" : mode;
     saveMode(mode);
-  }, [mode]);
+  }, [mode, ninjaMaster]);
 
   function goToMap() {
     setView({ name: "map" });
@@ -203,6 +208,7 @@ export default function App() {
           belts={mode === "ninja" ? ninjaBelts : belts}
           normalBelts={belts}
           mode={mode}
+          ninjaMaster={ninjaMaster}
           onSwitchMode={switchMode}
           progress={progress}
           loggedIn={session !== null}

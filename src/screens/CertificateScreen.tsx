@@ -160,6 +160,19 @@ export function CertificateScreen({ belts, ninjaBelts, progress, onBack }: Certi
     link.click();
   }
 
+  function handlePrint() {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const dataUrl = canvas.toDataURL("image/png");
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+    printWindow.document.write(
+      `<html><head><title>Math Dojo</title></head><body style="margin:0">` +
+        `<img src="${dataUrl}" style="width:100%" onload="window.print()"></body></html>`,
+    );
+    printWindow.document.close();
+  }
+
   function handleShare() {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -200,6 +213,9 @@ export function CertificateScreen({ belts, ninjaBelts, progress, onBack }: Certi
       <div className={styles.actions}>
         <button type="button" className={styles.primaryBtn} onClick={handleDownload}>
           ⬇️ {t.certDownload}
+        </button>
+        <button type="button" className={styles.primaryBtn} onClick={handlePrint}>
+          🖨️ {t.certPrint}
         </button>
         <button type="button" className={styles.shareBtn} onClick={handleShare}>
           📣 {shareOutcome === "copied" ? t.shareCopied : t.certShare}

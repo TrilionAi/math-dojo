@@ -111,6 +111,10 @@ interface UiStrings {
   ninjaComingSoon: string;
   statNinjaBadgesTitle: string;
   certNinjaMaster: string;
+  certPrint: string;
+  ninjaMasterCta: string;
+  ninjaMasterShareText: string;
+  ninjaMasterAlt: string;
 }
 
 const en: UiStrings = {
@@ -231,6 +235,10 @@ const en: UiStrings = {
   ninjaComingSoon: "New ninja belts are being forged…",
   statNinjaBadgesTitle: "🥷 Ninja medals",
   certNinjaMaster: "NINJA MASTER — both journeys completed",
+  certPrint: "Print",
+  ninjaMasterCta: "Share my Ninja Master title",
+  ninjaMasterShareText: "🥷 I am a NINJA MASTER at Math Dojo — every belt, both journeys, from counting to calculus!",
+  ninjaMasterAlt: "Ninja Master badge",
 };
 
 const pt: UiStrings = {
@@ -351,6 +359,10 @@ const pt: UiStrings = {
   ninjaComingSoon: "Novas faixas ninja sendo forjadas…",
   statNinjaBadgesTitle: "🥷 Medalhas ninja",
   certNinjaMaster: "MESTRE NINJA — as duas jornadas completas",
+  certPrint: "Imprimir",
+  ninjaMasterCta: "Compartilhar meu título de Mestre Ninja",
+  ninjaMasterShareText: "🥷 Sou MESTRE NINJA no Math Dojo — todas as faixas, as duas jornadas, de contar até o cálculo!",
+  ninjaMasterAlt: "Emblema de Mestre Ninja",
 };
 
 const es: UiStrings = {
@@ -471,6 +483,10 @@ const es: UiStrings = {
   ninjaComingSoon: "Nuevos cinturones ninja en la forja…",
   statNinjaBadgesTitle: "🥷 Medallas ninja",
   certNinjaMaster: "MAESTRO NINJA — ambos caminos completados",
+  certPrint: "Imprimir",
+  ninjaMasterCta: "Compartir mi título de Maestro Ninja",
+  ninjaMasterShareText: "🥷 ¡Soy MAESTRO NINJA en Math Dojo — todos los cinturones, ambos caminos, de contar hasta el cálculo!",
+  ninjaMasterAlt: "Insignia de Maestro Ninja",
 };
 
 export const UI_STRINGS: Record<Locale, UiStrings> = { en, pt, es };

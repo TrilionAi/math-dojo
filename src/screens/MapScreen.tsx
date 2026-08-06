@@ -1,5 +1,7 @@
+import { useState } from "react";
 import type { Belt, ProgressState, Stripe, StripeDegree } from "../types";
 import { isStripeUnlocked } from "../engine/progress";
+import { shareImage, shareText } from "../engine/share";
 import { ninjaSourceBeltId } from "../data/ninja";
 import type { GameMode } from "../engine/mode";
 import { computeGrade } from "../engine/grading";
@@ -15,6 +17,7 @@ interface MapScreenProps {
   /** Always the normal belts — ninja unlock gates check against these. */
   normalBelts: Belt[];
   mode: GameMode;
+  ninjaMaster: boolean;
   onSwitchMode: (mode: GameMode) => void;
   progress: ProgressState;
   loggedIn: boolean;
@@ -48,6 +51,7 @@ export function MapScreen({
   belts,
   normalBelts,
   mode,
+  ninjaMaster,
   onSwitchMode,
   progress,
   loggedIn,
@@ -59,6 +63,24 @@ export function MapScreen({
   const { locale } = useLocale();
   const t = UI_STRINGS[locale];
   const isNinja = mode === "ninja";
+  const [badgeAvailable, setBadgeAvailable] = useState(true);
+  const [masterShareCopied, setMasterShareCopied] = useState(false);
+
+  async function handleShareNinjaMaster() {
+    let outcome: "shared" | "copied" | "failed";
+    try {
+      const res = await fetch("/ninja-master-badge.png");
+      if (!res.ok) throw new Error("no badge");
+      const blob = await res.blob();
+      outcome = await shareImage(blob, "ninja-master-badge.png", t.ninjaMasterShareText);
+    } catch {
+      outcome = await shareText(t.ninjaMasterShareText);
+    }
+    if (outcome === "copied") {
+      setMasterShareCopied(true);
+      window.setTimeout(() => setMasterShareCopied(false), 2500);
+    }
+  }
   const allComplete =
     !isNinja && belts.every((belt) => belt.stripes.every((stripe) => progress.stripeResults[stripe.id]?.passed));
 
@@ -218,6 +240,22 @@ export function MapScreen({
       >
         ❤️ {t.supportLink}
       </a>
+
+      {ninjaMaster && (
+        <div className={styles.ninjaMasterWrap}>
+          {badgeAvailable && (
+            <img
+              src="/ninja-master-badge.png"
+              alt={t.ninjaMasterAlt}
+              className={styles.ninjaMasterImg}
+              onError={() => setBadgeAvailable(false)}
+            />
+          )}
+          <button type="button" className={styles.ninjaMasterBtn} onClick={handleShareNinjaMaster}>
+            🥷 {masterShareCopied ? t.shareCopied : t.ninjaMasterCta}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
