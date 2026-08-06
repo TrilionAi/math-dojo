@@ -91,26 +91,55 @@ function pairKey(operands: number[]): string {
   return [...operands].sort((x, y) => x - y).join(",");
 }
 
+/** Answer identity including the secondary part — for problems whose primary
+ * answer barely varies (e.g. decimals with whole part 0), the tenths/denominator
+ * is what actually distinguishes one answer from another. */
+function answerKey(p: Problem): string {
+  return `${p.answer}|${p.secondaryAnswer ?? ""}`;
+}
+
+const OPERAND_WINDOW = 8;
+const ANSWER_WINDOW = 2;
+
 /**
- * Builds a sequence from `single`, retrying a problem a few times if it would
- * land right next to the same operand set or the same answer — occasional
- * repeats elsewhere in the set are fine, back-to-back ones feel monotonous.
+ * Builds a sequence from `single`, keeping repeats spread out: the same operand
+ * set must not reappear within the last OPERAND_WINDOW problems, nor the same
+ * answer within the last ANSWER_WINDOW. Generators with tiny pools (8-16
+ * possible problems) can't always satisfy the full windows, so the constraint
+ * relaxes in stages instead of giving up — the guarantee that survives every
+ * stage is "never the identical problem twice in a row".
  */
 function withoutImmediateRepeats(count: number, single: (index: number) => Problem): Problem[] {
   const problems: Problem[] = [];
+  // Stage 1 also demands the *primary* number vary (so "3 R 1, 3 R 2" streaks
+  // don't form); stage 2 only demands the full answer differ; stage 3 just
+  // forbids the identical problem back-to-back.
+  const stages = [
+    { operandWindow: OPERAND_WINDOW, answerWindow: ANSWER_WINDOW, answerMode: "primary", attempts: 12 },
+    { operandWindow: 3, answerWindow: 1, answerMode: "full", attempts: 10 },
+    { operandWindow: 1, answerWindow: 0, answerMode: "none", attempts: 10 },
+  ] as const;
   for (let i = 0; i < count; i += 1) {
-    let candidate = single(i);
-    let attempts = 0;
-    while (
-      i > 0 &&
-      attempts < 8 &&
-      (pairKey(candidate.operands) === pairKey(problems[i - 1].operands) ||
-        candidate.answer === problems[i - 1].answer)
-    ) {
-      candidate = single(i);
-      attempts += 1;
+    let chosen: Problem | undefined;
+    let fallback: Problem | undefined;
+    for (const stage of stages) {
+      for (let attempt = 0; attempt < stage.attempts && !chosen; attempt += 1) {
+        const candidate = single(i);
+        fallback = candidate;
+        const operandClash = problems
+          .slice(-stage.operandWindow)
+          .some((p) => pairKey(p.operands) === pairKey(candidate.operands));
+        const answerClash =
+          stage.answerMode !== "none" &&
+          problems.slice(-stage.answerWindow).some((p) => {
+            if (stage.answerMode === "primary") return p.answer === candidate.answer;
+            return answerKey(p) === answerKey(candidate);
+          });
+        if (!operandClash && !answerClash) chosen = candidate;
+      }
+      if (chosen) break;
     }
-    problems.push(candidate);
+    problems.push(chosen ?? fallback!);
   }
   return problems;
 }
