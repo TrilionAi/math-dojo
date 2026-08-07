@@ -2,18 +2,18 @@
 <p align="center"><strong>Earn your belt, one small step at a time.</strong></p>
 
 <p align="center">
-  <a href="https://playmathdojo.com"><img alt="Play now" src="https://img.shields.io/badge/play-playmathdojo.com-7C3AED?style=for-the-badge"></a>
+  <a href="https://playmathdojo.com"><img alt="Play now" src=".github/badges/play.svg"></a>
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img alt="Code: AGPL v3" src="https://img.shields.io/badge/code-AGPL--3.0-blue.svg"></a>
-  <a href="CONTENT-LICENSE.md"><img alt="Content: all rights reserved" src="https://img.shields.io/badge/content-all%20rights%20reserved-critical"></a>
-  <img alt="Belts" src="https://img.shields.io/badge/belts-10-black">
-  <img alt="Stripes" src="https://img.shields.io/badge/stripes-243-brightgreen">
-  <img alt="Word problems" src="https://img.shields.io/badge/word%20problems-480-orange">
-  <img alt="Languages" src="https://img.shields.io/badge/languages-EN%20%C2%B7%20PT%20%C2%B7%20ES-lightgrey">
-  <img alt="Stack" src="https://img.shields.io/badge/React%2019-TypeScript-61DAFB?logo=react&logoColor=white">
-  <a href="https://ko-fi.com/D0J123HIA2"><img alt="ko-fi" src="https://img.shields.io/badge/ko--fi-support-FF5E5B?logo=kofi&logoColor=white"></a>
+  <a href="LICENSE"><img alt="Code: AGPL v3" src=".github/badges/code-license.svg"></a>
+  <a href="CONTENT-LICENSE.md"><img alt="Content: all rights reserved" src=".github/badges/content-license.svg"></a>
+  <img alt="Belts" src=".github/badges/belts.svg">
+  <img alt="Stripes" src=".github/badges/stripes.svg">
+  <img alt="Word problems" src=".github/badges/word-problems.svg">
+  <img alt="Languages" src=".github/badges/languages.svg">
+  <img alt="Stack" src=".github/badges/stack.svg">
+  <a href="https://ko-fi.com/D0J123HIA2"><img alt="ko-fi" src=".github/badges/kofi.svg"></a>
 </p>
 
 A free, belt-ranked math practice game inspired by the Kumon method's small-step worksheets — rebuilt as a martial-arts progression that takes you from `3 + 4` all the way to limits, derivatives and integrals. No account, no payment, no install: it runs in the browser at **[playmathdojo.com](https://playmathdojo.com)**.
