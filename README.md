@@ -6,7 +6,8 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img alt="License: AGPL v3" src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg"></a>
+  <a href="LICENSE"><img alt="Code: AGPL v3" src="https://img.shields.io/badge/code-AGPL--3.0-blue.svg"></a>
+  <a href="CONTENT-LICENSE.md"><img alt="Content: all rights reserved" src="https://img.shields.io/badge/content-all%20rights%20reserved-critical"></a>
   <img alt="Belts" src="https://img.shields.io/badge/belts-10-black">
   <img alt="Stripes" src="https://img.shields.io/badge/stripes-243-brightgreen">
   <img alt="Word problems" src="https://img.shields.io/badge/word%20problems-480-orange">
@@ -76,15 +77,25 @@ Math Dojo is free and open source — the goal is that anyone can practice, no a
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D0J123HIA2)
 
-## License
+## Licence, in one line
 
-Code is licensed under the [GNU AGPL-3.0](LICENSE). You're free to read it, learn from it, fork it
-and self-host it; if you run a modified version as a public service, the AGPL asks you to publish
-your changes too.
+**The code is a gift. The content is not.** Math Dojo is free for everyone to play, and it stays
+that way.
 
-The **written content** — the 480 word problems, the lessons, and the belt curriculum, in all three
-languages — is © 2026 Lucas Morosov, all rights reserved. It took far longer to write than the app
-around it, and it isn't covered by the code licence.
+### Code — [GNU AGPL-3.0](LICENSE)
 
-If you build something on top of this, a credit is appreciated. Not required — it's just good to
-know where a thing ended up.
+Read it, learn from it, fork it, self-host it. If you run a modified version as a public service,
+the AGPL asks you to publish your changes too.
+
+### Content — © 2026 Lucas Morosov, all rights reserved
+
+The 480 word problems, the lessons, the belt curriculum, the name and the artwork are **not**
+covered by the code licence and are not licensed for reuse. See **[CONTENT-LICENSE.md](CONTENT-LICENSE.md)**.
+
+That reservation is deliberate, and it is what keeps this free: it means nobody can put a paywall
+in front of work that was given away. Fork the code and write your own problems and the result is
+yours, with my blessing — the app took weeks, the content took months.
+
+Building on it? A credit is appreciated. Not required — it's just good to know where a thing ended
+up. Want to use the content for a school, a nonprofit, a language I don't cover? Just ask; the
+answer to a genuine use is very likely yes.
