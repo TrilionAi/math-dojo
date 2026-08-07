@@ -1,10 +1,21 @@
-# Math Dojo 🥋
+<h1 align="center">Math Dojo 🥋</h1>
+<p align="center"><strong>Earn your belt, one small step at a time.</strong></p>
 
-**Earn your belt, one small step at a time.**
+<p align="center">
+  <a href="https://playmathdojo.com"><img alt="Play now" src="https://img.shields.io/badge/play-playmathdojo.com-7C3AED?style=for-the-badge"></a>
+</p>
 
-A free, belt-ranked math practice game inspired by the Kumon method's small-step worksheets — rebuilt as a martial-arts progression that takes you from `3 + 4` all the way to limits, derivatives and integrals. Live at **[playmathdojo.com](https://playmathdojo.com)**.
+<p align="center">
+  <a href="LICENSE"><img alt="License: AGPL v3" src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg"></a>
+  <img alt="Belts" src="https://img.shields.io/badge/belts-10-black">
+  <img alt="Stripes" src="https://img.shields.io/badge/stripes-243-brightgreen">
+  <img alt="Word problems" src="https://img.shields.io/badge/word%20problems-480-orange">
+  <img alt="Languages" src="https://img.shields.io/badge/languages-EN%20%C2%B7%20PT%20%C2%B7%20ES-lightgrey">
+  <img alt="Stack" src="https://img.shields.io/badge/React%2019-TypeScript-61DAFB?logo=react&logoColor=white">
+  <a href="https://ko-fi.com/D0J123HIA2"><img alt="ko-fi" src="https://img.shields.io/badge/ko--fi-support-FF5E5B?logo=kofi&logoColor=white"></a>
+</p>
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D0J123HIA2)
+A free, belt-ranked math practice game inspired by the Kumon method's small-step worksheets — rebuilt as a martial-arts progression that takes you from `3 + 4` all the way to limits, derivatives and integrals. No account, no payment, no install: it runs in the browser at **[playmathdojo.com](https://playmathdojo.com)**.
 
 ## Two journeys
 
@@ -61,6 +72,19 @@ npm run lint     # oxlint
 
 ## Support
 
-Math Dojo is free and open — the goal is that anyone can practice, no account or payment required. If it helps you, consider fueling the dojo:
+Math Dojo is free and open source — the goal is that anyone can practice, no account or payment required. If it helps you, consider fueling the dojo:
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D0J123HIA2)
+
+## License
+
+Code is licensed under the [GNU AGPL-3.0](LICENSE). You're free to read it, learn from it, fork it
+and self-host it; if you run a modified version as a public service, the AGPL asks you to publish
+your changes too.
+
+The **written content** — the 480 word problems, the lessons, and the belt curriculum, in all three
+languages — is © 2026 Lucas Morosov, all rights reserved. It took far longer to write than the app
+around it, and it isn't covered by the code licence.
+
+If you build something on top of this, a credit is appreciated. Not required — it's just good to
+know where a thing ended up.
